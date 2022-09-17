@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="md:w-4/6 w-5/6 mx-auto my-3 space-y-3 relative">
+      <div class="md:w-9/12 w-5/6 mx-auto my-3 space-y-3 relative">
         <div class="mb-6 space-y-2">
           <div class="flex items-center">
             <img src="" class="w-[60px] h-[60px] rounded-xl border" />
@@ -70,7 +70,7 @@
         <div class="mt-6 text-sm">
           © 2022 TudorPopa
         </div>
-        <div class="absolute top-0 right-0">
+        <div class="xl:absolute xl:top-0 xl:right-0 static text-right text-sm">
           Published: Jul 30, 2022
         </div>
         <div>
