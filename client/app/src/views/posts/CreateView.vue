@@ -6,14 +6,6 @@
       <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10 my-5">
         <img src="http://localhost/83106977_p0.jpg" class="block h-full object-contain mx-auto">
       </div>
-      <!-- Item 2 -->
-      <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10">
-        <img src="" class="block h-full object-contain mx-auto">
-      </div>
-      <!-- Item 3 -->
-      <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10">
-        <img src="{{ asset('/images/2022081710220010.jpg') }}" class="block h-full object-contain mx-auto">
-      </div>
     </div>
     <!-- Slider controls -->
     <div>
