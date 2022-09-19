@@ -21,12 +21,10 @@ return new class extends Migration
             $table->double('price');
             $table->integer('favorite_count');
             $table->integer('view_count');
-
 //            $table->foreignIdFor(Tag);
 //            $table->foreignIdFor(Comment);
 //            $table->foreignIdFor(Image);
 //            $table->foreignIdFor(User);
-            
             $table->timestamps();
         });
     }
