@@ -21,7 +21,7 @@ return new class extends Migration
             $table->DateTime('date_of_birth');
             $table->string('role')->default('user');
             $table->string('password');
-//            $table->ForeignIdFor();
+//            $table->ForeignIdFor(); 
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
