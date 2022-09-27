@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommissionResource;
 use App\Models\Commission;
 use Illuminate\Http\Request;
 
@@ -42,7 +43,7 @@ class CommissionController extends Controller
         $commission->description = $request->get('description');
         $commission->favorite_count = $request->get('favorite_count');
         $commission->view_count = $request->get('view_count');
-        $commission->user_id = $request->get('user_id');
+//        $commission->user_id = $request->get('user_id');
         if ($commission->save()) {
             return response()->json([
                 'success' => true,
