@@ -46,7 +46,7 @@ class PostController extends Controller
         $post->price = $request->get('price');
         $post->favorite_count = $request->get('favorite_count');
         $post->view_count = $request->get('view_count');
-        $post->user_id = $request->get('user_id'); 
+        $post->user_id = $request->get('user_id');
         if ($post->save()) {
             return response()->json([
                 'success' => true,
@@ -69,7 +69,7 @@ class PostController extends Controller
     public function show($id)
     {
         $posts = Post::find($id);
-        return new PostResource($posts);
+        return $posts;
     }
 
     /**

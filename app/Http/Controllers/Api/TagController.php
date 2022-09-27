@@ -61,7 +61,7 @@ class TagController extends Controller
     public function show(Tag $tag)
     {
         $tags = Tag::find($tag->name);
-        return new TagResource($tags);
+        return $tags;
     }
 
     /**
