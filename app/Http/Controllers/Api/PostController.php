@@ -69,7 +69,7 @@ class PostController extends Controller
     public function show($id)
     {
         $posts = Post::find($id);
-        return new PostResource($posts);
+        return $posts;
     }
 
     /**

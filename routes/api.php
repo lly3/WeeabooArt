@@ -40,4 +40,4 @@ Route::group([
     Route::post('me', [AuthController::class, 'me']);
 });
 
-Route::apiResource('/post/create', \App\Http\Controllers\Api\PostController::class);
+Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
