@@ -1,5 +1,5 @@
 <template>
-  <div id="default-carousel" class="mx-auto relative overflow-hidden bg-gray-100" data-carousel="static">
+  <div id="default-carousel" class="mx-auto relative overflow-hidden bg-gradient-to-b from-gray-100 to-gray-50 dark:from-gray-500  dark:to-gray-800" data-carousel="static">
     <!-- Carousel wrapper -->
     <div id="carousel-wrapper" class="h-[70vh] max-h-[70vh] flex" data-slice-index=0>
       <!-- Item 1 -->
@@ -11,7 +11,7 @@
   <div class="xl:w-3/6 md:w-4/6 w-5/6 mx-auto">
     <form @submit="onSubmit">
       <div class="my-3">
-        <input class="form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+        <input class="form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
                type="file"
                id="browse"
                name="image" 

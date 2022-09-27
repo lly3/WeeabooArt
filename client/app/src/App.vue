@@ -8,7 +8,8 @@ import Navbar from './components/layouts/navbar.vue'
   <header>
     <Navbar />
   </header>
-
-  <RouterView />
+  <div class="dark:bg-gray-900 ease-out duration-300">
+    <RouterView />
+  </div>
 </template>
 
