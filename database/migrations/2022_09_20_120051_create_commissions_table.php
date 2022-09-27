@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('commissions', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->boolean('is_saleable')->default(false);
-            $table->double('price')->default(0);
-            $table->integer('favorite_count')->default(0);
-            $table->integer('view_count')->default(0);
+            $table->integer('favorite_count');
+            $table->integer('view_count');
             $table->foreignIdFor(\App\Models\Tag::class);
             $table->foreignIdFor(\App\Models\Image::class);
             $table->foreignIdFor(\App\Models\User::class); // foreign key is `user_id`
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_models');
+        Schema::dropIfExists('commissions');
     }
 };

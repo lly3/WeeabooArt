@@ -41,3 +41,5 @@ Route::group([
 });
 
 Route::apiResource('/post/create', \App\Http\Controllers\Api\PostController::class);
+
+Route::apiResource('/commission/create', \App\Http\Controllers\Api\CommissionController::class);
