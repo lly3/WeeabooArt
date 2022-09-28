@@ -43,3 +43,5 @@ Route::group([
 Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
+
+Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TagResource;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -59,10 +60,10 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
+    public function show($name)
     {
-        $tags = Tag::find($tag->name);
-        return $tags;
+        $tag = Tag::all()->where('name', $name)->first();
+        return $tag;
     }
 
     /**

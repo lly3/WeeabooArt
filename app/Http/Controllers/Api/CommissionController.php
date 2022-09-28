@@ -64,9 +64,9 @@ class CommissionController extends Controller
      * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
-    public function show(Commission $commission)
+    public function show($id)
     {
-        $commissions = Commission::find($commission->id);
+        $commissions = Commission::find($id);
         return $commissions;
     }
 

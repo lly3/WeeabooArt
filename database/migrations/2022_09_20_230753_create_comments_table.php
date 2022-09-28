@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Post::class); // foreign key `post_id`
-            $table->foreignIdFor(\App\Models\Commission::class); // foreign key `commission_id`
+//            $table->foreignIdFor(\App\Models\Post::class); // foreign key `post_id`
+//            $table->foreignIdFor(\App\Models\Commission::class); // foreign key `commission_id`
             $table->foreignIdFor(\App\Models\User::class);
             $table->text('message');
             $table->timestamps();
