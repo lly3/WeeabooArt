@@ -40,7 +40,6 @@ Route::group([
     Route::post('me', [AuthController::class, 'me']);
 });
 
-Route::delete('/post/{post}/delete', [\App\Http\Controllers\Api\PostController::class, 'destroy']);
 Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);

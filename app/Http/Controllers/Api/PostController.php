@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\PostResource;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -41,7 +41,7 @@ class PostController extends Controller
     {
         $post = new Post();
         $post->title = $request->get('title');
-        $post->description = $request->get('description');
+        $post->description = $request->get('description') ?? "ไม่ระบุรายละเอียดเพิ่มเติม";
         $post->is_saleable = $request->get('is_saleable');
         $post->price = $request->get('price');
         $post->favorite_count = $request->get('favorite_count');
@@ -92,12 +92,12 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        if ($post->has('title')) $post->title = $request->get('title');
-        if ($post->has('description')) $post->description = $request->get('description');
-        if ($post->has('is_saleable')) $post->is_saleable = $request->get('is_saleable');
-        if ($post->has('price')) $post->price = $request->get('price');
-        if ($post->has('favorite_count')) $post->favorite_count = $request->get('favorite_count');
-        if ($post->has('view_count')) $post->view_count = $request->get('view_count');
+        if ($request->has('title')) $post->title = $request->get('title');
+        if ($request->has('description')) $post->description = $request->get('description');
+        if ($request->has('is_saleable')) $post->is_saleable = $request->get('is_saleable');
+        if ($request->has('price')) $post->price = $request->get('price');
+        if ($request->has('favorite_count')) $post->favorite_count = $request->get('favorite_count');
+        if ($request->has('view_count')) $post->view_count = $request->get('view_count');
         if ($post->save()) {
             return response()->json([
                 'success' => true,

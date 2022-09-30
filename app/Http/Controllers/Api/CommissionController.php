@@ -41,7 +41,7 @@ class CommissionController extends Controller
     {
         $commission = new Commission();
         $commission->title = $request->get('title');
-        $commission->description = $request->get('description');
+        $commission->description = $request->get('description') ?? "ไม่ระบุรายละเอียดเพิ่มเติม";
         $commission->favorite_count = $request->get('favorite_count');
         $commission->view_count = $request->get('view_count');
 //        $commission->user_id = $request->get('user_id');
@@ -90,11 +90,11 @@ class CommissionController extends Controller
      */
     public function update(Request $request, Commission $commission)
     {
-        if ($commission->has('title')) $commission->title = $request->get('title');
-        if ($commission->has('description')) $commission->description = $request->get('description');
-        if ($commission->has('favorite_count')) $commission->favorite_count = $request->get('favorite_count');
-        if ($commission->has('view_count')) $commission->view_count = $request->get('view_count');
-        if ($commission->has('user_id')) $commission->user_id = $request->get('user_id');
+        if ($request->has('title')) $commission->title = $request->get('title');
+        if ($request->has('description')) $commission->description = $request->get('description');
+        if ($request->has('favorite_count')) $commission->favorite_count = $request->get('favorite_count');
+        if ($request->has('view_count')) $commission->view_count = $request->get('view_count');
+        if ($request->has('user_id')) $commission->user_id = $request->get('user_id');
         if ($commission->save()) {
             return response()->json([
                 'success' => true,
