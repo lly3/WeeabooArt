@@ -94,7 +94,6 @@ class CommissionController extends Controller
         if ($request->has('description')) $commission->description = $request->get('description');
         if ($request->has('favorite_count')) $commission->favorite_count = $request->get('favorite_count');
         if ($request->has('view_count')) $commission->view_count = $request->get('view_count');
-        if ($request->has('user_id')) $commission->user_id = $request->get('user_id');
         if ($commission->save()) {
             return response()->json([
                 'success' => true,
@@ -116,6 +115,16 @@ class CommissionController extends Controller
      */
     public function destroy(Commission $commission)
     {
-        //
+        $commission_title = $commission->title;
+        if ($commission->delete()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Commission {$commission_title} deleted successfully"
+            ], Response::HTTP_OK);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => "Commission {$commission_title} deleted failed"
+        ], Response::HTTP_BAD_REQUEST);
     }
 }
