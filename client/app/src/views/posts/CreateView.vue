@@ -69,9 +69,7 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
 
-      const formData = new FormData();
-      formData.append('image', this.image)
-      const response = await this.$axios.post('/image', formData)
+      const response = await this.uploadImage();
       const imageID = response.data.image_id
       await this.$axios.post('/post', {
         title: this.title,
@@ -81,11 +79,14 @@ export default {
         premium_download: this.is_toggle,
         price: this.price,
       })
-
+    },
+    uploadImage() {
+      const formData = new FormData();
+      formData.append('image', this.image)
+      return this.$axios.post('/image', formData)
     },
     previewImage(e) {
       this.image = e.target.files[0]
-      console.log(e.target.files[0]);
       this.imageURL = URL.createObjectURL(e.target.files[0])
     },
   },
