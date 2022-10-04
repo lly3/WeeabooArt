@@ -22,7 +22,7 @@
               <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
               <span class="sr-only">Next</span>
             </span>
-          </button>  
+          </button>
         </div>
       </div>
 
@@ -37,10 +37,10 @@
           <div class="flex items-center">
             <img src="" class="w-[60px] h-[60px] rounded-xl border" />
             <div class="flex flex-col ml-3">
-              <p class="text-3xl font-bold">Art Title</p> 
+              <p class="text-3xl font-bold">Art Title</p>
               <p>Artist Name</p>
             </div>
-          </div>   
+          </div>
         </div>
         <div class="flex space-x-5">
           <p>Favorites</p>
@@ -64,9 +64,12 @@
         <div>
           <p class="font-bold">Image details</p>
           <div>
-            Image size: 
+            Image size:
           </div>
         </div>
+          <Favorite></Favorite>
+
+
         <div class="mt-6 text-sm">
           © 2022 TudorPopa
         </div>
@@ -76,7 +79,7 @@
         <div>
           <p class="font-bold">Comments</p>
           <div class="w-full h-[300px] border mt-3">
-            
+
           </div>
         </div>
       </div>
@@ -84,13 +87,22 @@
     <div class="right-side p-5 xl:w-3/12 w-full">
       <p>More by _____</p>
       <div class="w-full h-[250px] mt-3 border">
-        
+
       </div>
 
       <p class="my-3">Suggested Collections</p>
       <div class="w-full h-screen mt-3 border">
-        
+
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import Favorite from '@/components/Favorite.vue'
+export default {
+    components: {
+        Favorite
+    }
+}
+</script>
