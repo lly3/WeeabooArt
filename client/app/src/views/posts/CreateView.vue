@@ -68,22 +68,24 @@ export default {
     },
     async onSubmit(e) {
       e.preventDefault();
-      
-      try {
-        await this.$axios.post('/post', {
-          title: this.title,
-          description: this.description,
-          tags: this.tags,
-          image: this.image,
-          premium_download: this.is_toggle,
-          price: this.price,
-        })
-      } catch (e) {
-        console.log(e.message);
-      }
+
+      const formData = new FormData();
+      formData.append('image', this.image)
+      const response = await this.$axios.post('/image', formData)
+      const imageID = response.data.image_id
+      await this.$axios.post('/post', {
+        title: this.title,
+        description: this.description,
+        tags: this.tags,
+        imageID: imageID,
+        premium_download: this.is_toggle,
+        price: this.price,
+      })
+
     },
     previewImage(e) {
       this.image = e.target.files[0]
+      console.log(e.target.files[0]);
       this.imageURL = URL.createObjectURL(e.target.files[0])
     },
   },
