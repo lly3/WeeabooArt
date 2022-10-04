@@ -44,11 +44,6 @@ const router = createRouter({
       component: () => import('@/views/LoginView.vue')
     },
     {
-      path: '/register',
-      name: 'register',
-      component: () => import('@/views/RegisterView.vue')
-    },
-    {
       path: '/post/create',
       name: 'post.create',
       component: () => import('@/views/posts/CreateView.vue')
@@ -57,6 +52,16 @@ const router = createRouter({
       path: '/post/:id',
       name: 'post.show',
       component: () => import('@/views/posts/ShowView.vue')
+    },
+    {
+        path: '/logout',
+        name: 'logout',
+        component: () => import('@/views/LogoutView.vue')
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: () => import('@/views/RegisterView.vue')
     },
   ]
 })

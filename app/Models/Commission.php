@@ -5,27 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Commission extends Model
 {
     use HasFactory;
 
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 
-    public function tags()
-    {
+    public function tags() {
         return $this->belongsToMany(Tag::class);
     }
 
-    public function image()
-    {
+    public function image() {
         return $this->belongsTo(Image::class);
     }
 
-    public function comments()
-    {
+    public function comments() {
         return $this->hasMany(Comment::class);
     }
 }
