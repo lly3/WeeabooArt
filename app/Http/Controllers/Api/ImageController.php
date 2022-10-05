@@ -92,21 +92,7 @@ class ImageController extends Controller
      */
     public function update(Request $request, Image $image)
     {
-        if ($image->has('title')) $image->image_path = $request->get('image_path');
-        if ($image->has('date')) $image->date = $request->get('date');
-        if ($image->has('post_id')) $image->post_id = $request->get('post_id');
-        if ($image->has('commission_id')) $image->commission_id = $request->get('commission_id');
-        if ($image->save()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Image saved successfully with id ' . $image->id,
-                'image_id' => $image->id
-            ], Response::HTTP_CREATED);
-        }
-        return response()->json([
-            'success' => false,
-            'message' => 'Image saved failed'
-        ], Response::HTTP_BAD_REQUEST);
+        //
     }
 
     /**
