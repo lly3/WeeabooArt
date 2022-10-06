@@ -45,7 +45,7 @@ class ImageController extends Controller
             $image = new Image();
             $filename = date('YmdHi').$imageFile->getClientOriginalName();
             $image->path = $filename;
-            $imageFile->move(public_path().'/images/'.$filename);
+            $imageFile->move(public_path().'/images/', $filename);
             if ($image->save()) {
                 $post->image_id = $image->id;
                 return response()->json([
