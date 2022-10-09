@@ -19,12 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', function () {
-    return [
-        'version' => '1.0.0'
-    ];
-});
-
 Route::get('/rewards/search', [\App\Http\Controllers\Api\RewardController::class, 'search']);
 Route::get('/reward_codes/search', [\App\Http\Controllers\Api\RewardCodeController::class, 'search']);
 Route::apiResource('/rewards', \App\Http\Controllers\Api\RewardController::class);
