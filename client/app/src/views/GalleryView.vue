@@ -14,13 +14,13 @@
             <h1 class="text-white py-5">Most likes</h1>
             <div class="flex flex-wrap -m-1 md:-m-2">
                 <div class="flex flex-wrap w-1/2">
-                    <div class="w-1/2 p-1 md:p-2">
-                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(70).webp">
+                    <div class="p-1 md:p-2 w-1/2">
+                        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                             src="https://dummyimage.com/600x400">
                     </div>
                     <div class="w-1/2 p-1 md:p-2">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(72).webp">
+                             src="/public/images/202210061541wallpaperbetter.jpg">
                     </div>
                     <div class="w-full p-1 md:p-2">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
@@ -47,5 +47,17 @@
 </template>
 
 <script>
+import ImageCard from "@/components/ImageCard";
+
+export default {
+    // data() {
+    //     return {
+    //
+    //     }
+    // }
+    // components: {
+    //     ImageCard
+    // },
+}
 
 </script>

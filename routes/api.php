@@ -48,3 +48,4 @@ Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);
 
 Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
 
+Route::apiResource('/', \App\Http\Controllers\Api\GalleryController::class);
