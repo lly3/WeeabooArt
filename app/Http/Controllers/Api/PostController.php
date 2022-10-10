@@ -7,6 +7,7 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -42,10 +43,11 @@ class PostController extends Controller
         $post = new Post();
         $post->title = $request->get('title');
         $post->description = $request->get('description') ?? "ไม่ระบุรายละเอียดเพิ่มเติม";
-        $post->is_saleable = $request->get('is_saleable');
+        $post->is_saleable = $request->get('premium_download');
         $post->price = $request->get('price');
-        $post->favorite_count = $request->get('favorite_count');
-        $post->view_count = $request->get('view_count');
+        $post->image_id = $request->get('imageID');
+        // $post->favorite_count = $request->get('favorite_count');
+        // $post->view_count = $request->get('view_count');
 //        $post->user_id = $request->get('user_id');
         if ($post->save()) {
             return response()->json([

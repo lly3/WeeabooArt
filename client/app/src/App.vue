@@ -22,7 +22,8 @@ import Profile  from '@/components/profile/Profile.vue'
 <!--      </nav>-->
 <!--    </div>-->
   </header>
-
-  <RouterView />
+  <div class="dark:bg-gray-900 ease-out duration-300">
+    <RouterView />
+  </div>
 </template>
 
