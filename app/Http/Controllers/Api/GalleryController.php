@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ImageResource;
+use App\Http\Resources\PostResource;
 use App\Models\Image;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class GalleryController extends Controller
@@ -16,8 +18,9 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        $images = Image::get();
-        return ImageResource::collection($images);
+        $posts = Post::all();
+        $posts_like = $posts->get6MostLiked();
+        return PostResource::collection([$posts, $posts_like]);
     }
 
     /**

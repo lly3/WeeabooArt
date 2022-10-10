@@ -22,6 +22,7 @@ class PostResource extends JsonResource
             'price' => $this->price,
             'favorite_count' => $this->favorite_count,
             'view_count' => $this->view_count,
+            'image' => $this->image,
         ];
     }
 }
