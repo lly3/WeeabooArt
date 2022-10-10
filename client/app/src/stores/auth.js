@@ -51,6 +51,17 @@ export const useAuthStore = defineStore({
             this.auth = {
                 email: null,
             }
+        },
+
+        async register (name, email, password, password_confirmation) {
+            const response = await authAPI.register(name, email, password)
+            if (response.success) {
+                this.auth.push({
+                    name, email, password, password_confirmation
+                })
+                return response.auth_id
+            }
+            return false
         }
     }
 })
