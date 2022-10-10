@@ -28,7 +28,7 @@
 
       <div class="p-4 flex border">
         <div class="flex ml-36">
-          <p>Add to favorites</p>
+          <button class="p-2 mx-8 bg-red-200 rounded-xl">Add to favorites</button>
         </div>
       </div>
 
@@ -67,7 +67,10 @@
             Image size:
           </div>
         </div>
-          <Favorite></Favorite>
+          <div>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+              {{ likeCount }} <button @click="onClickLike()" class="fa fa-thumbs-up"></button>
+          </div>
 
 
         <div class="mt-6 text-sm">
@@ -99,10 +102,16 @@
 </template>
 
 <script>
-import Favorite from '@/components/Favorite.vue'
 export default {
-    components: {
-        Favorite
+    methods:{
+        onClickLike() {
+            this.likeCount++
+        }
+    },
+    data() {
+        return {
+            likeCount: 0
+        }
     }
 }
 </script>
