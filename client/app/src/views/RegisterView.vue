@@ -13,6 +13,7 @@
             <div>
                 <input type="email" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-greenlogo mb-4" placeholder="Email"
                 v-model="email">
+                <p v-if="email_error!=null" class="pb-4 text-red-600">The email has already been taken.</p>
             </div>
 
             <span class="font-bold">Password</span>
@@ -25,6 +26,7 @@
             <div>
                 <input type="password" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-greenlogo mb-4" placeholder="Confirm Password"
                 v-model="password_confirmation">
+                <p v-if="password_error!=null" class="pb-4 text-red-600">The password confirmation does not match.</p>
             </div>
 
             <div class="md:flex md:items-center">
@@ -61,7 +63,9 @@ export default {
             email: '',
             password: '',
             password_confirmation: '',
-            error: null
+            error: null,
+            email_error: null,
+            password_error: null,
         }
     },
     methods: {
@@ -76,13 +80,20 @@ export default {
                     password: this.password,
                     password_confirmation: this.password_confirmation
                 })
-                if (response.data.success) {
-                    this.$router.push(`/login`)
+                if (response.status == 201) {
+                    this.$router.push('/login')
                 }
 
             } catch (error) {
                 console.log(error)
                 this.error = error.message
+
+                if (error.response.data.email == undefined) {
+                    this.password_error = error.response.data.password[0]
+                }
+                if (error.response.data.password == undefined) {
+                    this.email_error = error.response.data.email[0]
+                }
             }
         }
     }
