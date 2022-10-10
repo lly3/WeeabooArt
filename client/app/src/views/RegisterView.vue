@@ -7,13 +7,14 @@
             <div>
                 <input type="text" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-greenlogo mb-4" placeholder="Name"
                 v-model="name">
+                <p v-if="name_error!=null" class="pb-4 text-red-600">{{ name_error }}</p>
             </div>
 
             <span class="font-bold">Email</span>
             <div>
                 <input type="email" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-greenlogo mb-4" placeholder="Email"
                 v-model="email">
-                <p v-if="email_error!=null" class="pb-4 text-red-600">The email has already been taken.</p>
+                <p v-if="email_error!=null" class="pb-4 text-red-600">{{ email_error }}</p>
             </div>
 
             <span class="font-bold">Password</span>
@@ -26,7 +27,7 @@
             <div>
                 <input type="password" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-greenlogo mb-4" placeholder="Confirm Password"
                 v-model="password_confirmation">
-                <p v-if="password_error!=null" class="pb-4 text-red-600">The password confirmation does not match.</p>
+                <p v-if="password_error!=null" class="pb-4 text-red-600">{{ password_error }}</p>
             </div>
 
             <div class="md:flex md:items-center">
@@ -64,6 +65,7 @@ export default {
             password: '',
             password_confirmation: '',
             error: null,
+            name_error: null,
             email_error: null,
             password_error: null,
         }
@@ -88,11 +90,15 @@ export default {
                 console.log(error)
                 this.error = error.message
 
-                if (error.response.data.email == undefined) {
-                    this.password_error = error.response.data.password[0]
+                if (error.response.data.name != undefined) {
+                    this.name_error = error.response.data.name[0]
                 }
-                if (error.response.data.password == undefined) {
+
+                if (error.response.data.email != undefined) {
                     this.email_error = error.response.data.email[0]
+                }
+                if (error.response.data.password != undefined) {
+                    this.password_error = error.response.data.password[0]
                 }
             }
         }
