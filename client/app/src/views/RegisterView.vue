@@ -37,7 +37,7 @@
                     </button>
                 </div>
 
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="#">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="http://localhost:3000/login">
                     Already registered?
                 </a>
 
