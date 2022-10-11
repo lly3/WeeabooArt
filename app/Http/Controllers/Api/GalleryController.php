@@ -18,9 +18,8 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        $posts_like = $posts->get6MostLiked();
-        return PostResource::collection([$posts, $posts_like]);
+        $posts = Post::orderBy('desc')->paginate(15);
+        return $posts;
     }
 
     /**
@@ -87,5 +86,17 @@ class GalleryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function get6MostLiked() {
+        return Image::orderBy('like_count', 'desc')->take(6)->get();
+    }
+
+    public function get6MostRecent() {
+        return Image::orderBy('created_at', 'desc')->take(6)->get();
+    }
+
+    public function get6MostViewed() {
+        return Image::orderBy('view_count', 'desc')->take(6)->get();
     }
 }

@@ -1,8 +1,10 @@
 <template>
 <!--    {{ posts}}-->
-    <div class="flex flex-wrap bg-black">
-        <post-card v-for="post in posts" :post="{ ...post }" :key="post.id" class="p-1 md:p-2 w-1/5"></post-card>
-    </div>
+    <section class="overflow-hidden text-gray-700">
+        <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12 grid lg:grid-cols-5 sm:grid-cols-2 gap-4">
+            <post-card v-for="post in posts" :post="{ ...post }" :key="post.id"></post-card>
+        </div>
+    </section>
 </template>
 
 <script>

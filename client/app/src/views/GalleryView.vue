@@ -9,83 +9,90 @@
         </div>
     </div>
 
-    <section class="overflow-hidden text-gray-700 bg-black">
-        <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12">
-            <h1 class="text-white py-5">Most likes</h1>
-            <div class="flex flex-wrap -m-1 md:-m-2">
-                <div class="flex flex-wrap w-1/2">
-                    <a href="#" class="p-1 md:p-2 w-1/2">
-                        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="http://localhost/images/202210100035WIN_20220720_14_18_33_Pro.jpg">
-                    </a>
-                    <a href="#" class="p-1 md:p-2 w-1/2">
-                        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="http://localhost/images/202210100035WIN_20220720_14_18_33_Pro.jpg">
-                    </a>
-                    <a href="#" class="w-full p-1 md:p-2">
-                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="http://localhost/images/202210102056ezgif-3-db29008d15.gif">
-                    </a>
-                </div>
-                <div class="flex flex-wrap w-1/2">
-                    <a href="#" class="w-full p-1 md:p-2">
-                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(74).webp">
-                    </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2">
-                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(75).webp">
-                    </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2">
-                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(77).webp">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="overflow-hidden text-gray-700 bg-black">
-        <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12">
-            <h1 class="text-white py-5">Recent</h1>
-            <div class="flex flex-wrap -m-1 md:-m-2">
-                <div class="flex flex-wrap w-1/2">
-                    <a href="#" class="w-full p-1 md:p-2">
-                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="http://localhost/images/202210102056ezgif-3-db29008d15.gif">
-                    </a>
-                    <a href="#" class="p-1 md:p-2 w-1/2">
-                        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="http://localhost/images/202210100035WIN_20220720_14_18_33_Pro.jpg">
-                    </a>
-                    <a href="#" class="p-1 md:p-2 w-1/2">
-                        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="http://localhost/images/202210100035WIN_20220720_14_18_33_Pro.jpg">
-                    </a>
-                </div>
-                <div class="flex flex-wrap w-1/2">
-                    <a href="#" class="w-1/2 p-1 md:p-2">
-                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(75).webp">
-                    </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2">
-                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(77).webp">
-                    </a>
-                    <a href="#" class="w-full p-1 md:p-2">
-                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(74).webp">
-                    </a>
+    <div class="bg-black">
+        <section class="overflow-hidden text-gray-700">
+            <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12">
+                <h1 class="text-white py-5">Most likes</h1>
+                <div class="flex flex-wrap -m-1 md:-m-2">
+                    <div class="flex flex-wrap w-1/2">
+                        <a href="#" class="p-1 md:p-2 w-1/2">
+                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="http://localhost/images/202210100035WIN_20220720_14_18_33_Pro.jpg">
+                        </a>
+                        <a href="#" class="p-1 md:p-2 w-1/2">
+                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="http://localhost/images/202210100035WIN_20220720_14_18_33_Pro.jpg">
+                        </a>
+                        <a href="#" class="w-full p-1 md:p-2">
+                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="http://localhost/images/202210102056ezgif-3-db29008d15.gif">
+                        </a>
+                    </div>
+                    <div class="flex flex-wrap w-1/2">
+                        <a href="#" class="w-full p-1 md:p-2">
+                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(74).webp">
+                        </a>
+                        <a href="#" class="w-1/2 p-1 md:p-2">
+                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(75).webp">
+                        </a>
+                        <a href="#" class="w-1/2 p-1 md:p-2">
+                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(77).webp">
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <section class="overflow-hidden text-gray-700 bg-black">
-        <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12">
-            <div class="flex flex-wrap -m-1 md:-m-2">
-                <gallery-card-view :posts="posts"></gallery-card-view>
+        </section>
+        <section class="overflow-hidden text-gray-700">
+            <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12">
+                <h1 class="text-white py-5">Recent</h1>
+                <div class="flex flex-wrap -m-1 md:-m-2">
+                    <div class="flex flex-wrap w-1/2">
+                        <a href="#" class="w-full p-1 md:p-2">
+                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="http://localhost/images/202210102056ezgif-3-db29008d15.gif">
+                        </a>
+                        <a href="#" class="p-1 md:p-2 w-1/2">
+                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="http://localhost/images/202210100035WIN_20220720_14_18_33_Pro.jpg">
+                        </a>
+                        <a href="#" class="p-1 md:p-2 w-1/2">
+                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="http://localhost/images/202210100035WIN_20220720_14_18_33_Pro.jpg">
+                        </a>
+                    </div>
+                    <div class="flex flex-wrap w-1/2">
+                        <a href="#" class="w-1/2 p-1 md:p-2">
+                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(75).webp">
+                        </a>
+                        <a href="#" class="w-1/2 p-1 md:p-2">
+                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(77).webp">
+                        </a>
+                        <a href="#" class="w-full p-1 md:p-2">
+                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                 src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(74).webp">
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+        <section>
+            <gallery-card-view :posts="posts"></gallery-card-view>
+        </section>
+    </div>
+<!--    <div class="overflow-auto">-->
+<!--        <b-pagination-->
+<!--            v-model="currentPage"-->
+<!--            :total-rows="rows"-->
+<!--            :per-page="perPage"-->
+<!--            first-number-->
+<!--        ></b-pagination>-->
+<!--    </div>-->
+
 </template>
 
 <script>
@@ -94,7 +101,10 @@ export default {
     data () {
         return {
             posts: Object,
-            error: null
+            error: null,
+            // first-number: 1,
+            // rows: 0,
+            // perpage: 15,
         }
     },
     props: {
