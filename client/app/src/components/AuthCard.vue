@@ -1,5 +1,5 @@
 <template>
-    <div :style="{background: `url(https://st.deviantart.net/signinup/sisu_bg-min.png) no-repeat center center fixed`,backgroundSize:'cover'
+    <div :style="{background: `url(http://localhost/sisu_bg-min.png) no-repeat center center fixed`,backgroundSize:'cover'
     }" class="w-full h-full flex flex-col items-center justify-center">
         <section class="h-full gradient-form md:h-screen">
             <div class="container py-12 px-6 h-full mx-auto">
