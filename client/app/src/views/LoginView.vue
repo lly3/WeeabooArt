@@ -46,25 +46,25 @@ export default {
     },
     data() {
         return {
-        username: '',
-        password: '',
-        error: null
+            username: '',
+            password: '',
+            error: null
         }
     },
     methods: {
         async login() {
-        try {
-            this.error = null
-            const response = await this.$axios.post('/login', {
-            username: this.username,
-            password: this.password
-            })
-            this.$store.commit('setToken', response.data.token)
-            this.$router.push('/')
-        } catch(error) {
-            console.log(error)
-            this.error = error.message
-        }
+            try {
+                this.error = null
+                const response = await this.$axios.post('/login', {
+                    username: this.username,
+                    password: this.password
+                })
+                this.$store.commit('setToken', response.data.token)
+                this.$router.push('/')
+            } catch(error) {
+                console.log(error)
+                this.error = error.message
+            }
         }
     }
 }
