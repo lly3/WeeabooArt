@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use App\Models\Image;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,6 +12,10 @@ use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
+//    public function __construct()
+//    {
+//        $this->middleware('auth:api');
+//    }
     /**
      * Display a listing of the resource.
      *
@@ -48,7 +53,7 @@ class PostController extends Controller
         $post->image_id = $request->get('imageID');
         // $post->favorite_count = $request->get('favorite_count');
         // $post->view_count = $request->get('view_count');
-//        $post->user_id = $request->get('user_id');
+//        $post->user_id = auth()->user()->id;
         if ($post->save()) {
             return response()->json([
                 'success' => true,
@@ -132,5 +137,21 @@ class PostController extends Controller
             'success' => false,
             'message' => "Post {$post_title} deleted failed"
         ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function mostLiked() {
+        $posts = Post::orderBy('favorite_count', 'desc')->take(6)->get();
+        foreach ($posts as $post) {
+            $post->image;
+        }
+        return response()->json($posts->toArray());
+    }
+
+    public function mostViewed() {
+        $posts = Post::orderBy('view_count', 'desc')->take(6)->get();
+        foreach ($posts as $post) {
+            $post->image;
+        }
+        return response()->json($posts->toArray());
     }
 }

@@ -88,15 +88,5 @@ class GalleryController extends Controller
         //
     }
 
-    public function get6MostLiked() {
-        return Image::orderBy('like_count', 'desc')->take(6)->get();
-    }
 
-    public function get6MostRecent() {
-        return Image::orderBy('created_at', 'desc')->take(6)->get();
-    }
-
-    public function get6MostViewed() {
-        return Image::orderBy('view_count', 'desc')->take(6)->get();
-    }
 }

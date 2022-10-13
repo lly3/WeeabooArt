@@ -35,6 +35,8 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
 });
 
+Route::post('/post/mostLiked', [\App\Http\Controllers\Api\PostController::class, 'mostLiked']);
+Route::post('/post/mostViewed', [\App\Http\Controllers\Api\PostController::class, 'mostViewed']);
 Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
