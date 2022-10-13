@@ -50,7 +50,17 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth.js'
+
 export default {
+  setup() {
+    const auth_store = useAuthStore()
+    return { auth_store }
+  },
+  mounted() {
+    if(!this.auth_store.isAuthen) 
+      return this.$router.push('/login')
+  },
   data() {
     return {
       title: '',

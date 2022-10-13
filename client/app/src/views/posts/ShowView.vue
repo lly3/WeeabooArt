@@ -6,7 +6,7 @@
         <div id="carousel-wrapper" class="h-[70vh] max-h-[70vh] flex" data-slice-index=0>
           <!-- Item 1 -->
           <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10 my-5">
-            <img src="http://localhost/83106977_p0.jpg" class="block h-full object-contain mx-auto">
+            <img v-if=image.path :src=imageURL(image.path) class="block h-full object-contain mx-auto">
           </div>
         </div>
       </div>
@@ -14,7 +14,7 @@
         <div class="flex dark:text-white">
           <p>Add to favorites</p>
         </div>
-        <div class="flex dark:text-white" @click=onEdit(1)>
+        <div v-if=isOwner() class="flex dark:text-white" @click=onEdit(post.id)>
           <p>Edit</p>
         </div>
       </div>
@@ -25,14 +25,14 @@
             <img src="" class="w-[60px] h-[60px] rounded-xl border" />
             <div class="flex flex-col ml-3">
               <p class="text-3xl font-bold dark:text-white">{{ post.title }}</p> 
-              <p class="dark:text-white">{{ }}</p>
+              <p class="dark:text-white">{{ user.name }}</p>
             </div>
           </div>   
         </div>
         <div class="flex space-x-5">
-          <p class="dark:text-white">Favorites</p>
+          <p class="dark:text-white">{{ post.favorite_count }} Favorites</p>
           <p class="dark:text-white">Comments</p>
-          <p class="dark:text-white">Views</p>
+          <p class="dark:text-white">{{ post.view_count }} Views</p>
         </div>
         <div class="flex space-x-2">
           <div class="border rounded-lg p-3 text-sm dark:text-white">
@@ -46,7 +46,7 @@
           </div>
         </div>
         <div class="break-all dark:text-white">
-          descriptions aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          {{ post.description }}
         </div>
         <div>
           <p class="font-bold dark:text-white">Image details</p>
@@ -55,10 +55,10 @@
           </div>
         </div>
         <div class="mt-6 text-sm dark:text-white">
-          © 2022 TudorPopa
+          © 2022 {{ user.name }}
         </div>
         <div class="xl:absolute xl:top-0 xl:right-0 static text-right text-sm dark:text-white">
-          Published: Jul 30, 2022
+          Published: {{ post.created_at }}
         </div>
         <div>
           <p class="font-bold dark:text-white">Comments</p>
@@ -83,24 +83,41 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth.js'
+
 export default {
+  setup() {
+    const auth_store = useAuthStore()
+    return { auth_store }
+  },
   async mounted() {
     try {
       const response = await this.$axios.get(`/post/${this.$route.params.id}`);
       this.post = response.data;
+      this.user = this.post.user;
+      this.image = this.post.image;
       console.log(this.post);
     } catch (e) {
       console.log(e.message);
+      this.$router.push('/');
     }
   },
   data() {
     return {
       post: {},
+      user: {},
+      image: {}
     }
   },
   methods: {
     onEdit(id) {
       return this.$router.push(`/post/edit/${id}`);
+    },
+    isOwner() {
+      return this.auth_store.getEmail == this.user.email
+    },
+    imageURL(path) {
+      return 'http://localhost/images/' + path
     },
   },
 }

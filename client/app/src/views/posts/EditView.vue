@@ -4,7 +4,7 @@
     <div id="carousel-wrapper" class="h-[70vh] max-h-[70vh] flex" data-slice-index=0>
       <!-- Item 1 -->
       <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10 my-5">
-        <img :src=imageURL class="block h-full object-contain mx-auto">
+        <img :src=imageURL(image.path) class="block h-full object-contain mx-auto">
       </div>
     </div>
   </div>
@@ -21,21 +21,21 @@
       <div>
         <div class="mb-6 space-y-2">
           <label for="title" class="block mb-2 text-xl font-medium text-gray-900 dark:text-gray-300">Art Title</label>
-          <input v-model="title" type="text" id="title" name="title" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <input v-model=post.title type="text" id="title" name="title" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <label for="description" class="block mb-2 text-xl  font-medium text-gray-900 dark:text-gray-300">Description</label>
           <div class="mb-4 w-full bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
             <div class="py-2 px-4 bg-white rounded-t-lg dark:bg-gray-800">
-              <textarea v-model="description" id="description" name="description" rows="4" class="px-0 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Introduce your art, Tell the backstory, add some intriguing accompanying text, or simply give any extra information you'd like them to know." required></textarea>
+              <textarea v-model=post.description id="description" name="description" rows="4" class="px-0 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Introduce your art, Tell the backstory, add some intriguing accompanying text, or simply give any extra information you'd like them to know." required></textarea>
             </div>
           </div>
           <label for="tags" class="block mb-2 text-xl  font-medium text-gray-900 dark:text-gray-300">Add tags</label>
           <input v-model="tags" type="text" id="tags" name="tags" placeholder="E.g.: rose, watercolor, painting, fanart, tutorial, photoshop, poetry" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          <div v-if="is_toggle" >
+          <div v-if=post.is_saleable>
             <label for="price" class="block mb-2 text-xl  font-medium text-gray-900 dark:text-gray-300">Price</label>
-            <input v-model="price" type="number" step=".01" min="0" id="price" name="price" placeholder="Enter your price here" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <input v-model=post.price type="number" step=".01" min="0" id="price" name="price" placeholder="Enter your price here" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           </div>
           <div class="flex items-center mb-4">
-            <input id="is_salable" name="is_salable" type="checkbox" :value="is_toggle" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" @click="onToggle()">
+            <input id="is_salable" name="is_salable" type="checkbox" :value=post.is_saleable class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" @click="onToggle()">
             <label for="is_salable" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Make this post Premium Download</label>
           </div>
         </div>
@@ -58,26 +58,32 @@ export default {
     return { auth_store }
   },
   async mounted() {
-
     try {
       const response = await this.$axios.get(`/post/${this.$route.params.id}`);
-      this.post = response.data.data;
+      this.post = response.data;
+      this.image = this.post.image;
+      console.log(this.post);
 
       if (!this.auth_store.isAuthen) {
         return this.$router.push('/login')
       }
+      else if( this.auth_store.getEmail != this.post.user.email ) {
+        return this.$router.push(`/post/${this.$route.params.id}`)
+      }
     } catch (e) {
-      console.log(e);
+      console.log(e.message);
+      this.$router.push('/');
     }
   },
   data() {
     return {
       post: {},
+      image: {},
     }
   },
   methods: {
     onToggle() {
-      this.is_toggle = !this.is_toggle
+      this.post.is_saleable = !this.post.is_saleable;
     },
     async onSubmit(e) {
       e.preventDefault();
@@ -94,6 +100,9 @@ export default {
     previewImage(e) {
       this.image = e.target.files[0]
       this.imageURL = URL.createObjectURL(e.target.files[0])
+    },
+    imageURL(path) {
+      return 'http://localhost/images/' + path
     },
   },
 }

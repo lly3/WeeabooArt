@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -48,7 +51,7 @@ class PostController extends Controller
         $post->image_id = $request->get('imageID');
         // $post->favorite_count = $request->get('favorite_count');
         // $post->view_count = $request->get('view_count');
-//        $post->user_id = $request->get('user_id');
+        $post->user_id = auth()->user()->id;
         if ($post->save()) {
             return response()->json([
                 'success' => true,
@@ -72,6 +75,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post->user;
+        $post->image;
         return response()->json($post);
     }
 
