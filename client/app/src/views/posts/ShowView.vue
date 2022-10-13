@@ -82,6 +82,14 @@
 
 <script>
 export default {
+  async mounted() {
+    try {
+      const response = await this.$axios.post(`/post/${this.$route.params.id}`);
+      this.post = response.data.data;
+    } catch (e) {
+      console.log(e.message);
+    }
+  },
   data() {
     return {
       post: null,
