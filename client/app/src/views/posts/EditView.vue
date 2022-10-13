@@ -4,7 +4,7 @@
     <div id="carousel-wrapper" class="h-[70vh] max-h-[70vh] flex" data-slice-index=0>
       <!-- Item 1 -->
       <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10 my-5">
-        <img :src="imageURL" class="block h-full object-contain mx-auto">
+        <img :src=imageURL class="block h-full object-contain mx-auto">
       </div>
     </div>
   </div>
