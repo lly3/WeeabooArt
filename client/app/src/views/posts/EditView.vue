@@ -50,16 +50,29 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth.js'
+
 export default {
+  setup() {
+    const auth_store = useAuthStore()    
+    return { auth_store }
+  },
+  async mounted() {
+
+    try {
+      const response = await this.$axios.post(`/post/${this.$route.params.id}`);
+      this.post = response.data.data;
+
+      if (!this.auth_store.isAuthen) {
+        return this.$router.push('/login')
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  },
   data() {
     return {
-      title: '',
-      description: '',
-      tags: '',
-      price: 0,
-      image: null,
-      imageURL: null,
-      is_toggle: false,
+      post: {},
     }
   },
   methods: {
@@ -71,14 +84,7 @@ export default {
 
       const response = await this.uploadImage();
       const imageID = response.data.image_id
-      await this.$axios.post('/post', {
-        title: this.title,
-        description: this.description,
-        tags: this.tags,
-        imageID: imageID,
-        premium_download: this.is_toggle,
-        price: this.price,
-      })
+      await this.$axios.post(`/post/edit/${id}`, { ...this.post, imageID })
     },
     uploadImage() {
       const formData = new FormData();

@@ -94,7 +94,7 @@ export default {
   },
   data() {
     return {
-      post: null,
+      post: {},
     }
   },
   methods: {
