@@ -78,7 +78,13 @@ export default {
         imageID: imageID,
         premium_download: this.is_toggle,
         price: this.price,
-      })
+      },
+      {
+        headers: {
+          Authorization : `Bearer ${localStorage.getItem("jwt_token")}`
+        }
+      }
+      )
     },
     uploadImage() {
       const formData = new FormData();
