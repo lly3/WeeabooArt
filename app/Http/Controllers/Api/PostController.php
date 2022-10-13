@@ -25,7 +25,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::get();
+        $posts = Post::orderBy('id', 'desc')->get();
         return PostResource::collection($posts);
     }
 
@@ -155,5 +155,9 @@ class PostController extends Controller
             $post->image;
         }
         return response()->json($posts->toArray());
+    }
+
+    public function otherPosts() {
+        return Post::orderBy('id', 'desc')->paginate(15);
     }
 }

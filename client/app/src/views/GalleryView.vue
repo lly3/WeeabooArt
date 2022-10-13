@@ -1,79 +1,77 @@
 <template>
-    <div class="bg-black">
-        <section class="overflow-hidden text-gray-700">
-            <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="haveMore6Posts">
-                <h1 class="text-white py-5">Most likes</h1>
-                <div class="flex flex-wrap -m-1 md:-m-2">
-                    <div class="flex flex-wrap w-1/2" v-if="mostLikes">
-                        <a :href="'http://localhost/images/' + posts_mostLiked[0].image.path.toString()" class="p-1 md:p-2 w-1/2">
-                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                 :src="'http://localhost/images/' + posts_mostLiked[0].image.path.toString()">
-                        </a>
-                        <a href="#" class="p-1 md:p-2 w-1/2">
-                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                 :src="'http://localhost/images/' + posts_mostLiked[1].image.path.toString()">
-                        </a>
-                        <a href="#" class="w-full p-1 md:p-2">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                 :src="'http://localhost/images/' + posts_mostLiked[2].image.path.toString()">
-                        </a>
-                    </div>
-                    <div class="flex flex-wrap w-1/2" v-if="mostLikes">
-                        <a href="#" class="w-full p-1 md:p-2">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                 :src="'http://localhost/images/' + posts_mostLiked[3].image.path.toString()">
-                        </a>
-                        <a href="#" class="w-1/2 p-1 md:p-2">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                 :src="'http://localhost/images/' + posts_mostLiked[4].image.path.toString()">
-                        </a>
-                        <a href="#" class="w-1/2 p-1 md:p-2">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                 :src="'http://localhost/images/' + posts_mostLiked[5].image.path.toString()">
-                        </a>
-                    </div>
+    <section class="overflow-hidden text-gray-700">
+        <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
+            <h1 class="text-white py-5">Most likes</h1>
+            <div class="flex flex-wrap -m-1 md:-m-2">
+                <div class="flex flex-wrap w-1/2" v-if="mostLikes">
+                    <a href="#" class="p-1 md:p-2 w-1/2" v-if="have1Post">
+                        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostLiked[0].image.path.toString()">
+                    </a>
+                    <a href="#" class="p-1 md:p-2 w-1/2" v-if="have2Posts">
+                        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostLiked[1].image.path.toString()">
+                    </a>
+                    <a href="#" class="w-full p-1 md:p-2" v-if="have3Posts">
+                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostLiked[2].image.path.toString()">
+                    </a>
+                </div>
+                <div class="flex flex-wrap w-1/2" v-if="mostLikes">
+                    <a href="#" class="w-full p-1 md:p-2" v-if="have4Posts">
+                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostLiked[3].image.path.toString()">
+                    </a>
+                    <a href="#" class="w-1/2 p-1 md:p-2" v-if="have5Posts">
+                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostLiked[4].image.path.toString()">
+                    </a>
+                    <a href="#" class="w-1/2 p-1 md:p-2" v-if="have6Posts">
+                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostLiked[5].image.path.toString()">
+                    </a>
                 </div>
             </div>
-        </section>
-        <section class="overflow-hidden text-gray-700">
-            <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="haveMore6Posts">
-                <h1 class="text-white py-5">Most View</h1>
-                <div class="flex flex-wrap -m-1 md:-m-2">
-                    <div class="flex flex-wrap w-1/2" v-if="mostViews">
-                        <a href="#" class="w-full p-1 md:p-2">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                 :src="'http://localhost/images/' + posts_mostViewed[0].image.path.toString()">
-                        </a>
-                        <a href="#" class="p-1 md:p-2 w-1/2">
-                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                 :src="'http://localhost/images/' + posts_mostViewed[1].image.path.toString()">
-                        </a>
-                        <a href="#" class="p-1 md:p-2 w-1/2">
-                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                 src="http://localhost/images/202210100035WIN_20220720_14_18_33_Pro.jpg">
-                        </a>
-                    </div>
-                    <div class="flex flex-wrap w-1/2">
-                        <a href="#" class="w-1/2 p-1 md:p-2" v-if="mostViews">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                 src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(75).webp">
-                        </a>
-                        <a href="#" class="w-1/2 p-1 md:p-2">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                 src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(77).webp">
-                        </a>
-                        <a href="#" class="w-full p-1 md:p-2">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                 src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(74).webp">
-                        </a>
-                    </div>
+        </div>
+    </section>
+    <section class="overflow-hidden text-gray-700">
+        <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
+            <h1 class="text-white py-5">Most View</h1>
+            <div class="flex flex-wrap -m-1 md:-m-2">
+                <div class="flex flex-wrap w-1/2" v-if="mostViews">
+                    <a href="#" class="p-1 md:p-2 w-1/2" v-if="have1Post">
+                        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostViewed[0].image.path.toString()">
+                    </a>
+                    <a href="#" class="p-1 md:p-2 w-1/2" v-if="have2Posts">
+                        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostViewed[1].image.path.toString()">
+                    </a>
+                    <a href="#" class="w-full p-1 md:p-2" v-if="have3Posts">
+                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostViewed[2].image.path.toString()">
+                    </a>
+                </div>
+                <div class="flex flex-wrap w-1/2" v-if="mostViews">
+                    <a href="#" class="w-full p-1 md:p-2" v-if="have4Posts">
+                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostViewed[3].image.path.toString()">
+                    </a>
+                    <a href="#" class="w-1/2 p-1 md:p-2" v-if="have5Posts">
+                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostViewed[4].image.path.toString()">
+                    </a>
+                    <a href="#" class="w-1/2 p-1 md:p-2" v-if="have6Posts">
+                        <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                             :src="'http://localhost/images/' + posts_mostViewed[5].image.path.toString()">
+                    </a>
                 </div>
             </div>
-        </section>
-        <section>
-            <gallery-card-view :posts="posts"></gallery-card-view>
-        </section>
-    </div>
+        </div>
+    </section>
+    <section>
+        <gallery-card-view :posts="posts"></gallery-card-view>
+    </section>
 <!--    <div class="overflow-auto">-->
 <!--        <b-pagination-->
 <!--            v-model="currentPage"-->
@@ -102,18 +100,6 @@ export default {
             // perpage: 15,
         }
     },
-    // async created() {
-    //     try{
-    //         const response_mostLiked = await this.$axios.post('/post/mostLiked');
-    //         this.posts_mostLiked = response_mostLiked.data
-    //         // this.posts_mostLiked.push(response_mostLiked.data)
-    //         const response_mostViewed = await this.$axios.post('/post/mostViewed');
-    //         this.posts_mostViewed = response_mostViewed.data
-    //     } catch (error) {
-    //         console.log(error)
-    //         this.error = error.message
-    //     }
-    // },
     props: {
         post: Object,
     },
@@ -128,14 +114,49 @@ export default {
             return this.posts_mostViewed.length
         },
         havePosts() {
-            if (this.posts.length > 0) {
+            if (this.posts_mostViewed.length > 0) {
                 return true
             } else {
                 return false
             }
         },
-        haveMore6Posts() {
-            if (this.posts.length > 5) {
+        have1Post() {
+            if (this.posts_mostViewed.length >= 1) {
+                return true
+            } else {
+                return false
+            }
+        },
+        have2Posts() {
+            if (this.posts_mostViewed.length >= 2) {
+                return true
+            } else {
+                return false
+            }
+        },
+        have3Posts() {
+            if (this.posts_mostViewed.length >= 3) {
+                return true
+            } else {
+                return false
+            }
+        },
+        have4Posts() {
+            if (this.posts_mostViewed.length >= 4) {
+                return true
+            } else {
+                return false
+            }
+        },
+        have5Posts() {
+            if (this.posts_mostViewed.length >= 5) {
+                return true
+            } else {
+                return false
+            }
+        },
+        have6Posts() {
+            if (this.posts_mostViewed.length >= 6) {
                 return true
             } else {
                 return false
@@ -161,3 +182,9 @@ export default {
 
 }
 </script>
+
+<style>
+body {
+    background-color: #000000;
+}
+</style>
