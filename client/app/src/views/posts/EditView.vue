@@ -60,14 +60,14 @@ export default {
   async mounted() {
 
     try {
-      const response = await this.$axios.post(`/post/${this.$route.params.id}`);
+      const response = await this.$axios.get(`/post/${this.$route.params.id}`);
       this.post = response.data.data;
 
       if (!this.auth_store.isAuthen) {
         return this.$router.push('/login')
       }
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
     }
   },
   data() {

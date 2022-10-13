@@ -24,8 +24,8 @@
           <div class="flex items-center">
             <img src="" class="w-[60px] h-[60px] rounded-xl border" />
             <div class="flex flex-col ml-3">
-              <p class="text-3xl font-bold dark:text-white">Art Title</p> 
-              <p class="dark:text-white">Artist Name</p>
+              <p class="text-3xl font-bold dark:text-white">{{ post.title }}</p> 
+              <p class="dark:text-white">{{ }}</p>
             </div>
           </div>   
         </div>
@@ -86,8 +86,9 @@
 export default {
   async mounted() {
     try {
-      const response = await this.$axios.post(`/post/${this.$route.params.id}`);
-      this.post = response.data.data;
+      const response = await this.$axios.get(`/post/${this.$route.params.id}`);
+      this.post = response.data;
+      console.log(this.post);
     } catch (e) {
       console.log(e.message);
     }
