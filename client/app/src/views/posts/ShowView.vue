@@ -3,7 +3,7 @@
     <div class="left-side xl:w-9/12 w-full">
       <div id="default-carousel" class="mx-auto relative overflow-hidden bg-gradient-to-b from-gray-100 to-gray-50 dark:from-gray-500  dark:to-gray-800" data-carousel="static">
         <!-- Carousel wrapper -->
-        <div id="carousel-wrapper" class="h-[70vh] max-h-[70vh] flex" data-slice-index=0>
+        <div id="carousel-wrapper" class="h-[65vh] max-h-[65vh] flex" data-slice-index=0>
           <!-- Item 1 -->
           <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10 my-5">
             <img v-if=image.path :src=imageURL(image.path) class="block h-full object-contain mx-auto">
@@ -69,8 +69,8 @@
       </div>
     </div>
     <div class="right-side p-5 xl:w-3/12 w-full dark:text-white">
-      <p>More by _____</p>
-      <div class="w-full h-[250px] mt-3 border">
+      <p>More by {{ user.name }}</p>
+      <div class="w-full h-[200px] mt-3 border">
         
       </div>
 

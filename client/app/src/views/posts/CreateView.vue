@@ -81,7 +81,7 @@ export default {
 
       const response = await this.uploadImage();
       const imageID = response.data.image_id
-      await this.$axios.post('/post', {
+      const post_response = await this.$axios.post('/post', {
         title: this.title,
         description: this.description,
         tags: this.tags,
@@ -89,6 +89,9 @@ export default {
         premium_download: this.is_toggle,
         price: this.price,
       })
+
+      const postID = post_response.data.post_id
+      this.$router.push(`/post/${postID}`)
     },
     uploadImage() {
       const formData = new FormData();
