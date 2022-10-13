@@ -38,5 +38,19 @@ export const authAPI = {
     },
     logout () {
         localStorage.removeItem(JWT_TOKEN_LOCALSTORAGE_KEY)
+    },
+    async register (name, email, password, password_confirmation) {
+        const response = await axiosInstance.post('/auth/register', {
+            name,
+            email,
+            password,
+            password_confirmation
+        })
+        if (response.status == 201) {
+            return response.data
+        }
+        return {
+            success: false,
+        }
     }
 }
