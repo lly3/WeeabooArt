@@ -70,8 +70,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::find($id);
-        return $posts;
+        $post = Post::find($id);
+        $post->user;
+        return response()->json($post);
     }
 
     /**
