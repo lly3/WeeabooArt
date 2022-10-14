@@ -4,18 +4,19 @@
     <div id="carousel-wrapper" class="h-[70vh] max-h-[70vh] flex" data-slice-index=0>
       <!-- Item 1 -->
       <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10 my-5">
-        <img :src=imageURL(image.path) class="block h-full object-contain mx-auto">
+        <img v-if="image.path && imageFile == null" :src=imageURL(image.path) class="block h-full object-contain mx-auto">
+        <img v-if=imageFile :src=imageFileURL class="block h-full object-contain mx-auto">
       </div>
     </div>
   </div>
   <div class="xl:w-3/6 md:w-4/6 w-5/6 mx-auto">
-    <form @submit="onSubmit">
+    <form>
       <div class="my-3">
         <input class="form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
                type="file"
                id="browse"
                name="image" 
-               @change="previewImage"
+               @change=previewImage
                >
       </div>
       <div>
@@ -39,9 +40,12 @@
             <label for="is_salable" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Make this post Premium Download</label>
           </div>
         </div>
-        <div class="flex items-center justify-end py-2 px-3 dark:border-gray-600">
-          <button type="submit" class="inline-flex items-center py-2.5 px-4 text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-            Submit now
+        <div class="flex items-center space-x-2 justify-end py-2 px-3 dark:border-gray-600">
+          <button @click=onDelete class="inline-flex items-center py-2.5 px-4 text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800">
+            Delete Post
+          </button>
+          <button @click=onSubmit class="inline-flex items-center py-2.5 px-4 text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+            Edit Post
           </button>
         </div>
       </div>  
@@ -67,7 +71,7 @@ export default {
       if (!this.auth_store.isAuthen) {
         return this.$router.push('/login')
       }
-      else if( this.auth_store.getEmail != this.post.user.email ) {
+      else if(this.auth_store.getEmail != this.post.user.email) {
         return this.$router.push(`/post/${this.$route.params.id}`)
       }
     } catch (e) {
@@ -79,6 +83,8 @@ export default {
     return {
       post: {},
       image: {},
+      imageFile: null,
+      imageFileURL: '',
     }
   },
   methods: {
@@ -88,18 +94,24 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
 
-      const response = await this.uploadImage();
-      const imageID = response.data.image_id
-      await this.$axios.post(`/post/edit/${id}`, { ...this.post, imageID })
+      const imageID = await this.uploadImage()
+      await this.$axios.put(`/post/${this.post.id}`, { ...this.post, imageID })
     },
-    uploadImage() {
+    async onDelete(e) {
+      e.preventDefault();
+
+      if (confirm('Are you sure?')) {
+        await this.$axios.delete(`/post/${this.post.id}`)
+      }
+    },
+    async uploadImage() {
       const formData = new FormData();
       formData.append('image', this.image)
-      return this.$axios.post('/image', formData)
+      return await this.$axios.post('/image', formData).data.image_id
     },
     previewImage(e) {
-      this.image = e.target.files[0]
-      this.imageURL = URL.createObjectURL(e.target.files[0])
+      this.imageFile = e.target.files[0]
+      this.imageFileURL = URL.createObjectURL(e.target.files[0])
     },
     imageURL(path) {
       return 'http://localhost/images/' + path
