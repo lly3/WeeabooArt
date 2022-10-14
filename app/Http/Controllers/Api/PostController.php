@@ -90,7 +90,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->user;
+        $post->image;
+        return response()->json($post);
     }
 
     /**

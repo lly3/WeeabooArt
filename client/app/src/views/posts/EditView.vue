@@ -63,7 +63,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await this.$axios.get(`/post/${this.$route.params.id}`);
+      const response = await this.$axios.get(`/post/edit/${this.$route.params.id}`);
       this.post = response.data;
       this.image = this.post.image;
       console.log(this.post);
