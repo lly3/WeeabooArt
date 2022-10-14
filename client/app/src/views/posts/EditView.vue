@@ -36,7 +36,7 @@
             <input v-model=post.price type="number" step=".01" min="0" id="price" name="price" placeholder="Enter your price here" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           </div>
           <div class="flex items-center mb-4">
-            <input id="is_salable" name="is_salable" type="checkbox" :value=post.is_saleable class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" @click="onToggle()">
+            <input name="is_salable" type="checkbox" :value=post.is_saleable class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" @click="onToggle()">
             <label for="is_salable" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Make this post Premium Download</label>
           </div>
         </div>
@@ -44,7 +44,7 @@
           <button @click=onDelete class="inline-flex items-center py-2.5 px-4 text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800">
             Delete Post
           </button>
-          <button @click=onSubmit class="inline-flex items-center py-2.5 px-4 text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+          <button @click=onEdit class="inline-flex items-center py-2.5 px-4 text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
             Edit Post
           </button>
         </div>
@@ -91,23 +91,42 @@ export default {
     onToggle() {
       this.post.is_saleable = !this.post.is_saleable;
     },
-    async onSubmit(e) {
+    async onEdit(e) {
       e.preventDefault();
 
-      const imageID = await this.uploadImage()
-      await this.$axios.put(`/post/${this.post.id}`, { ...this.post, imageID })
+      try {
+        if(this.imageFile != null) {
+          const imageID = await this.uploadImage()
+          await this.$axios.put(`/post/${this.post.id}`, { ...this.post, imageID })
+        }
+        await this.$axios.put(`/post/${this.post.id}`, this.post)
+
+        this.$router.back()
+      } catch (e) {
+        console.log(e);
+      }
     },
     async onDelete(e) {
       e.preventDefault();
+      
+      try {
+        if (confirm('Are you sure?')) {
+          await this.$axios.delete(`/post/${this.post.id}`)
 
-      if (confirm('Are you sure?')) {
-        await this.$axios.delete(`/post/${this.post.id}`)
+          this.$router.back()
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
     async uploadImage() {
-      const formData = new FormData();
-      formData.append('image', this.image)
-      return await this.$axios.post('/image', formData).data.image_id
+      try {
+        const formData = new FormData();
+        formData.append('image', this.imageFile)
+        return await this.$axios.post('/image', formData).then(res => res.data.image_id)
+      } catch (e) {
+        console.log(e);
+      }
     },
     previewImage(e) {
       this.imageFile = e.target.files[0]

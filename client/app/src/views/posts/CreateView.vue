@@ -79,9 +79,8 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
 
-      const response = await this.uploadImage();
-      const imageID = response.data.image_id
-      const post_response = await this.$axios.post('/post', {
+      const imageID = await this.uploadImage()
+      const response = await this.$axios.post('/post', {
         title: this.title,
         description: this.description,
         tags: this.tags,
@@ -90,13 +89,13 @@ export default {
         price: this.price,
       })
 
-      const postID = post_response.data.post_id
+      const postID = response.data.post_id
       this.$router.push(`/post/${postID}`)
     },
-    uploadImage() {
+    async uploadImage() {
       const formData = new FormData();
       formData.append('image', this.image)
-      return this.$axios.post('/image', formData)
+      return await this.$axios.post('/image', formData).then(res => res.data.image_id)
     },
     previewImage(e) {
       this.image = e.target.files[0]

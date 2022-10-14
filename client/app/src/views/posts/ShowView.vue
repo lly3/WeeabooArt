@@ -10,7 +10,7 @@
           </div>
         </div>
       </div>
-      <div class="p-4 flex justify-between border">
+      <div class="p-4 flex justify-around border">
         <div class="flex dark:text-white">
           <p>Add to favorites</p>
         </div>
