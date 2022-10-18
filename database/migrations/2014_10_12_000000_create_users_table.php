@@ -20,7 +20,7 @@ return new class extends Migration
             $table->DateTime('date_of_birth');
             $table->string('role')->default('user');
             $table->string('password');
-            $table->foreignIdFor(\App\Models\Image::class); // foreign key is `image_id`
+            $table->foreignIdFor(\App\Models\Image::class)->default(0); // foreign key is `image_id`
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

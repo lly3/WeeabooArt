@@ -17,6 +17,14 @@
                 <p v-if="email_error!=null" class="pb-4 text-red-600">{{ email_error }}</p>
             </div>
 
+            <span class="font-bold">Birth Date</span>
+            <div>
+                <input type="date" min="1950-01-01" :max=today
+                       class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-greenlogo mb-4"
+                v-model="date_of_birth">
+                <p v-if="birth_date_error!=null" class="pb-4 text-red-600">{{ birth_date_error }}</p>
+            </div>
+
             <span class="font-bold">Password</span>
             <div>
                 <input type="password" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-greenlogo mb-4" placeholder="Password"
@@ -62,23 +70,27 @@ export default {
         return {
             name: '',
             email: '',
+            date_of_birth: '',
             password: '',
             password_confirmation: '',
             error: null,
             name_error: null,
             email_error: null,
             password_error: null,
+            birth_date_error: null,
+            today: new Date().toISOString().substr(0, 10)
         }
     },
     methods: {
         async register() {
             try {
-                console.log(this.name, this.email, this.password, this.password_confirmation)
+                console.log(this.name, this.email, this.date_of_birth, this.password, this.password_confirmation)
                 this.error = null
                 // const auth_id = await this.auth_store.register(this.name, this.email, this.password, this.password_confirmation)
                 const response = await this.$axios.post('/auth/register', {
                     name: this.name,
                     email: this.email,
+                    date_of_birth: this.date_of_birth,
                     password: this.password,
                     password_confirmation: this.password_confirmation
                 })
@@ -97,6 +109,11 @@ export default {
                 if (error.response.data.email != undefined) {
                     this.email_error = error.response.data.email[0]
                 }
+
+                if (error.response.data.date_of_birth != undefined) {
+                    this.birth_date_error = error.response.data.date_of_birth[0]
+                }
+
                 if (error.response.data.password != undefined) {
                     this.password_error = error.response.data.password[0]
                 }
@@ -104,4 +121,5 @@ export default {
         }
     }
 }
+
 </script>
