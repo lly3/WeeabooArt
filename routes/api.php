@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +38,16 @@ Route::group([
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
+    Route::post('register', [AuthController::class, 'register']);
 });
+
+Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
+Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class, 'edit'])
+    ->name('post.edit');
+
+Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
+
+Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);
+
+Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
+

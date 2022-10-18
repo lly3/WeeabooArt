@@ -39,9 +39,29 @@ const router = createRouter({
       component: () => import('@/views/rewards/CreateView.vue')
     },
     {
-       path: '/login',
-       name: 'login',
-       component: () => import('@/views/LoginView.vue')
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/LoginView.vue')
+    },
+    {
+      path: '/post/create',
+      name: 'post.create',
+      component: () => import('@/views/posts/CreateView.vue')
+    },
+    {
+      path: '/post/:id',
+      name: 'post.show',
+      component: () => import('@/views/posts/ShowView.vue')
+    },
+    {
+      path: '/post/edit/:id',
+      name: 'post.edit',
+      component: () => import('@/views/posts/EditView.vue')
+    },
+    {
+        path: '/logout',
+        name: 'logout',
+        component: () => import('@/views/LogoutView.vue')
     },
     {
         path: '/register',
