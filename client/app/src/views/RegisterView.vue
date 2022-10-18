@@ -10,6 +10,16 @@
                 <p v-if="name_error!=null" class="pb-4 text-red-600">{{ name_error }}</p>
             </div>
 
+            <span class="font-bold">Image</span>
+            <div>
+                <div class="h-48 bg-gray-200 rounded-md w-2/3 mx-auto my-2">
+                    <img :src="imageURL" class="block h-full object-contain mx-auto">
+                </div>
+                <input type="file" name="image_id" id="browse"
+                       class="appearance-none rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-greenlogo"
+                @change="previewImage">
+            </div>
+
             <span class="font-bold">Email</span>
             <div>
                 <input type="email" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-greenlogo mb-4" placeholder="Email"
@@ -25,13 +35,6 @@
                 <p v-if="birth_date_error!=null" class="pb-4 text-red-600">{{ birth_date_error }}</p>
             </div>
 
-            <span class="font-bold">Image</span>
-            <div>
-                <img :src="imageURL" class="block h-full object-contain mx-auto">
-                <input type="file" name="image_id" id="browse"
-                       class="appearance-none rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-greenlogo"
-                @change="previewImage">
-            </div>
 
             <span class="font-bold">Password</span>
             <div>
