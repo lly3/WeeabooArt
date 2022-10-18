@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Image;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,5 +23,9 @@ class DatabaseSeeder extends Seeder
              'date_of_birth' => '1990-01-01',
              'password' => bcrypt('userpass'),
          ]);
+
+         $image = new Image();
+         $image->path = 'http://localhost/image.png';
+         $image->save();
     }
 }
