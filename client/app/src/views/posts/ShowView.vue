@@ -1,12 +1,20 @@
 <template>
-  <div class="flex flex-col xl:flex-row" v-if=is_loading>
-    <div class="left-side xl:w-9/12 w-full">
+  <div class="flex flex-col xl:flex-row relative" v-if=is_loading>
+    <div class="z-10 fixed top-0 left-0 w-full h-screen bg-white" v-if=overlay>
+      <div class="h-full mx-auto p-6">
+        <img v-if=image.path :src=imageURL(image.path) class="object-contain h-full block mx-auto drop-shadow-2xl"> 
+      </div>
+      <div class="absolute top-0 right-0 w-[40px] m-3 cursor-pointer" @click="() => overlay = false">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12 6 6m6 6 6 6m-6-6 6-6m-6 6-6 6"/></svg>
+      </div>
+    </div>
+    <div class="left-side xl:w-9/12 w-full z-0">
       <div id="default-carousel" class="mx-auto relative overflow-hidden bg-gradient-to-b from-gray-100 to-gray-50 dark:from-gray-500  dark:to-gray-800" data-carousel="static">
         <!-- Carousel wrapper -->
         <div id="carousel-wrapper" class="h-[65vh] max-h-[65vh] flex" data-slice-index=0>
           <!-- Item 1 -->
           <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10 my-6">
-            <img v-if=image.path :src=imageURL(image.path) class="block h-full object-contain mx-auto drop-shadow-2xl"> 
+            <img v-if=image.path @click="() => overlay = true" :src=imageURL(image.path) class="block h-full cursor-pointer object-contain mx-auto drop-shadow-2xl"> 
           </div>
         </div>
       </div>
@@ -134,7 +142,8 @@ export default {
       post: {},
       user: {},
       image: {},
-      is_loading: false
+      is_loading: false,
+      overlay: false
     }
   },
   methods: {
