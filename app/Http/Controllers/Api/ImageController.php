@@ -12,7 +12,7 @@ use Illuminate\Http\Response;
 class ImageController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['store']]);
     }
     /**
      * Display a listing of the resource.
