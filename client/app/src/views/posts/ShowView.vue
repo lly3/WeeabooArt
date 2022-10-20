@@ -1,34 +1,21 @@
 <template>
   <div class="flex flex-col xl:flex-row">
     <div class="left-side xl:w-9/12 w-full">
-      <div id="default-carousel" class="mx-auto relative overflow-hidden bg-gray-100" data-carousel="static">
+      <div id="default-carousel" class="mx-auto relative overflow-hidden bg-gradient-to-b from-gray-100 to-gray-50 dark:from-gray-500  dark:to-gray-800" data-carousel="static">
         <!-- Carousel wrapper -->
-        <div id="carousel-wrapper" class="h-[65vh] flex" data-slice-index=0>
+        <div id="carousel-wrapper" class="h-[65vh] max-h-[65vh] flex" data-slice-index=0>
           <!-- Item 1 -->
           <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10 my-5">
-            <img src="http://localhost/83106977_p0.jpg" class="block h-full object-contain mx-auto">
+            <img v-if=image.path :src=imageURL(image.path) class="block h-full object-contain mx-auto">
           </div>
         </div>
-        <!-- Slider controls -->
-        <div>
-          <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" id="prev-button">
-            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-gray-800 dark:bg-gray-800/30 group-hover:bg-gray-800/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-              <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-              <span class="sr-only">Previous</span>
-            </span>
-          </button>
-          <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" id="next-button">
-            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-gray-800 dark:bg-gray-800/30 group-hover:bg-gray-800/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-              <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-              <span class="sr-only">Next</span>
-            </span>
-          </button>  
-        </div>
       </div>
-
-      <div class="p-4 flex border">
-        <div class="flex ml-36">
+      <div class="p-4 flex justify-around border">
+        <div class="flex dark:text-white">
           <p>Add to favorites</p>
+        </div>
+        <div v-if=isOwner() class="flex dark:text-white" @click=onEdit(post.id)>
+          <p>Edit</p>
         </div>
       </div>
 
@@ -37,60 +24,101 @@
           <div class="flex items-center">
             <img src="" class="w-[60px] h-[60px] rounded-xl border" />
             <div class="flex flex-col ml-3">
-              <p class="text-3xl font-bold">Art Title</p> 
-              <p>Artist Name</p>
+              <p class="text-3xl font-bold dark:text-white">{{ post.title }}</p> 
+              <p class="dark:text-white">{{ user.name }}</p>
             </div>
           </div>   
         </div>
         <div class="flex space-x-5">
-          <p>Favorites</p>
-          <p>Comments</p>
-          <p>Views</p>
+          <p class="dark:text-white">{{ post.favorite_count }} Favorites</p>
+          <p class="dark:text-white">Comments</p>
+          <p class="dark:text-white">{{ post.view_count }} Views</p>
         </div>
         <div class="flex space-x-2">
-          <div class="border rounded-lg p-3 text-sm">
+          <div class="border rounded-lg p-3 text-sm dark:text-white">
             Tag 1
           </div>
-          <div class="border rounded-lg p-3 text-sm">
+          <div class="border rounded-lg p-3 text-sm dark:text-white">
             Tag 2
           </div>
-          <div class="border rounded-lg p-3 text-sm">
+          <div class="border rounded-lg p-3 text-sm dark:text-white">
             Tag 3
           </div>
         </div>
-        <div class="break-all">
-          descriptions aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        <div class="break-all dark:text-white">
+          {{ post.description }}
         </div>
         <div>
-          <p class="font-bold">Image details</p>
-          <div>
+          <p class="font-bold dark:text-white">Image details</p>
+          <div class="dark:text-white">
             Image size: 
           </div>
         </div>
-        <div class="mt-6 text-sm">
-          © 2022 TudorPopa
+        <div class="mt-6 text-sm dark:text-white">
+          © 2022 {{ user.name }}
         </div>
-        <div class="xl:absolute xl:top-0 xl:right-0 static text-right text-sm">
-          Published: Jul 30, 2022
+        <div class="xl:absolute xl:top-0 xl:right-0 static text-right text-sm dark:text-white">
+          Published: {{ post.created_at }}
         </div>
         <div>
-          <p class="font-bold">Comments</p>
+          <p class="font-bold dark:text-white">Comments</p>
           <div class="w-full h-[300px] border mt-3">
             
           </div>
         </div>
       </div>
     </div>
-    <div class="right-side p-5 xl:w-3/12 w-full">
-      <p>More by _____</p>
-      <div class="w-full h-[250px] mt-3 border">
+    <div class="right-side p-5 xl:w-3/12 w-full dark:text-white">
+      <p>More by {{ user.name }}</p>
+      <div class="w-full h-[200px] mt-3 border">
         
       </div>
 
-      <p class="my-3">Suggested Collections</p>
+      <p class="my-3 dark:text-white">Suggested Collections</p>
       <div class="w-full h-screen mt-3 border">
         
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import { useAuthStore } from '@/stores/auth.js'
+
+export default {
+  setup() {
+    const auth_store = useAuthStore()
+    return { auth_store }
+  },
+  async mounted() {
+    try {
+      const response = await this.$axios.get(`/post/${this.$route.params.id}`);
+      this.post = response.data;
+      this.user = this.post.user;
+      this.image = this.post.image;
+      console.log(this.post);
+    } catch (e) {
+      console.log(e.message);
+      this.$router.push('/');
+    }
+  },
+  data() {
+    return {
+      post: {},
+      user: {},
+      image: {}
+    }
+  },
+  methods: {
+    onEdit(id) {
+      return this.$router.push(`/post/edit/${id}`);
+    },
+    isOwner() {
+      return this.auth_store.getEmail == this.user.email
+    },
+    imageURL(path) {
+      return 'http://localhost/images/' + path
+    },
+  },
+}
+</script>

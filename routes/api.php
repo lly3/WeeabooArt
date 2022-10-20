@@ -36,6 +36,8 @@ Route::group([
 });
 
 Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
+Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class, 'edit'])
+    ->name('post.edit');
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
 

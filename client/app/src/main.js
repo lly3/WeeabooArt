@@ -14,7 +14,7 @@ const app = createApp(App)
 const axiosInstance = axios.create({
   baseURL: 'http://localhost/api',
   headers: {
-    Authorization : `Bearer ${localStorage.getItem("jwt_token")}`
+    Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
   }
 })
 
