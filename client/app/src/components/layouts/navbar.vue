@@ -22,7 +22,7 @@
         <div>
           <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-lg md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
             <span class="sr-only">Open user menu</span>
-            <img class="w-8 h-8 rounded-md object-cover" :src=imageURL >
+            <img class="w-8 h-8 rounded-md object-cover" :src=imageURL(this.auth_store.getImage)>
           </button>
 
           <!-- Dropdown menu -->
@@ -107,21 +107,6 @@ export default {
         document.getElementById('toggle-on').style.display = 'none'
         document.getElementById('toggle-off').style.display = 'block'
       }
-
-    try {
-      const response = await this.$axios.get(`/image/email/${ this.auth_store.getEmail }`)
-      this.imageURL = 'http://localhost/images/' + response.data
-      console.log(this.imageURL);
-    } catch (e) {
-      console.log(e);
-    }
-  },
-  data() {
-    return {
-      imageURL: {
-        type: String
-      }
-    }
   },
   methods: {
     toggleDarkMode() {
@@ -140,6 +125,9 @@ export default {
         document.getElementById('toggle-off').style.display = 'none'
       }
     },
+    imageURL(path) {
+      return 'http://localhost/images/' + path
+    }
   }
 }
 </script>
