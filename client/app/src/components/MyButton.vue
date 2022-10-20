@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <button class="shadow bg-greenlogo hover:bg-secondaryfont duration-200 ease-in focus:shadow-outline focus:outline-none text-{{ textColor }} font-semibold py-1.5 px-4 rounded" type="button">
+        <button @click=action class="shadow bg-greenlogo hover:bg-secondaryfont duration-200 ease-in focus:shadow-outline focus:outline-none text-{{ textColor }} font-semibold py-1.5 px-4 rounded" type="button">
             {{ title }}
         </button>
     </div>
@@ -13,6 +13,9 @@ export default {
         textColor: {
             default: 'white',
             type: String
+        },
+        action: {
+            type: Function
         }
     }
 }
