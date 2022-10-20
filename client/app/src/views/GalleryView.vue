@@ -71,15 +71,19 @@
     </section>
     <section>
         <gallery-card-view :posts="posts"></gallery-card-view>
+<!--        <div class="mt-3">-->
+<!--            <b-pagination-->
+<!--                v-model="paginate.current_page"-->
+<!--                :total-rows="paginate.last_page"-->
+<!--                :per-page="paginate.per_page"-->
+<!--                first-number-->
+<!--                last-number-->
+<!--            ></b-pagination>-->
+<!--        </div>-->
     </section>
-<!--    <div class="overflow-auto">-->
-<!--        <b-pagination-->
-<!--            v-model="currentPage"-->
-<!--            :total-rows="rows"-->
-<!--            :per-page="perPage"-->
-<!--            first-number-->
-<!--        ></b-pagination>-->
-<!--    </div>-->
+<!--    <p>-->
+<!--        {{ paginate.current_page }}-->
+<!--    </p>-->
 
 </template>
 
@@ -95,6 +99,7 @@ export default {
             posts_mostLiked: [],
             posts_mostViewed: [],
             error: null,
+            paginate: Object,
             // first-number: 1,
             // rows: 0,
             // perpage: 15,
@@ -173,6 +178,7 @@ export default {
             this.posts_mostViewed = response_mostViewed.data
             const response = await this.$axios.get('/post');
             this.posts = response.data.data
+            this.paginate = response.data.meta
 
         } catch (error) {
             console.log(error)
