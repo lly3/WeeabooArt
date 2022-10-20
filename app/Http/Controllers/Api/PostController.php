@@ -77,9 +77,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->view_count++;
         $post->save();
-        $post->user;
-        $post->image;
-        return response()->json($post);
+        return new PostResource($post);
     }
 
     /**

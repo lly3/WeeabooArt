@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
@@ -12,7 +13,7 @@ use Illuminate\Http\Response;
 class ImageController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['store']]);
     }
     /**
      * Display a listing of the resource.
@@ -107,5 +108,16 @@ class ImageController extends Controller
     public function destroy(Image $image)
     {
         //
+    }
+
+    public function getProfileImageByEmail($email) {
+        $user = User::all()->where('email', $email)->first();
+        if($user == null) 
+            return response()->json([
+                'message' => 'Can\'t find profile picture by '.$email], 
+                Response::HTTP_NOT_FOUND
+            );
+
+        return response()->json($user->image->path, Response::HTTP_OK);
     }
 }

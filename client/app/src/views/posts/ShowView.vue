@@ -2,7 +2,7 @@
   <div class="flex flex-col xl:flex-row relative" v-if=is_loading>
     <div class="z-10 fixed top-0 left-0 w-full h-screen bg-white dark:bg-gray-800" v-if=overlay>
       <div class="h-full mx-auto p-6">
-        <img v-if=image.path :src=imageURL(image.path) class="object-contain h-full block mx-auto drop-shadow-2xl"> 
+        <img v-if=post.image :src=imageURL(post.image) class="object-contain h-full block mx-auto drop-shadow-2xl"> 
       </div>
       <div class="absolute top-0 right-0 w-[40px] m-3 cursor-pointer dark:text-white" @click="() => overlay = false">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12 6 6m6 6 6 6m-6-6 6-6m-6 6-6 6"/></svg>
@@ -14,7 +14,7 @@
         <div id="carousel-wrapper" class="h-[65vh] max-h-[65vh] flex" data-slice-index=0>
           <!-- Item 1 -->
           <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10 my-6">
-            <img v-if=image.path @click="() => overlay = true" :src=imageURL(image.path) class="block h-full cursor-pointer object-contain mx-auto drop-shadow-2xl"> 
+            <img v-if=post.image @click="() => overlay = true" :src=imageURL(post.image) class="block h-full cursor-pointer object-contain mx-auto drop-shadow-2xl"> 
           </div>
         </div>
       </div>
@@ -48,10 +48,10 @@
       <div class="md:w-9/12 w-5/6 mx-auto my-3 space-y-3 relative">
         <div class="mb-6 space-y-2">
           <div class="flex items-center">
-            <img src="" class="w-[60px] h-[60px] rounded-xl border" />
-            <div class="flex flex-col ml-3">
-              <p class="text-3xl font-bold dark:text-white">{{ post.title }}</p> 
-              <p class="dark:text-white text-lg">by <span class="font-bold underline cursor-pointer hover:text-greenlogo">{{ user.name }}</span></p>
+            <img :src=imageURL(post.user_image) class="w-[60px] h-[60px] rounded-xl object-cover" />
+            <div class="flex flex-col ml-3 w-full">
+              <p class="text-3xl font-bold dark:text-white xl:w-2/3 w-full break-all">{{ post.title }}</p> 
+              <p class="dark:text-white text-lg">by <span class="font-bold underline cursor-pointer hover:text-greenlogo">{{ post.user_name }}</span></p>
             </div>
           </div>   
         </div>
@@ -91,17 +91,17 @@
           {{ post.description }}
         </div>
         <div class="mt-6 text-sm dark:text-white dark:text-gray-200 text-gray-500">
-          © 2022 {{ user.name }}
+          © 2022 {{ post.user_name }}
         </div>
         <div class="xl:absolute xl:top-0 xl:right-0 static text-right text-sm dark:text-gray-200 text-gray-500">
-          Published: {{ post.created_at }}
+          Published: {{ post.published }}
         </div>
         <div>
           <p class="font-bold dark:text-white">Comments</p>
           <div class="w-full h-[300px] mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
-              <div class="h-[50px] w-[55px] border mr-3 rounded-lg">
-                <img src="" alt="" /> 
+              <div class="border mr-3 rounded-lg">
+                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
               </div>
               <div class="w-full p-6 text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <span class="text-black dark:text-white hover:text-greenlogo dark:hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/register')">Join the community</span> to add your comment. Already a deviant? <span class="text-black dark:text-white dark:hover:text-greenlogo hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/login')">Log In</span>
@@ -110,8 +110,8 @@
           </div>
           <div v-else class="w-full mt-3">
             <div class="flex">
-              <div class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] border mr-3 sm:rounded-lg rounded">
-                <img src="" alt="" /> 
+              <div class="mr-3 sm:rounded-lg rounded">
+                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
               </div>
               <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
@@ -132,7 +132,7 @@
       </div>
     </div>
     <div class="right-side py-3 px-7 xl:w-3/12 w-full dark:text-white bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
-      <p class="font-bold">More by {{ user.name }}</p>
+      <p class="font-bold">More by {{ post.user_name }}</p>
       <div class="w-full h-[200px] mt-3 border">
         
       </div>
@@ -160,21 +160,17 @@ export default {
   async mounted() {
     try {
       const response = await this.$axios.get(`/post/${this.$route.params.id}`);
-      this.post = response.data;
-      this.user = this.post.user;
-      this.image = this.post.image;
+      this.post = response.data.data;
       this.is_loading = true;
       console.log(this.post);
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
       this.$router.push('/');
     }
   },
   data() {
     return {
       post: {},
-      user: {},
-      image: {},
       is_loading: false,
       overlay: false
     }
@@ -184,7 +180,7 @@ export default {
       return this.$router.push(`/post/edit/${id}`);
     },
     isOwner() {
-      return this.auth_store.getEmail == this.user.email
+      return this.auth_store.getEmail == this.post.user_email
     },
     imageURL(path) {
       return 'http://localhost/images/' + path

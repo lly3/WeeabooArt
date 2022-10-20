@@ -22,7 +22,11 @@ class PostResource extends JsonResource
             'price' => $this->price,
             'favorite_count' => $this->favorite_count,
             'view_count' => $this->view_count,
-            'image' => $this->image,
+            'user_image' => $this->user->image->path,
+            'user_name' => $this->user->name,
+            'user_email' => $this->user->email,
+            'image' => $this->image->path,
+            'published' => $this->created_at->format('M d, Y')
         ];
     }
 }

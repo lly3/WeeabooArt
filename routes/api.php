@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,5 +45,6 @@ Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController
 Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);
 
 Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
+Route::get('/image/email/{email}', [ImageController::class, 'getProfileImageByEmail']);
 
 Route::apiResource('/', \App\Http\Controllers\Api\GalleryController::class);
