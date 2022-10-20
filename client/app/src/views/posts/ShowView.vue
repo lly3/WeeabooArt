@@ -49,8 +49,8 @@
         <div class="mb-6 space-y-2">
           <div class="flex items-center">
             <img :src=imageURL(post.user_image) class="w-[60px] h-[60px] rounded-xl object-cover" />
-            <div class="flex flex-col ml-3">
-              <p class="text-3xl font-bold dark:text-white">{{ post.title }}</p> 
+            <div class="flex flex-col ml-3 w-full">
+              <p class="text-3xl font-bold dark:text-white xl:w-2/3 w-full break-all">{{ post.title }}</p> 
               <p class="dark:text-white text-lg">by <span class="font-bold underline cursor-pointer hover:text-greenlogo">{{ post.user_name }}</span></p>
             </div>
           </div>   
@@ -101,7 +101,7 @@
           <div class="w-full h-[300px] mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
               <div class="border mr-3 rounded-lg">
-                <img :src=imageURL(post.user_image) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
+                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
               </div>
               <div class="w-full p-6 text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <span class="text-black dark:text-white hover:text-greenlogo dark:hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/register')">Join the community</span> to add your comment. Already a deviant? <span class="text-black dark:text-white dark:hover:text-greenlogo hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/login')">Log In</span>
@@ -111,7 +111,7 @@
           <div v-else class="w-full mt-3">
             <div class="flex">
               <div class="mr-3 sm:rounded-lg rounded">
-                <img :src=imageURL(post.user_image) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
+                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
               </div>
               <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
