@@ -25,7 +25,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id', 'desc')->get();
+        $posts = Post::orderBy('id', 'desc')->paginate(15);
         return PostResource::collection($posts);
     }
 
@@ -101,12 +101,21 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        if ($request->has('title')) $post->title = $request->get('title');
-        if ($request->has('description')) $post->description = $request->get('description');
-        if ($request->has('is_saleable')) $post->is_saleable = $request->get('is_saleable');
-        if ($request->has('price')) $post->price = $request->get('price');
-        if ($request->has('favorite_count')) $post->favorite_count = $request->get('favorite_count');
-        if ($request->has('view_count')) $post->view_count = $request->get('view_count');
+        $validate = $request->validate([
+            'title' => ['required', 'max255'],
+            'description' => ['required', 'max1000'],
+            'is_saleable' => 'required',
+            'price' => 'required',
+            'favorite_count' => 'required',
+            'view_count' => 'required',
+        ]);
+
+        $post->title = $request->get('title');
+        $post->description = $request->get('description');
+        $post->is_saleable = $request->get('is_saleable');
+        $post->price = $request->get('price');
+        $post->favorite_count = $request->get('favorite_count');
+        $post->view_count = $request->get('view_count');
         if ($post->save()) {
             return response()->json([
                 'success' => true,
