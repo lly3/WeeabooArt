@@ -4,6 +4,7 @@ import { authAPI } from '@/services/api'
 const auth_storage = {
     email: localStorage.getItem('auth.email'),
     name: localStorage.getItem('auth.name'),
+    image: localStorage.getItem('auth.image'),
 }
 
 export const useAuthStore = defineStore({
@@ -13,6 +14,7 @@ export const useAuthStore = defineStore({
             auth: {
                 email: auth_storage.email,
                 name: auth_storage.name,
+                image: auth_storage.image
             }
         }
     },
@@ -23,6 +25,8 @@ export const useAuthStore = defineStore({
         getEmail: (state) => state.auth.email,
 
         authName: (state) => state.auth.name,
+
+        getImage: (state) => state.auth.image,
 
         isAuthen (state) {
             return state.auth.email != null
@@ -42,12 +46,14 @@ export const useAuthStore = defineStore({
             this.auth = await authAPI.me()
             localStorage.setItem('auth.email', this.auth.email)
             localStorage.setItem('auth.name', this.auth.name)
+            localStorage.setItem('auth.image', this.auth.image)
         },
 
         logout () {
             authAPI.logout()
             localStorage.removeItem('auth.email')
             localStorage.removeItem('auth.name')
+            localStorage.removeItem('auth.image')
             this.auth = {
                 email: null,
             }
