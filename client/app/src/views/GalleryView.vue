@@ -71,45 +71,64 @@
     </section>
     <section>
         <gallery-card-view :posts="posts"></gallery-card-view>
-<!--        <div class="mt-3">-->
-<!--            <b-pagination-->
-<!--                v-model="paginate.current_page"-->
-<!--                :total-rows="paginate.last_page"-->
-<!--                :per-page="paginate.per_page"-->
-<!--                first-number-->
-<!--                last-number-->
-<!--            ></b-pagination>-->
-<!--        </div>-->
     </section>
-<!--    <p>-->
-<!--        {{ paginate.current_page }}-->
-<!--    </p>-->
-
+    <section class="center">
+        <pagination :total-pages="totalPages"
+                         :total="total"
+                         :per-page="perPage"
+                         :current-page="currentPage"
+                         :has-more-pages="hasMorePages" @pagechanged="pageChanged">
+        </pagination>
+    </section>
 </template>
 
 <script>
 import GalleryCardView from "@/components/GalleryCardView.vue";
-
-import {onBeforeMount} from "vue"
+import pagination from '../components/Pagination.vue';
 
 export default {
+    components: {
+        GalleryCardView,
+        // VueTailwindPagination,
+        // VueAdsPagination,
+        pagination
+    },
     data () {
         return {
             posts: Object,
             posts_mostLiked: [],
             posts_mostViewed: [],
             error: null,
-            paginate: Object,
-            // first-number: 1,
-            // rows: 0,
-            // perpage: 15,
+            perPage: 15,
+            total: 20,
+            totalPages: 20,
+            currentPage: 1,
+            hasMorePages: true,
+            page: 1
         }
     },
     props: {
         post: Object,
     },
-    components: {
-        GalleryCardView
+    methods: {
+        pageChanged(pageNumber) {
+            this.currentPage = pageNumber;
+            this.page = pageNumber;
+            console.log("This is event at " + pageNumber);
+            this.getData(pageNumber);
+        },
+        async getData(pageNumber) {
+            // axios.get('/post?page=' + pageNumber)
+            await this.$axios.get('/post/?page=' + pageNumber)
+                .then(response => {
+                    this.page = pageNumber;
+                    this.posts = response.data.data;
+                    this.total = response.data.meta.total;
+                    this.totalPages = response.data.meta.last_page;
+                    this.perPage = response.data.meta.per_page;
+                    console.log("This is get at " + pageNumber);
+                });
+        },
     },
     computed: {
         mostLikes() {
@@ -179,18 +198,27 @@ export default {
             const response = await this.$axios.get('/post');
             this.posts = response.data.data
             this.paginate = response.data.meta
+            this.total = response.data.meta.total
+            this.current = 1
 
         } catch (error) {
             console.log(error)
             this.error = error.message
         }
     }
-
 }
+
 </script>
 
 <style>
 body {
     background-color: #000000;
 }
+.center {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+}
+
 </style>
