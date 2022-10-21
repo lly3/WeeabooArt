@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -176,5 +177,15 @@ class PostController extends Controller
             return response()->json(true);
         }
         return response()->json(false);
+    }
+
+    public function premiumDownload(Post $post) {
+        if($post->is_saleable) {
+            return response()->download(storage_path().'/images/'.$post->image->path);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'This post is not support premium download'
+        ], Response::HTTP_BAD_REQUEST);
     }
 }

@@ -34,8 +34,11 @@
         </div>
         <div class="ml-auto" />
         <div v-if=post.is_saleable class="mr-5">
-          <button @click=buyArtPost class="px-5 py-1 hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white duration-200 ease-in-out border border-black dark:border-white rounded-3xl">
-            Download <span v-if=!bought>for ${{ post.price }}</span>
+          <button v-if=!bought @click=buyArtPost class="px-5 py-1 hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white duration-200 ease-in-out border border-black dark:border-white rounded-3xl">
+            Download for ${{ post.price }}
+          </button>
+          <button v-else @click=download class="px-5 py-1 hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white duration-200 ease-in-out border border-black dark:border-white rounded-3xl">
+            Download
           </button>
         </div>
         <div class="cursor-pointer hover:text-greenlogo pt-2" @click="() => overlay = true">
@@ -202,10 +205,21 @@ export default {
           .then(res => {
             if(res.data.success)
               this.bought = true
-          });
+          })
       } catch (e) {
         console.log(e)
       }
+    },
+    download() {
+      this.$axios.get(`/post/premium_download/${this.post.id}`)
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data], { type: 'image/png' }));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'file'); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+        })
     }
   },
   components: {

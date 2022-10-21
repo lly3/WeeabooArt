@@ -42,6 +42,7 @@ Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class
     ->name('post.edit');
 Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
 Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
+Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
 
