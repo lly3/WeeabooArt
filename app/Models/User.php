@@ -70,4 +70,12 @@ class User extends Authenticatable implements JWTSubject
     public function commissions() {
         return $this->hasMany(Commission::class);
     }
+
+    public function transactions() {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function collections() {
+        return $this->morphToMany(Post::class, 'collection');
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,8 @@ Route::group([
 Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
 Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class, 'edit'])
     ->name('post.edit');
+Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
+Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
 

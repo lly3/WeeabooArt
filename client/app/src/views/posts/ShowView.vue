@@ -34,8 +34,8 @@
         </div>
         <div class="ml-auto" />
         <div v-if=post.is_saleable class="mr-5">
-          <button class="px-5 py-1 hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white duration-200 ease-in-out border border-black dark:border-white rounded-3xl">
-            Download for ${{ post.price }}
+          <button @click=buyArtPost class="px-5 py-1 hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white duration-200 ease-in-out border border-black dark:border-white rounded-3xl">
+            Download <span v-if=!bought>for ${{ post.price }}</span>
           </button>
         </div>
         <div class="cursor-pointer hover:text-greenlogo pt-2" @click="() => overlay = true">
@@ -159,7 +159,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await this.$axios.get(`/post/${this.$route.params.id}`);
+      let response = await this.$axios.get(`/post/${this.$route.params.id}`);
       this.post = response.data.data;
       this.is_loading = true;
       console.log(this.post);
@@ -167,12 +167,20 @@ export default {
       console.log(e);
       this.$router.push('/');
     }
+
+    try {
+      this.$axios.get(`/post/collected/${this.post.id}`)
+        .then(res => this.bought = res.data);
+    } catch (e) {
+      console.log(e);
+    }
   },
   data() {
     return {
       post: {},
       is_loading: false,
-      overlay: false
+      overlay: false,
+      bought: false
     }
   },
   methods: {
@@ -185,6 +193,20 @@ export default {
     imageURL(path) {
       return 'http://localhost/images/' + path
     },
+    buyArtPost() {
+      if(this.auth_store.isAuthen == false) 
+        return this.$router.push('/login');
+
+      try {
+        this.$axios.get(`/post/transaction/${this.post.id}`)
+          .then(res => {
+            if(res.data.success)
+              this.bought = true
+          });
+      } catch (e) {
+        console.log(e)
+      }
+    }
   },
   components: {
     IsLoading
