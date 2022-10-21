@@ -145,6 +145,16 @@
         
       </div>
     </div>
+    <stripe-checkout
+      ref="checkoutRef"
+      mode="payment"
+      :pk="publishableKey"
+      :line-items="lineItems"
+      :success-url="successURL"
+      :cancel-url="cancelURL"
+      @loading="v => loading = v"
+    />
+    <button @click="submit">Pay now!</button>
   </div>
   <div v-else>
     <IsLoading />
@@ -152,6 +162,7 @@
 </template>
 
 <script>
+import { StripeCheckout } from '@vue-stripe/vue-stripe'
 import { useAuthStore } from '@/stores/auth.js'
 import IsLoading from '@/components/IsLoading.vue'
 
@@ -179,11 +190,21 @@ export default {
     }
   },
   data() {
+    this.publishableKey = 'pk_test_51LvQ7KBUzIQj5z3MS8i8EdeXVQR9VTyvZ83mMdDwEifLnZorrQjTVLCmo03wwxuYtbLueQgmxdn6yXOOp1xFMUZp00KK3Rde2L'
     return {
       post: {},
       is_loading: false,
       overlay: false,
-      bought: false
+      bought: false,
+      loading: false,
+      lineItems: [
+        {
+          price: 'price_1LvQ8vBUzIQj5z3MzcQNbA7y', // The id of the one-time price you created in your Stripe dashboard
+          quantity: 1,
+        },
+      ],
+      successURL: 'http://localhost:3000/',
+      cancelURL: 'http://localhost:3000/404',
     }
   },
   methods: {
@@ -222,10 +243,14 @@ export default {
           a.download = 'download_file.' + response.headers["content-type"].split("/")[1];
           a.click();
         })
+    },
+    submit() {
+      this.$refs.checkoutRef.redirectToCheckout();
     }
   },
   components: {
-    IsLoading
+    IsLoading,
+    StripeCheckout,
   }
 }
 </script>
