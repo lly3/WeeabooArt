@@ -18,6 +18,17 @@
                 </a>
             </li>
 
+            <li class="pagination-item">
+                <button
+                    type="button"
+                    @click="onClickPreviousPage"
+                    :disabled="isInFirstPage"
+                    aria-label="Go to previous page"
+                    class="rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
+                    :class="{'cursor-not-allowed': isInFirstPage}"
+                >Previous</button>
+            </li>
+
             <li
                 v-for="page in pages"
                 class="pagination-item"
@@ -41,6 +52,18 @@
                     :class="{ active: isPageActive(page.name) }"
                 >{{ page.name }}</button> -->
             </li>
+
+            <li class="pagination-item">
+                <button
+                    type="button"
+                    @click="onClickNextPage"
+                    :disabled="isInLastPage"
+                    aria-label="Go to next page"
+                    class="rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
+                    :class="{'cursor-not-allowed': isInLastPage}"
+                >Next</button>
+            </li>
+
             <li class="pagination-item">
                 <!-- <button
                     type="button"
@@ -125,7 +148,6 @@ export default defineComponent( {
         },
         pages() {
             const range = [];
-
             for (let i = this.startPage; i <= this.endPage; i += 1) {
                 range.push({
                     name: i,

@@ -156,7 +156,7 @@
     <section>
         <gallery-card-view :posts="posts"></gallery-card-view>
     </section>
-    <section class="center">
+    <section class="center" v-if="havePosts">
         <pagination :total-pages="totalPages"
                          :total="total"
                          :per-page="perPage"
@@ -182,8 +182,8 @@ export default {
             posts_mostViewed: [],
             error: null,
             perPage: 15,
-            total: 20,
-            totalPages: 20,
+            total: 1,
+            totalPages: 1,
             currentPage: 1,
             hasMorePages: true,
             page: 1
@@ -213,6 +213,11 @@ export default {
         },
     },
     computed: {
+        // isFirstPage() {
+        //     if (this.currentPage === 1) {
+        //         return true;
+        //     }
+        // },
         mostLikes() {
             return this.posts_mostLiked.length
         },
@@ -281,8 +286,6 @@ export default {
             this.posts = response.data.data
             this.paginate = response.data.meta
             this.total = response.data.meta.total
-            this.current = 1
-
         } catch (error) {
             console.log(error)
             this.error = error.message
