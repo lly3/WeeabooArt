@@ -2,7 +2,7 @@
     <div class="w-full">
         <a :href=concatFunction class="button-container">
             <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                 :src=concatFunction>
+                 :src=concatFunctionImage>
             <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-4" fill="none" viewBox="0 0 13 13"
                      stroke="currentColor">
@@ -20,8 +20,11 @@
 <script>
 export default {
     computed: {
+        concatFunctionImage: function ()  {
+            return 'http://localhost/images/' + this.post.image
+        },
         concatFunction: function ()  {
-            return 'http://localhost/images/' + this.post.image.path
+            return 'http://localhost:3000/post/' + this.post.id
         }
     },
     props: {
