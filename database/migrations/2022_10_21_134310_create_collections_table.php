@@ -16,7 +16,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('collections', function (Blueprint $table) {
-            $table->id('collection_id');
+            $table->id();
+            $table->integer('collection_id');
             $table->string('collection_type');
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Post::class);
