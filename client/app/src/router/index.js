@@ -54,6 +54,11 @@ const router = createRouter({
       component: () => import('@/views/posts/ShowView.vue')
     },
     {
+      path: '/post/edit/:id',
+      name: 'post.edit',
+      component: () => import('@/views/posts/EditView.vue')
+    },
+    {
         path: '/logout',
         name: 'logout',
         component: () => import('@/views/LogoutView.vue')

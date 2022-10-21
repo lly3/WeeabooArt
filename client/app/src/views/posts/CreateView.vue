@@ -11,10 +11,10 @@
   <div class="xl:w-3/6 md:w-4/6 w-5/6 mx-auto">
     <form @submit="onSubmit">
       <div class="my-3">
-        <input class="form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
+        <input class="form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                type="file"
                id="browse"
-               name="image" 
+               name="image"
                @change="previewImage"
                >
       </div>
@@ -44,13 +44,23 @@
             Submit now
           </button>
         </div>
-      </div>  
+      </div>
     </form>
   </div>
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth.js'
+
 export default {
+  setup() {
+    const auth_store = useAuthStore()
+    return { auth_store }
+  },
+  mounted() {
+    if(!this.auth_store.isAuthen)
+      return this.$router.push('/login')
+  },
   data() {
     return {
       title: '',
@@ -69,22 +79,22 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
 
-      const response = await this.uploadImage();
-      const imageID = response.data.image_id
-      await this.$axios.post('/post', {
+      const imageID = await this.uploadImage()
+      const response = await this.$axios.post('/post', {
         title: this.title,
         description: this.description,
         tags: this.tags,
         imageID: imageID,
         premium_download: this.is_toggle,
         price: this.price,
-      }
-      )
+      })
+      const postID = response.data.post_id
+      this.$router.push(`/post/${postID}`)
     },
-    uploadImage() {
+    async uploadImage() {
       const formData = new FormData();
       formData.append('image', this.image)
-      return this.$axios.post('/image', formData)
+      return await this.$axios.post('/image', formData).then(res => res.data.image_id)
     },
     previewImage(e) {
       this.image = e.target.files[0]
