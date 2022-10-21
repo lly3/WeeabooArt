@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
 
 class ImageController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api', ['except' => ['store']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -91,21 +95,7 @@ class ImageController extends Controller
      */
     public function update(Request $request, Image $image)
     {
-        if ($image->has('title')) $image->image_path = $request->get('image_path');
-        if ($image->has('date')) $image->date = $request->get('date');
-        if ($image->has('post_id')) $image->post_id = $request->get('post_id');
-        if ($image->has('commission_id')) $image->commission_id = $request->get('commission_id');
-        if ($image->save()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Image saved successfully with id ' . $image->id,
-                'image_id' => $image->id
-            ], Response::HTTP_CREATED);
-        }
-        return response()->json([
-            'success' => false,
-            'message' => 'Image saved failed'
-        ], Response::HTTP_BAD_REQUEST);
+        //
     }
 
     /**
@@ -117,5 +107,16 @@ class ImageController extends Controller
     public function destroy(Image $image)
     {
         //
+    }
+
+    public function getProfileImageByEmail($email) {
+        $user = User::all()->where('email', $email)->first();
+        if($user == null) 
+            return response()->json([
+                'message' => 'Can\'t find profile picture by '.$email], 
+                Response::HTTP_NOT_FOUND
+            );
+
+        return response()->json($user->image->path, Response::HTTP_OK);
     }
 }

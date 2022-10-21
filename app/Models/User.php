@@ -63,6 +63,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Post::class);
     }
 
+    public function image() {
+        return $this->belongsTo(Image::class);
+    }
+
     public function commissions() {
         return $this->hasMany(Commission::class);
     }

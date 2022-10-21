@@ -9,9 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Image;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -51,7 +55,7 @@ class PostController extends Controller
             $post->image->path = addWatermask($post);
         // $post->favorite_count = $request->get('favorite_count');
         // $post->view_count = $request->get('view_count');
-//        $post->user_id = $request->get('user_id');
+        $post->user_id = auth()->user()->id;
         if ($post->save()) {
             return response()->json([
                 'success' => true,
@@ -73,8 +77,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::find($id);
-        return $posts;
+        $post = Post::findOrFail($id);
+        $post->view_count++;
+        $post->save();
+        return new PostResource($post);
     }
 
     /**
@@ -85,7 +91,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->user;
+        $post->image;
+        return response()->json($post);
     }
 
     /**
@@ -103,6 +112,11 @@ class PostController extends Controller
         if ($request->has('price')) $post->price = $request->get('price');
         if ($request->has('favorite_count')) $post->favorite_count = $request->get('favorite_count');
         if ($request->has('view_count')) $post->view_count = $request->get('view_count');
+        if($request->has('imageID')) {
+            File::delete('images/'.$post->image->path);
+            $post->image_id = $request->get('imageID');
+        }
+
         if ($post->save()) {
             return response()->json([
                 'success' => true,
@@ -125,7 +139,8 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post_title = $post->title;
-        if ($post->delete()) {
+        if ($post->delete() && $post->user_id == auth()->user()->id) {
+            File::delete('images/'.$post->image->path);
             return response()->json([
                 'success' => true,
                 'message' => "Post {$post_title} deleted successfully"

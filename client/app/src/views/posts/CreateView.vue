@@ -50,7 +50,17 @@
 </template>
 
 <script>
+import { useAuthStore } from '@/stores/auth.js'
+
 export default {
+  setup() {
+    const auth_store = useAuthStore()
+    return { auth_store }
+  },
+  mounted() {
+    if(!this.auth_store.isAuthen) 
+      return this.$router.push('/login')
+  },
   data() {
     return {
       title: '',
@@ -69,9 +79,8 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
 
-      const response = await this.uploadImage();
-      const imageID = response.data.image_id
-      await this.$axios.post('/post', {
+      const imageID = await this.uploadImage()
+      const response = await this.$axios.post('/post', {
         title: this.title,
         description: this.description,
         tags: this.tags,
@@ -79,11 +88,14 @@ export default {
         premium_download: this.is_toggle,
         price: this.price,
       })
+
+      const postID = response.data.post_id
+      this.$router.push(`/post/${postID}`)
     },
-    uploadImage() {
+    async uploadImage() {
       const formData = new FormData();
       formData.append('image', this.image)
-      return this.$axios.post('/image', formData)
+      return await this.$axios.post('/image', formData).then(res => res.data.image_id)
     },
     previewImage(e) {
       this.image = e.target.files[0]
