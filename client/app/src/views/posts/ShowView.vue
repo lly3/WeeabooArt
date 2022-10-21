@@ -211,14 +211,16 @@ export default {
       }
     },
     download() {
-      this.$axios.get(`/post/premium_download/${this.post.id}`)
+      this.$axios.get(`/post/premium_download/${this.post.id}`, {responseType: 'arraybuffer'})
         .then((response) => {
-          const url = window.URL.createObjectURL(new Blob([response.data], { type: 'image/png' }));
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', 'file'); //or any other extension
-          document.body.appendChild(link);
-          link.click();
+          console.log(response);
+          const url = URL.createObjectURL(new Blob([response.data], { type: "image/jpeg" }));
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          a.href = url;
+          a.download = 'test_file.jpeg';
+          a.click();
         })
     }
   },
