@@ -5,6 +5,7 @@
 /public/images/*
 /storage/*.key
 /storage/certs
+/storage/images/*
 /vendor
 .env
 .env.backup
