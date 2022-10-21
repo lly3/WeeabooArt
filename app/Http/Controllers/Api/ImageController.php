@@ -38,7 +38,7 @@ class ImageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Post $post)
+    public function store(Request $request)
     {
         if ($request->hasFile('image')) {
             $imageFile = $request->file('image');
@@ -47,7 +47,6 @@ class ImageController extends Controller
             $image->path = $filename;
             $imageFile->move(public_path().'/images/', $filename);
             if ($image->save()) {
-                $post->image_id = $image->id;
                 return response()->json([
                     'success' => true,
                     'message' => 'Image saved successfully with id ' . $image->id,

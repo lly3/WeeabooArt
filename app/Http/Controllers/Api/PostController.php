@@ -8,6 +8,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Image;
 
 class PostController extends Controller
 {
@@ -46,6 +47,8 @@ class PostController extends Controller
         $post->is_saleable = $request->get('premium_download');
         $post->price = $request->get('price');
         $post->image_id = $request->get('imageID');
+        if($post->is_saleable) 
+            $post->image->path = addWatermask($post);
         // $post->favorite_count = $request->get('favorite_count');
         // $post->view_count = $request->get('view_count');
 //        $post->user_id = $request->get('user_id');
@@ -133,4 +136,13 @@ class PostController extends Controller
             'message' => "Post {$post_title} deleted failed"
         ], Response::HTTP_BAD_REQUEST);
     }
+
+    public function addWatermask($post) {
+        $img = Image::make(public_path('images/'.$post->image->path));
+        $img->insert(public_path('watermask.png'), 'center', 100, 100);
+        $filename = 'watermask_'.$post->image->path;
+        $img->save(public_path('images/'.$filename));
+        return $filename;
+    }
+
 }
