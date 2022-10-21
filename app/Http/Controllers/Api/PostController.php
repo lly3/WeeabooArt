@@ -53,10 +53,7 @@ class PostController extends Controller
         $post->price = $request->get('price');
         $post->image_id = $request->get('imageID');
         if($post->is_saleable) {
-            $watermask_image = $this->addWatermask($post);
-            File::move(public_path('images/'.$post->image->path), storage_path('images/'.$post->image->path));
-            $post->image->path = $watermask_image;
-            $post->image->save();
+            $this->addWatermask($post);
         }
         // $post->favorite_count = $request->get('favorite_count');
         // $post->view_count = $request->get('view_count');
@@ -159,10 +156,9 @@ class PostController extends Controller
 
     private function addWatermask($post) {
         $img = Image::make(public_path('images/'.$post->image->path));
+        File::move(public_path('images/'.$post->image->path), storage_path('images/'.$post->image->path));
         $img->insert(public_path('watermask.png'), 'center', 100, 100);
-        $filename = 'watermask_'.$post->image->path;
-        $img->save(public_path('images/'.$filename));
-        return $filename;
+        $img->save(public_path('images/'.$post->image->path));
     }
 
 }
