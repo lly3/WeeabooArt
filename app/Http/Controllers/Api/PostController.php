@@ -181,7 +181,7 @@ class PostController extends Controller
 
     public function premiumDownload(Post $post) {
         if($post->is_saleable) {
-            return response()->download(storage_path().'/images/'.$post->image->path);
+            return response()->download(storage_path('images/'.$post->image->path));
         }
         return response()->json([
             'success' => false,
