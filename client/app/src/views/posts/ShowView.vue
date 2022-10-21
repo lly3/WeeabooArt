@@ -213,13 +213,13 @@ export default {
     download() {
       this.$axios.get(`/post/premium_download/${this.post.id}`, {responseType: 'arraybuffer'})
         .then((response) => {
-          console.log(response);
-          const url = URL.createObjectURL(new Blob([response.data], { type: "image/jpeg" }));
+          console.log();
+          const url = URL.createObjectURL(new Blob([response.data], { type: response.headers["content-type"] }));
           var a = document.createElement("a");
           document.body.appendChild(a);
           a.style = "display: none";
           a.href = url;
-          a.download = 'test_file.jpeg';
+          a.download = 'download_file.' + response.headers["content-type"].split("/")[1];
           a.click();
         })
     }
