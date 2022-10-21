@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
-use App\Models\Image;
+//use App\Models\Image;
 use App\Models\Post;
+use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Image;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -53,6 +57,9 @@ class PostController extends Controller
         $post->is_saleable = $request->get('premium_download');
         $post->price = $request->get('price');
         $post->image_id = $request->get('imageID');
+        if($post->is_saleable) {
+            $this->addWatermask($post);
+        }
         // $post->favorite_count = $request->get('favorite_count');
         // $post->view_count = $request->get('view_count');
         $post->user_id = auth()->user()->id;
@@ -117,7 +124,7 @@ class PostController extends Controller
             File::delete('images/'.$post->image->path);
             $post->image_id = $request->get('imageID');
         }
-        
+
         if ($post->save()) {
             return response()->json([
                 'success' => true,
@@ -141,6 +148,7 @@ class PostController extends Controller
     {
         $post_title = $post->title;
         if ($post->delete() && $post->user_id == auth()->user()->id) {
+            File::delete('images/'.$post->image->path);
             return response()->json([
                 'success' => true,
                 'message' => "Post {$post_title} deleted successfully"
@@ -170,5 +178,50 @@ class PostController extends Controller
 
     public function otherPosts() {
         return Post::orderBy('id', 'desc')->paginate(15);
+    }
+
+    public function buyArtPost(Post $post) {
+        $user = User::find(auth()->user()->id);
+        if (! $post->collected_by->find($user->id)) {
+            if($post->collected_by()->save($user, ['user_id' => $user->id])) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Make transaction successfully'
+                ], Response::HTTP_OK);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Make transaction failed'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'You already owned this art'
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function isCollected(Post $post) {
+        $user = User::find(auth()->user()->id);
+        if ($post->collected_by->find($user->id) != null) {
+            return response()->json(true);
+        }
+        return response()->json(false);
+    }
+
+    public function premiumDownload(Post $post) {
+        if($post->is_saleable) {
+            return response()->download(storage_path('images/'.$post->image->path));
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'This post is not support premium download'
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
+    private function addWatermask($post) {
+        $img = Image::make(public_path('images/'.$post->image->path));
+        File::move(public_path('images/'.$post->image->path), storage_path('images/'.$post->image->path));
+        $img->insert(public_path('watermask.png'), 'center', 100, 100);
+        $img->save(public_path('images/'.$post->image->path));
     }
 }

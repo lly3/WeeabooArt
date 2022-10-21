@@ -28,4 +28,12 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function transactions() {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function collected_by() {
+        return $this->morphedByMany(User::class, 'collection');
+    }
 }
