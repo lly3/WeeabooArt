@@ -137,6 +137,7 @@ class PostController extends Controller
     {
         $post_title = $post->title;
         if ($post->delete() && $post->user_id == auth()->user()->id) {
+            File::delete('images/'.$post->image->path);
             return response()->json([
                 'success' => true,
                 'message' => "Post {$post_title} deleted successfully"
