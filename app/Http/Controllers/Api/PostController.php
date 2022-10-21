@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Image;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -51,8 +52,12 @@ class PostController extends Controller
         $post->is_saleable = $request->get('premium_download');
         $post->price = $request->get('price');
         $post->image_id = $request->get('imageID');
-        if($post->is_saleable) 
-            $post->image->path = addWatermask($post);
+        if($post->is_saleable) {
+            $watermask_image = $this->addWatermask($post);
+            File::move(public_path('images/'.$post->image->path), storage_path('images/'.$post->image->path));
+            $post->image->path = $watermask_image;
+            $post->image->save();
+        }
         // $post->favorite_count = $request->get('favorite_count');
         // $post->view_count = $request->get('view_count');
         $post->user_id = auth()->user()->id;
@@ -152,7 +157,7 @@ class PostController extends Controller
         ], Response::HTTP_BAD_REQUEST);
     }
 
-    public function addWatermask($post) {
+    private function addWatermask($post) {
         $img = Image::make(public_path('images/'.$post->image->path));
         $img->insert(public_path('watermask.png'), 'center', 100, 100);
         $filename = 'watermask_'.$post->image->path;
