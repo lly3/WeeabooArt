@@ -89,8 +89,6 @@ import pagination from '../components/Pagination.vue';
 export default {
     components: {
         GalleryCardView,
-        // VueTailwindPagination,
-        // VueAdsPagination,
         pagination
     },
     data () {
