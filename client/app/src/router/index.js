@@ -72,6 +72,11 @@ const router = createRouter({
         path: '/',
         name: 'gallery',
         component: () => import('@/views/GalleryView.vue')
+    },
+    {
+      path: '/commission/create',
+      name: 'commission.create',
+      component: () => import('@/views/posts/CreateCommissionView.vue')
     }
   ]
 })
