@@ -45,12 +45,7 @@ Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
 Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
 Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'profile'
-], function ($router) {
-    Route::get('/collection', [CollectionController::class, 'myCollection']);
-});
+Route::get('/my-collection', [CollectionController::class, 'myCollection']);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
 
