@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('path');
 //            $table->foreignIdFor(\App\Models\Post::class); // foreign key is `post_id`
-//            $table->foreignIdFor(\App\Models\Commission::class); // foreign key is `commission_id`
+            $table->foreignIdFor(\App\Models\Commission::class)->nullable(); // foreign key is `commission_id`
             $table->timestamps();
         });
     }

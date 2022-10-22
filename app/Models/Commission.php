@@ -17,8 +17,8 @@ class Commission extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function image() {
-        return $this->belongsTo(Image::class);
+    public function images() {
+        return $this->hasMany(Image::class);
     }
 
     public function comments() {

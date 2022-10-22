@@ -76,7 +76,7 @@ const router = createRouter({
     {
       path: '/commission/create',
       name: 'commission.create',
-      component: () => import('@/views/posts/CreateCommissionView.vue')
+      component: () => import('@/views/commissions/CreateView.vue')
     }
   ]
 })

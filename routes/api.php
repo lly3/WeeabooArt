@@ -48,6 +48,7 @@ Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController
 
 Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);
 
+Route::post('/images', [ImageController::class, 'storeMany']);
 Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
 Route::get('/image/email/{email}', [ImageController::class, 'getProfileImageByEmail']);
 
