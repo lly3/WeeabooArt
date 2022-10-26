@@ -20,12 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', function () {
-    return [
-        'version' => '1.0.0'
-    ];
-});
-
 Route::get('/rewards/search', [\App\Http\Controllers\Api\RewardController::class, 'search']);
 Route::get('/reward_codes/search', [\App\Http\Controllers\Api\RewardCodeController::class, 'search']);
 Route::apiResource('/rewards', \App\Http\Controllers\Api\RewardController::class);
@@ -42,6 +36,8 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
 });
 
+Route::post('/post/mostLiked', [\App\Http\Controllers\Api\PostController::class, 'mostLiked']);
+Route::post('/post/mostViewed', [\App\Http\Controllers\Api\PostController::class, 'mostViewed']);
 Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
 Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class, 'edit'])
     ->name('post.edit');
@@ -53,3 +49,4 @@ Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);
 Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
 Route::get('/image/email/{email}', [ImageController::class, 'getProfileImageByEmail']);
 
+Route::apiResource('/', \App\Http\Controllers\Api\GalleryController::class);

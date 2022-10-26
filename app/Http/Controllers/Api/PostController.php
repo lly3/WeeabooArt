@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use App\Models\Image;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,9 +15,11 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+
     public function __construct() {
         $this->middleware('auth:api', ['except' => ['index', 'show']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +27,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::get();
+        $posts = Post::orderBy('id', 'desc')->paginate(15);
         return PostResource::collection($posts);
     }
 
@@ -108,6 +111,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+
         if ($request->has('title')) $post->title = $request->get('title');
         if ($request->has('description')) $post->description = $request->get('description');
         if ($request->has('is_saleable')) $post->is_saleable = $request->get('is_saleable');
@@ -118,7 +122,7 @@ class PostController extends Controller
             File::delete(public_path().'/images/'.$post->image->path);
             $post->image_id = $request->get('imageID');
         }
-
+        
         if ($post->save()) {
             return response()->json([
                 'success' => true,
@@ -161,4 +165,23 @@ class PostController extends Controller
         $img->save(public_path('images/'.$post->image->path));
     }
 
+    public function mostLiked() {
+        $posts = Post::orderBy('favorite_count', 'desc')->take(6)->get();
+        foreach ($posts as $post) {
+            $post->image;
+        }
+        return response()->json($posts->toArray());
+    }
+
+    public function mostViewed() {
+        $posts = Post::orderBy('view_count', 'desc')->take(6)->get();
+        foreach ($posts as $post) {
+            $post->image;
+        }
+        return response()->json($posts->toArray());
+    }
+
+    public function otherPosts() {
+        return Post::orderBy('id', 'desc')->paginate(15);
+    }
 }

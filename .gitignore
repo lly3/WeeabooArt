@@ -2,7 +2,7 @@
 /public/build
 /public/hot
 /public/storage
-/public/images/
+/public/images/*
 /storage/*.key
 /storage/certs
 /storage/images/*
