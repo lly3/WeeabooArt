@@ -72,6 +72,11 @@ const router = createRouter({
         path: '/',
         name: 'gallery',
         component: () => import('@/views/GalleryView.vue')
+    },
+    {
+        path: '/my-collection',
+        name: 'my-collection',
+        component: () => import('@/views/MyCollectionView.vue')
     }
   ]
 })
