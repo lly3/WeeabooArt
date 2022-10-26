@@ -87,10 +87,6 @@ export default {
         imageID: imageID,
         premium_download: this.is_toggle,
         price: this.price,
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        }
       })
       const postID = response.data.post_id
       this.$router.push(`/post/${postID}`)
@@ -98,12 +94,7 @@ export default {
     async uploadImage() {
       const formData = new FormData();
       formData.append('image', this.image)
-      return await this.$axios.post('/image', formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        }
-      })
-        .then(res => res.data.image_id)
+      return await this.$axios.post('/image', formData).then(res => res.data.image_id)
     },
     previewImage(e) {
       this.image = e.target.files[0]

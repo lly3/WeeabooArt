@@ -201,11 +201,7 @@ export default {
         return this.$router.push('/login');
 
       try {
-        this.$axios.get(`/post/transaction/${this.post.id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-            }
-        })
+        this.$axios.get(`/post/transaction/${this.post.id}`)
           .then(res => {
             if(res.data.success)
               this.bought = true
@@ -215,12 +211,7 @@ export default {
       }
     },
     download() {
-      this.$axios.get(`/post/premium_download/${this.post.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        },
-        responseType: 'arraybuffer'
-      })
+      this.$axios.get(`/post/premium_download/${this.post.id}`, {responseType: 'arraybuffer'})
         .then((response) => {
           console.log();
           const url = URL.createObjectURL(new Blob([response.data], { type: response.headers["content-type"] }));

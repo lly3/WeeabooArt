@@ -74,11 +74,6 @@ export default {
         const auth_store = useAuthStore()
         return { auth_store }
     },
-    mounted() {
-        if(this.auth_store.isAuthen) {
-            return this.$router.push('/')
-        }
-    },
     components: {
         AuthCard
     },
@@ -103,11 +98,7 @@ export default {
         uploadImage() {
             const formData = new FormData();
             formData.append('image', this.image_id)
-            return this.$axios.post('/image', formData, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-                }
-            })
+            return this.$axios.post('/image', formData)
         },
         previewImage(event) {
             this.image_id = event.target.files[0]
