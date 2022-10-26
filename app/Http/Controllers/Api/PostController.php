@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
-//use App\Models\Image;
 use App\Models\Post;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use Image;
+use Intervention\Image\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 

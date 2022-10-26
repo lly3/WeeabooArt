@@ -284,7 +284,16 @@ export default {
             this.posts_mostViewed = response_mostViewed.data
             const response = await this.$axios.get('/post');
             this.posts = response.data.data
-            this.paginate = response.data.meta
+            if (this.posts !== null) {
+                const response_page1 = await this.$axios.get('/post?page=1');
+                this.posts = response_page1.data.data
+                this.page = 1;
+                this.posts = response_page1.data.data;
+                this.total = response_page1.data.meta.total;
+                this.totalPages = response_page1.data.meta.last_page;
+                this.perPage = response_page1.data.meta.per_page;
+                console.log("get page 1 success");
+            }
             this.total = response.data.meta.total
         } catch (error) {
             console.log(error)
