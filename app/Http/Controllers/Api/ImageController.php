@@ -47,7 +47,7 @@ class ImageController extends Controller
         if ($request->hasFile('image')) {
             $imageFile = $request->file('image');
             $image = new Image();
-            $filename = date('YmdHi').$imageFile->getClientOriginalName();
+            $filename = date('YmdHis').$imageFile->getClientOriginalName();
             $image->path = $filename;
             $imageFile->move(public_path().'/images/', $filename);
             if ($image->save()) {
@@ -71,7 +71,7 @@ class ImageController extends Controller
             $imagesFile = $request->file('images');
             foreach ($imagesFile as $imageFile) {
                 $image = new Image();
-                $filename = date('YmdHi').$imageFile->getClientOriginalName();
+                $filename = date('YmdHis').$imageFile->getClientOriginalName();
                 $image->path = $filename;
                 $imageFile->move(public_path().'/images/', $filename);
                 if (!$image->save()) {
