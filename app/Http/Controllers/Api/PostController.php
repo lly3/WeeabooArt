@@ -8,7 +8,9 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Image;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -50,6 +52,9 @@ class PostController extends Controller
         $post->is_saleable = $request->get('premium_download');
         $post->price = $request->get('price');
         $post->image_id = $request->get('imageID');
+        if($post->is_saleable) {
+            $this->addWatermask($post);
+        }
         // $post->favorite_count = $request->get('favorite_count');
         // $post->view_count = $request->get('view_count');
         $post->user_id = auth()->user()->id;
@@ -110,7 +115,7 @@ class PostController extends Controller
         if ($request->has('favorite_count')) $post->favorite_count = $request->get('favorite_count');
         if ($request->has('view_count')) $post->view_count = $request->get('view_count');
         if($request->has('imageID')) {
-            File::delete('images/'.$post->image->path);
+            File::delete(public_path().'/images/'.$post->image->path);
             $post->image_id = $request->get('imageID');
         }
 
@@ -148,4 +153,12 @@ class PostController extends Controller
             'message' => "Post {$post_title} deleted failed"
         ], Response::HTTP_BAD_REQUEST);
     }
+
+    private function addWatermask($post) {
+        $img = Image::make(public_path('images/'.$post->image->path));
+        File::move(public_path('images/'.$post->image->path), storage_path('images/'.$post->image->path));
+        $img->insert(public_path('watermask.png'), 'center', 100, 100);
+        $img->save(public_path('images/'.$post->image->path));
+    }
+
 }
