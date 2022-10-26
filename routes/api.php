@@ -45,6 +45,7 @@ Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
 Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
+Route::get('/commission/edit/{commission}', [\App\Http\Controllers\Api\CommissionController::class, 'edit']);
 
 Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);
 

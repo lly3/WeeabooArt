@@ -8,7 +8,9 @@ use App\Models\Commission;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class CommissionController extends Controller
 {
@@ -74,9 +76,10 @@ class CommissionController extends Controller
      * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($commission) 
     {
-        $commission = Commission::find($id);
+        $commission->view_count++;
+        $commission->save();
         return new CommissionResource($commission);
     }
 
@@ -88,7 +91,7 @@ class CommissionController extends Controller
      */
     public function edit(Commission $commission)
     {
-        //
+        return new CommissionResource($commission);
     }
 
     /**
@@ -102,17 +105,28 @@ class CommissionController extends Controller
     {
         if ($request->has('title')) $commission->title = $request->get('title');
         if ($request->has('description')) $commission->description = $request->get('description');
-        if ($commission->save()) {
+
+        if (! $commission->save()) {
             return response()->json([
-                'success' => true,
-                'message' => 'Commission saved successfully with id ' . $commission->id,
-                'commission_id' => $commission->id
-            ], Response::HTTP_CREATED);
+                'success' => false,
+                'message' => 'Commission update failed'
+            ], Response::HTTP_BAD_REQUEST);
         }
+
+        if($request->has('imagesID')) {
+            $this->deleteOldImages($commission);
+
+            $imagesID = json_decode($request->get('imagesID'));
+            foreach (Image::find($imagesID)->all() as $image) {
+                $commission->images()->save($image); 
+            }
+        }
+
         return response()->json([
-            'success' => false,
-            'message' => 'Commission saved failed'
-        ], Response::HTTP_BAD_REQUEST);
+            'success' => true,
+            'message' => 'Commission update successfully with id ' . $commission->id,
+            'commission_id' => $commission->id
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -124,6 +138,7 @@ class CommissionController extends Controller
     public function destroy(Commission $commission)
     {
         $commission_title = $commission->title;
+        $this->deleteOldImages($commission);
         if ($commission->delete()) {
             return response()->json([
                 'success' => true,
@@ -134,5 +149,13 @@ class CommissionController extends Controller
             'success' => false,
             'message' => "Commission {$commission_title} deleted failed"
         ], Response::HTTP_BAD_REQUEST);
+    }
+
+    private function deleteOldImages($commission) {
+        // delete old images
+        foreach($commission->images as $image) {
+            File::delete('images/'.$image->path);
+            $image->delete();
+        }
     }
 }

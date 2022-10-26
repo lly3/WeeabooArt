@@ -82,6 +82,11 @@ const router = createRouter({
       path: '/commission/:id',
       name: 'commission.show',
       component: () => import('@/views/commissions/ShowView.vue')
+    },
+    {
+      path: '/commission/edit/:id',
+      name: 'commission.edit',
+      component: () => import('@/views/commissions/EditView.vue')
     }
   ]
 })

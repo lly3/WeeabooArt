@@ -196,7 +196,7 @@ export default {
   },
   methods: {
     onEdit(id) {
-      return this.$router.push(`/post/edit/${id}`);
+      return this.$router.push(`/commission/edit/${id}`);
     },
     isOwner() {
       return this.auth_store.getEmail == this.post.user_email
