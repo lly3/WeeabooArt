@@ -37,19 +37,24 @@ export default {
         Collection
     },
     async mounted() {
-        try {
-            this.error = null
-            const response = await this.$axios.get(`/my-collection`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-                }
-            });
-            this.posts = response.data.data
-            console.log(this.posts)
-        } catch (error) {
-            console.log(error)
-            this.error = error.message
+        this.error = null
+        if(!this.auth_store.isAuthen)
+            return this.$router.push('/login')
+        else {
+            try {
+                const response = await this.$axios.get(`/my-collection`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+                    }
+                });
+                this.posts = response.data.data
+                console.log(this.posts)
+            } catch (error) {
+                console.log(error)
+                this.error = error.message
+            }
         }
+
     }
 }
 </script>
