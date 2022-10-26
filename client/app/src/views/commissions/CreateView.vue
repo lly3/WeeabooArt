@@ -113,12 +113,15 @@ export default {
       e.preventDefault();
 
       const imagesID = await this.uploadImages()
-      console.log(imagesID);
       const response = await this.$axios.post('/commission', {
         title: this.title,
         description: this.description,
         tags: this.tags,
         imagesID: imagesID,
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+        }
       })
       const commissionID = response.data.commission_id
       this.$router.push(`/commission/${commissionID}`)
@@ -128,7 +131,11 @@ export default {
       for (let i = 0; i < this.images.length; i++) {
         formData.append('images[]', this.images[i])
       }
-      const response = await this.$axios.post('/images', formData)
+      const response = await this.$axios.post('/images', formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+        }
+      })
       console.log(response);
       return response.data.data;
     },

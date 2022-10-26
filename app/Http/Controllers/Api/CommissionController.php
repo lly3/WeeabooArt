@@ -76,8 +76,8 @@ class CommissionController extends Controller
      */
     public function show($id)
     {
-        $commissions = Commission::find($id);
-        return $commissions;
+        $commission = Commission::find($id);
+        return new CommissionResource($commission);
     }
 
     /**
