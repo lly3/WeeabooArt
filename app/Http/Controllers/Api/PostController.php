@@ -115,7 +115,7 @@ class PostController extends Controller
         if ($request->has('favorite_count')) $post->favorite_count = $request->get('favorite_count');
         if ($request->has('view_count')) $post->view_count = $request->get('view_count');
         if($request->has('imageID')) {
-            File::delete('images/'.$post->image->path);
+            File::delete(public_path().'/images/'.$post->image->path);
             $post->image_id = $request->get('imageID');
         }
 
