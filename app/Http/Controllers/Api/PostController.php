@@ -197,7 +197,7 @@ class PostController extends Controller
     private function addWatermask($post) {
         $img = Image::make(public_path('images/'.$post->image->path));
         File::move(public_path('images/'.$post->image->path), storage_path('images/'.$post->image->path));
-        $img->insert(public_path('watermask.png'), 'center', 100, 100);
+        $img->insert(public_path('watermask.png'), 'center-center', 100, 100);
         $img->save(public_path('images/'.$post->image->path));
     }
 }
