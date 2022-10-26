@@ -76,7 +76,7 @@ class CommissionController extends Controller
      * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
-    public function show($commission) 
+    public function show(Commission $commission) 
     {
         $commission->view_count++;
         $commission->save();
@@ -154,7 +154,7 @@ class CommissionController extends Controller
     private function deleteOldImages($commission) {
         // delete old images
         foreach($commission->images as $image) {
-            File::delete('images/'.$image->path);
+            File::delete(public_path().'/images/'.$image->path);
             $image->delete();
         }
     }
