@@ -153,7 +153,7 @@
             </div>
         </div>
     </section>
-    <section>
+    <section class="py-4 lg:py-8">
         <gallery-card-view :posts="posts"></gallery-card-view>
     </section>
     <section class="center" v-if="havePosts">
