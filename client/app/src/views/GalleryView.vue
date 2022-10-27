@@ -221,6 +221,15 @@ export default {
                     console.log("This is get at " + pageNumber);
                 });
         },
+        async search(title_to_search) {
+            await this.$axios.get('/post?search=' + title_to_search)
+                .then(response => {
+                    this.posts = response.data.data;
+                    this.total = response.data.meta.total;
+                    this.totalPages = response.data.meta.last_page;
+                    this.perPage = response.data.meta.per_page;
+                });
+        },
     },
     computed: {
         // isFirstPage() {

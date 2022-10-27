@@ -283,4 +283,13 @@ class PostController extends Controller
             'success' => false
         ], Response::HTTP_BAD_REQUEST);
     }
+
+    public function search(Request $request) {
+        $search = $request->get('search');
+        $posts = Post::where('title', 'like', '%'.$search.'%')->get();
+        foreach ($posts as $post) {
+            $post->image;
+        }
+        return response()->json($posts->toArray());
+    }
 }
