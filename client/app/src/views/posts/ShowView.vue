@@ -34,8 +34,11 @@
         </div>
         <div class="ml-auto" />
         <div v-if=post.is_saleable class="mr-5">
-          <button class="px-5 py-1 hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white duration-200 ease-in-out border border-black dark:border-white rounded-3xl">
+          <button v-if=!bought @click=buyArtPost class="px-5 py-1 hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white duration-200 ease-in-out border border-black dark:border-white rounded-3xl">
             Download for ${{ post.price }}
+          </button>
+          <button v-else @click=download class="px-5 py-1 hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white duration-200 ease-in-out border border-black dark:border-white rounded-3xl">
+            Download
           </button>
         </div>
         <div class="cursor-pointer hover:text-greenlogo pt-2" @click="() => overlay = true">
@@ -171,6 +174,13 @@ export default {
       console.log(e);
       this.$router.push('/');
     }
+
+    try {
+      this.$axios.get(`/post/collected/${this.post.id}`)
+        .then(res => this.bought = res.data);
+    } catch (e) {
+      console.log(e);
+    }
   },
   data() {
     return {
@@ -180,7 +190,8 @@ export default {
       suggested_collection_2: {},
       suggested_collection_3: {},
       is_loading: false,
-      overlay: false
+      overlay: false,
+      bought: false
     }
   },
   methods: {
@@ -193,6 +204,33 @@ export default {
     imageURL(path) {
       return 'http://localhost/images/' + path
     },
+    buyArtPost() {
+      if(this.auth_store.isAuthen == false) 
+        return this.$router.push('/login');
+
+      try {
+        this.$axios.get(`/post/transaction/${this.post.id}`)
+          .then(res => {
+            if(res.data.success)
+              this.bought = true
+          })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    download() {
+      this.$axios.get(`/post/premium_download/${this.post.id}`, {responseType: 'arraybuffer'})
+        .then((response) => {
+          console.log();
+          const url = URL.createObjectURL(new Blob([response.data], { type: response.headers["content-type"] }));
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          a.href = url;
+          a.download = 'download_file.' + response.headers["content-type"].split("/")[1];
+          a.click();
+        })
+    }
   },
   components: {
     IsLoading,

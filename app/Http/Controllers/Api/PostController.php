@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -154,6 +156,44 @@ class PostController extends Controller
         return response()->json([
             'success' => false,
             'message' => "Post {$post_title} deleted failed"
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function buyArtPost(Post $post) {
+        $user = User::find(auth()->user()->id);
+        if (! $post->collected_by->find($user->id)) {
+            if($post->collected_by()->save($user, ['user_id' => $user->id])) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Make transaction successfully'
+                ], Response::HTTP_OK);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Make transaction failed'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'You already owned this art'
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function isCollected(Post $post) {
+        $user = User::find(auth()->user()->id);
+        if ($post->collected_by->find($user->id) != null) {
+            return response()->json(true);
+        }
+        return response()->json(false);
+    }
+
+    public function premiumDownload(Post $post) {
+        if($post->is_saleable) {
+            return response()->download(storage_path('images/'.$post->image->path));
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'This post is not support premium download'
         ], Response::HTTP_BAD_REQUEST);
     }
 
