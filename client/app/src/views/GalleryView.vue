@@ -1,4 +1,16 @@
 <template>
+    <div class="py-4 flex items-center justify-end pr-6">
+        <form class="flex items-center" @search="search">
+            <label for="simple-search" class="sr-only">Search</label>
+            <div class="relative w-full">
+                <input type="search" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-white focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+            </div>
+            <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-black bg-white rounded-lg border border-gray-300 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <span class="sr-only">Search</span>
+            </button>
+        </form>
+    </div>
     <section class="overflow-hidden text-gray-700">
         <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
             <h1 class="text-white py-5">Most likes</h1>
@@ -153,9 +165,11 @@
             </div>
         </div>
     </section>
+
     <section class="py-4 lg:py-8">
         <gallery-card-view :posts="posts"></gallery-card-view>
     </section>
+
     <section class="center" v-if="havePosts">
         <pagination :total-pages="totalPages"
                          :total="total"
@@ -164,6 +178,7 @@
                          :has-more-pages="hasMorePages" @pagechanged="pageChanged">
         </pagination>
     </section>
+
 </template>
 
 <script>
@@ -209,6 +224,15 @@ export default {
                     this.totalPages = response.data.meta.last_page;
                     this.perPage = response.data.meta.per_page;
                     console.log("This is get at " + pageNumber);
+                });
+        },
+        async search(title_to_search) {
+            await this.$axios.get('/post?search=' + title_to_search)
+                .then(response => {
+                    this.posts = response.data.data;
+                    this.total = response.data.meta.total;
+                    this.totalPages = response.data.meta.last_page;
+                    this.perPage = response.data.meta.per_page;
                 });
         },
     },

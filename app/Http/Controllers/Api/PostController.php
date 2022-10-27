@@ -223,4 +223,13 @@ class PostController extends Controller
         $img->insert(public_path('watermask.png'), 'center', 100, 100);
         $img->save(public_path('images/'.$post->image->path));
     }
+
+    public function search(Request $request) {
+        $search = $request->get('search');
+        $posts = Post::where('title', 'like', '%'.$search.'%')->get();
+        foreach ($posts as $post) {
+            $post->image;
+        }
+        return response()->json($posts->toArray());
+    }
 }
