@@ -199,7 +199,8 @@ export default {
             hasMorePages: true,
             page: 1,
             searchKey: '',
-            disabledSearch: false
+            disabledSearch: false,
+            post_searches: []
         }
     },
     props: {
@@ -228,8 +229,8 @@ export default {
             await this.$axios.get('/post/search?search=' + this.searchKey)
                 .then(response => {
                     console.log('searchKey: ' + this.searchKey);
-                    this.posts = response.data.data;
-                    console.log(this.posts);
+                    this.post_searches = response.data.data;
+                    console.log(this.post_searches);
                     this.onFormSubmit();
                 });
         },
@@ -238,6 +239,9 @@ export default {
     computed: {
         emptySearch(){
             return this.searchKey === ''
+        },
+        post_search(){
+            return this.post_searches.length
         },
         mostLikes() {
             return this.posts_mostLiked.length
