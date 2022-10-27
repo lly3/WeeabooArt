@@ -4,7 +4,7 @@
             <h1 class="text-white py-5">Most likes</h1>
             <div class="flex flex-wrap -m-1 md:-m-2">
                 <div class="flex flex-wrap w-1/2" v-if="mostLikes">
-                    <a href="#" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
+                    <a :href="'http://localhost:3000/post/' + posts_mostLiked[0].id" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
                         <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[0].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -15,7 +15,7 @@
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostLiked[0].favorite_count}}</span>
                         </button>
                     </a>
-                    <a href="#" class="p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
+                    <a :href="'http://localhost:3000/post/' + posts_mostLiked[1].id" class="p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
                         <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[1].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -26,7 +26,7 @@
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostLiked[1].favorite_count}}</span>
                         </button>
                     </a>
-                    <a href="#" class="w-full p-1 md:p-2 button-container" v-if="have3Posts">
+                    <a :href="'http://localhost:3000/post/' + posts_mostLiked[2].id" class="w-full p-1 md:p-2 button-container" v-if="have3Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[2].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -39,7 +39,7 @@
                     </a>
                 </div>
                 <div class="flex flex-wrap w-1/2" v-if="mostLikes">
-                    <a href="#" class="w-full p-1 md:p-2 button-container" v-if="have4Posts">
+                    <a :href="'http://localhost:3000/post/' + posts_mostLiked[3].id" class="w-full p-1 md:p-2 button-container" v-if="have4Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[3].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -50,7 +50,7 @@
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostLiked[3].favorite_count}}</span>
                         </button>
                     </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
+                    <a :href="'http://localhost:3000/post/' + posts_mostLiked[4].id" class="w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[4].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -61,7 +61,7 @@
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostLiked[4].favorite_count}}</span>
                         </button>
                     </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
+                    <a :href="'http://localhost:3000/post/' + posts_mostLiked[5].id" class="w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[5].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -81,7 +81,7 @@
             <h1 class="text-white py-5">Most View</h1>
             <div class="flex flex-wrap -m-1 md:-m-2">
                 <div class="flex flex-wrap w-1/2" v-if="mostViews">
-                    <a href="#" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
+                    <a :href="'http://localhost:3000/post/' + posts_mostViewed[0].id" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
                         <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[0].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -92,7 +92,7 @@
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostViewed[0].favorite_count}}</span>
                         </button>
                     </a>
-                    <a href="#" class="p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
+                    <a :href="'http://localhost:3000/post/' + posts_mostViewed[1].id" class="p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
                         <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[1].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -103,7 +103,7 @@
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostViewed[1].favorite_count}}</span>
                         </button>
                     </a>
-                    <a href="#" class="w-full p-1 md:p-2 button-container" v-if="have3Posts">
+                    <a :href="'http://localhost:3000/post/' + posts_mostViewed[2].id" class="w-full p-1 md:p-2 button-container" v-if="have3Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[2].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -116,7 +116,7 @@
                     </a>
                 </div>
                 <div class="flex flex-wrap w-1/2" v-if="mostViews">
-                    <a href="#" class="w-full p-1 md:p-2 button-container" v-if="have4Posts">
+                    <a :href="'http://localhost:3000/post/' + posts_mostViewed[3].id" class="w-full p-1 md:p-2 button-container" v-if="have4Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[3].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -127,7 +127,7 @@
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostViewed[3].favorite_count}}</span>
                         </button>
                     </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
+                    <a :href="'http://localhost:3000/post/' + posts_mostViewed[4].id" class="w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[4].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -138,7 +138,7 @@
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostViewed[4].favorite_count}}</span>
                         </button>
                     </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
+                    <a :href="'http://localhost:3000/post/' + posts_mostViewed[5].id" class="w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[5].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
