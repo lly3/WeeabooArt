@@ -37,6 +37,7 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
 });
 
+Route::get('/post/search', [\App\Http\Controllers\Api\PostController::class, 'search']);
 Route::post('/post/mostLiked', [\App\Http\Controllers\Api\PostController::class, 'mostLiked']);
 Route::post('/post/mostViewed', [\App\Http\Controllers\Api\PostController::class, 'mostViewed']);
 Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
@@ -45,6 +46,7 @@ Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class
 Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
 Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
 Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);
+
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
 
