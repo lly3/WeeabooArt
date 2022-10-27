@@ -133,8 +133,8 @@
     </div>
     <div class="right-side py-3 px-7 xl:w-3/12 w-full dark:text-white bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
       <p class="font-bold">More by {{ post.user_name }}</p>
-      <div class="w-full h-[200px] mt-3 border">
-        
+      <div class="w-full mt-3">
+        <Gallery :posts=more_by size='small' />
       </div>
 
       <p class="my-3 dark:text-gray-200 text-gray-500 font-bold">Suggested Collections</p>
@@ -151,6 +151,7 @@
 <script>
 import { useAuthStore } from '@/stores/auth.js'
 import IsLoading from '@/components/IsLoading.vue'
+import Gallery from '@/components/GalleryCardView.vue'
 
 export default {
   setup() {
@@ -159,8 +160,11 @@ export default {
   },
   async mounted() {
     try {
-      const response = await this.$axios.get(`/post/${this.$route.params.id}`);
+      let response = await this.$axios.get(`/post/${this.$route.params.id}`);
       this.post = response.data.data;
+      response = await this.$axios.get(`/post`);
+      this.more_by = response.data.data;
+      console.log(this.more_by);
       this.is_loading = true;
       console.log(this.post);
     } catch (e) {
@@ -171,6 +175,10 @@ export default {
   data() {
     return {
       post: {},
+      more_by: {},
+      suggested_collection_1: {},
+      suggested_collection_2: {},
+      suggested_collection_3: {},
       is_loading: false,
       overlay: false
     }
@@ -187,7 +195,8 @@ export default {
     },
   },
   components: {
-    IsLoading
+    IsLoading,
+    Gallery
   }
 }
 </script>
