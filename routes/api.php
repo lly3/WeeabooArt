@@ -41,6 +41,7 @@ Route::group([
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
 });
 
+Route::get('/post/search', [\App\Http\Controllers\Api\PostController::class, 'search']);
 Route::post('/post/mostLiked', [\App\Http\Controllers\Api\PostController::class, 'mostLiked']);
 Route::post('/post/mostViewed', [\App\Http\Controllers\Api\PostController::class, 'mostViewed']);
 Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
@@ -50,6 +51,7 @@ Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
 Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
 Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);
 Route::get('/post/by/{user_id}', [PostController::class, 'more_by']);
+
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
 Route::get('/commission/edit/{commission}', [\App\Http\Controllers\Api\CommissionController::class, 'edit']);

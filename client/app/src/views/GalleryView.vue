@@ -178,6 +178,7 @@ import pagination from '../components/Pagination.vue';
 import IsLoading from '@/components/IsLoading.vue'
 import { postAPI } from '@/services/api.js'
 
+
 export default {
     components: {
         GalleryCardView,
@@ -196,7 +197,9 @@ export default {
             totalPages: 1,
             currentPage: 1,
             hasMorePages: true,
-            page: 1
+            page: 1,
+            searchKey: '',
+            disabledSearch: false
         }
     },
     props: {
@@ -221,22 +224,21 @@ export default {
                     console.log("This is get at " + pageNumber);
                 });
         },
-        async search(title_to_search) {
-            await this.$axios.get('/post?search=' + title_to_search)
+        async search() {
+            await this.$axios.get('/post/search?search=' + this.searchKey)
                 .then(response => {
+                    console.log('searchKey: ' + this.searchKey);
                     this.posts = response.data.data;
-                    this.total = response.data.meta.total;
-                    this.totalPages = response.data.meta.last_page;
-                    this.perPage = response.data.meta.per_page;
+                    console.log(this.posts);
+                    this.onFormSubmit();
                 });
         },
+        onFormSubmit() {}
     },
     computed: {
-        // isFirstPage() {
-        //     if (this.currentPage === 1) {
-        //         return true;
-        //     }
-        // },
+        emptySearch(){
+            return this.searchKey === ''
+        },
         mostLikes() {
             return this.posts_mostLiked.length
         },

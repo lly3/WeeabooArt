@@ -286,10 +286,11 @@ class PostController extends Controller
 
     public function search(Request $request) {
         $search = $request->get('search');
-        $posts = Post::where('title', 'like', '%'.$search.'%')->get();
+        $posts = Post::where('title', 'LIKE', "%{$search}%")->get();
         foreach ($posts as $post) {
             $post->image;
         }
-        return response()->json($posts->toArray());
+        return PostResource::collection($posts);
+
     }
 }
