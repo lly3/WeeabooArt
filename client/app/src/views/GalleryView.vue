@@ -1,5 +1,5 @@
 <template>
-    <div class="input-group flex items-center px-3 lg:px-10 md:px-5 pt-4 flex items-center justify-end pr-6">
+    <div class="input-group flex items-center px-3 lg:px-10 md:px-5 pt-4 flex items-center justify-end pr-6" v-if="havePosts">
         <form @submit.prevent="onFormSubmit" class="flex items-center">
             <div class="relative w-full">
                 <input type="text" v-model="searchKey" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-white focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
@@ -14,12 +14,15 @@
     </div>
 
     <section class="py-4 lg:py-8">
+        <h1 class="text-white container px-5 mx-auto lg:px-12" v-if="post_search">Search</h1>
+        <gallery-card-view :posts="post_searches"></gallery-card-view>
+        <h1 class="text-white container px-5 mx-auto lg:px-12" v-if="havePosts">Post</h1>
         <gallery-card-view :posts="posts"></gallery-card-view>
     </section>
 
     <section class="overflow-hidden text-gray-700">
         <div class="container px-5 pb-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
-            <h1 class="text-white py-5">Most likes</h1>
+            <h1 class="text-white pb-5">Most likes</h1>
             <div class="flex flex-wrap -m-1 md:-m-2">
                 <div class="flex flex-wrap w-1/2" v-if="mostLikes">
                     <a :href="'http://localhost:3000/post/' + posts_mostLiked[0].id" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
@@ -96,7 +99,7 @@
     </section>
     <section class="overflow-hidden text-gray-700">
         <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
-            <h1 class="text-white py-5">Most View</h1>
+            <h1 class="text-white pb-5">Most View</h1>
             <div class="flex flex-wrap -m-1 md:-m-2">
                 <div class="flex flex-wrap w-1/2" v-if="mostViews">
                     <a :href="'http://localhost:3000/post/' + posts_mostViewed[0].id" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
@@ -171,9 +174,7 @@
             </div>
         </div>
     </section>
-
-
-
+    
     <section class="center" v-if="havePosts">
         <pagination :total-pages="totalPages"
                          :total="total"
@@ -208,7 +209,8 @@ export default {
             hasMorePages: true,
             page: 1,
             searchKey: '',
-            disabledSearch: false
+            disabledSearch: false,
+            post_searches: []
         }
     },
     props: {
@@ -237,8 +239,8 @@ export default {
             await this.$axios.get('/post/search?search=' + this.searchKey)
                 .then(response => {
                     console.log('searchKey: ' + this.searchKey);
-                    this.posts = response.data.data;
-                    console.log(this.posts);
+                    this.post_searches = response.data.data;
+                    console.log(this.post_searches);
                     this.onFormSubmit();
                 });
         },
@@ -247,6 +249,9 @@ export default {
     computed: {
         emptySearch(){
             return this.searchKey === ''
+        },
+        post_search(){
+            return this.post_searches.length
         },
         mostLikes() {
             return this.posts_mostLiked.length
