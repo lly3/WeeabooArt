@@ -4,7 +4,7 @@
             <h2 class="text-3xl font-extrabold mb-3">Forgot your password ?</h2>
             <p class="font-light mb-3">No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.</p>
             <p v-if="error" class="pb-4 text-red-600">{{ error }}</p>
-            <p v-if="message" class="pb-4 text-red-600">{{ message }}</p>
+            <p v-if="message" class="pb-4 text-greenlogo">{{ message }}</p>
             <span class="font-bold">Email</span>
             <form v-on:submit.prevent="onSubmit">
                 <div>
@@ -58,12 +58,12 @@ export default {
             this.error = null
             this.message = null
             try {
-                const response = await this.$axios.post('/api/forgot-password', {
+                const response = await this.$axios.post('/auth/forgot-password', {
                     email: this.email,
                 })
                 this.message = response.data.message
             } catch (e) {
-                this.error = e.response.data.message
+                this.error = e.response.data.error
                 this.disabledButton = false
             }
             this.disabledButton = false
