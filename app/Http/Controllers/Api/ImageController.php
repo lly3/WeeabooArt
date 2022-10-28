@@ -47,7 +47,7 @@ class ImageController extends Controller
         if ($request->hasFile('image')) {
             $imageFile = $request->file('image');
             $image = new Image();
-            $filename = date('YmdHi').$imageFile->getClientOriginalName();
+            $filename = date('YmdHis').$imageFile->getClientOriginalName();
             $image->path = $filename;
             $imageFile->move(public_path().'/images/', $filename);
             if ($image->save()) {
@@ -64,6 +64,31 @@ class ImageController extends Controller
         }
     }
 
+    public function storeMany(Request $request)
+    {
+        $images = array();
+        if ($request->hasFile('images')) {
+            $imagesFile = $request->file('images');
+            foreach ($imagesFile as $imageFile) {
+                $image = new Image();
+                $filename = date('YmdHis').$imageFile->getClientOriginalName();
+                $image->path = $filename;
+                $imageFile->move(public_path().'/images/', $filename);
+                if (!$image->save()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Images saved failed'
+                    ], Response::HTTP_BAD_REQUEST);
+                }
+                array_push($images, $image->id);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Images saved successfully', 
+                'data' => json_encode($images)
+            ], Response::HTTP_CREATED);
+        }
+    }
     /**
      * Display the specified resource.
      *
