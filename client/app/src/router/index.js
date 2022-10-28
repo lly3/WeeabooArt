@@ -87,6 +87,11 @@ const router = createRouter({
       path: '/commission/edit/:id',
       name: 'commission.edit',
       component: () => import('@/views/commissions/EditView.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not_found',
+      component: () => import('@/components/404NotFound.vue')
     }
   ]
 })
