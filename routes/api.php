@@ -38,6 +38,7 @@ Route::group([
     Route::post('me', [AuthController::class, 'me']);
     Route::post('register', [AuthController::class, 'register']);
     Route::post('forgot-password', [AuthController::class, 'resetPasswordRequest']);
+    Route::post('reset-password', [AuthController::class, 'resetPassword']);
 });
 
 Route::post('/post/mostLiked', [\App\Http\Controllers\Api\PostController::class, 'mostLiked']);
