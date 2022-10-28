@@ -31,7 +31,7 @@
                             </button>
                         </div>
 
-                        <a class="underline text-sm text-gray-600 hover:text-gray-900" href="#">
+                        <a @click="() => this.$router.push('/forgot-password')" class="underline text-sm text-gray-600 hover:text-gray-900" href="#">
                             Forgot your password?
                         </a>
 
