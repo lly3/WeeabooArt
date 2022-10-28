@@ -62,7 +62,18 @@
           </div>
         </div>
 
-        <MyButton title='+ Submit' textColor='black' :action="() => this.$router.push('/post/create')"/>
+        <div class="relative">
+          <MyButton title='+ Submit' textColor='black' @click=toggleSubmitDropdown />
+          <div class="hidden text-sm absolute text-center w-full my-2 rounded border dark:border-gray-600 w-[125px] -left-1/4 z-20 bg-white dark:bg-gray-700 dark:text-white" id="submit-dropdown">
+            <div @click="() => this.$router.push('/post/create')" class="px-2 py-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600">
+              Art Post
+            </div>
+            <div @click="() => this.$router.push('/commission/create')" class="px-2 py-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600">
+              Commission
+            </div>
+          </div>
+
+        </div>
       </div>
       <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
         <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 ease-out duration-300">
@@ -100,14 +111,26 @@ export default {
     MyButton
   },
   async mounted() {
-      if(localStorage.theme === 'dark') {
-        document.getElementById('toggle-on').style.display = 'block'
-        document.getElementById('toggle-off').style.display = 'none'
+    window.onload = function () {
+      document.onclick = function(e) {
+        const submitDropdown = document.getElementById('submit-dropdown')
+        if(e.target.id == 'my-button') {
+          submitDropdown.classList.remove('hidden')
+        }
+        else {
+          submitDropdown.classList.add('hidden')
+        }
       }
-      else {
-        document.getElementById('toggle-on').style.display = 'none'
-        document.getElementById('toggle-off').style.display = 'block'
-      }
+    }
+
+    if(localStorage.theme === 'dark') {
+      document.getElementById('toggle-on').style.display = 'block'
+      document.getElementById('toggle-off').style.display = 'none'
+    }
+    else {
+      document.getElementById('toggle-on').style.display = 'none'
+      document.getElementById('toggle-off').style.display = 'block'
+    }
   },
   methods: {
     toggleDarkMode() {
