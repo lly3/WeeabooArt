@@ -16,7 +16,7 @@
 
                     <div class="">
                         <button type="submit" :disabled="disabledButton" class="shadow bg-greenlogo hover:bg-secondaryfont focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
-                            Email Password Reset Link
+                            Email Reset Password Token
                         </button>
                     </div>
 
