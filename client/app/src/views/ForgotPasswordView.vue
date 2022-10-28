@@ -2,7 +2,7 @@
     <auth-card>
         <Login>
             <h2 class="text-3xl font-extrabold mb-3">Forgot your password ?</h2>
-            <p class="font-light mb-3">No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.</p>
+            <p class="font-light mb-3">No problem. Just let us know your email address and we will email you a reset password token that will allow you to choose a new one.</p>
             <p v-if="error" class="pb-4 text-red-600">{{ error }}</p>
             <p v-if="message" class="pb-4 text-greenlogo">{{ message }}</p>
             <span class="font-bold">Email</span>
