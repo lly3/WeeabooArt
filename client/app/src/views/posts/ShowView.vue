@@ -153,6 +153,7 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
+import { postAPI } from '@/services/api.js'
 import IsLoading from '@/components/IsLoading.vue'
 import Gallery from '@/components/GalleryCardView.vue'
 
@@ -163,9 +164,9 @@ export default {
   },
   async mounted() {
     try {
-      let response = await this.$axios.get(`/post/${this.$route.params.id}`);
+      let response = await postAPI.show(this.$route.params.id)
       this.post = response.data.data;
-      response = await this.$axios.get(`/post`);
+      response = await postAPI.more_by(this.post.user_id, 9)
       this.more_by = response.data.data;
       console.log(this.more_by);
       this.is_loading = true;
@@ -176,7 +177,7 @@ export default {
     }
 
     try {
-      this.$axios.get(`/post/collected/${this.post.id}`)
+      postAPI.collected(this.post.id)
         .then(res => this.bought = res.data);
     } catch (e) {
       console.log(e);
@@ -209,7 +210,7 @@ export default {
         return this.$router.push('/login');
 
       try {
-        this.$axios.get(`/post/transaction/${this.post.id}`)
+        postAPI.transaction(this.post.id)
           .then(res => {
             if(res.data.success)
               this.bought = true
@@ -219,7 +220,7 @@ export default {
       }
     },
     download() {
-      this.$axios.get(`/post/premium_download/${this.post.id}`, {responseType: 'arraybuffer'})
+      postAPI.premiumDownload(this.post.id)
         .then((response) => {
           console.log();
           const url = URL.createObjectURL(new Blob([response.data], { type: response.headers["content-type"] }));

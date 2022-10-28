@@ -18,7 +18,7 @@ class PostController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show', 'mostLiked', 'mostViewed', 'otherPosts', 'more_by']]);
     }
 
     /**
@@ -222,5 +222,23 @@ class PostController extends Controller
 
     public function otherPosts() {
         return Post::orderBy('id', 'desc')->paginate(15);
+    }
+
+    public function more_by(Request $request, $user_id) {
+        if($request->query('quantity') != null) {
+            $posts = Post::where('user_id', $user_id)
+                ->limit($request->query('quantity'))
+                ->get();
+            return PostResource::collection($posts);
+        }
+        else {
+            $posts = Post::where('user_id', $user_id)
+                ->get();
+            return PostResource::collection($posts);
+        }
+        return response()->json([
+            'message' => 'fetch more post by user_id' . $user_id . 'failed',
+            'success' => false
+        ], Response::HTTP_BAD_REQUEST);
     }
 }

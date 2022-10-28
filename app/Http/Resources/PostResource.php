@@ -22,6 +22,7 @@ class PostResource extends JsonResource
             'price' => $this->price,
             'favorite_count' => $this->favorite_count,
             'view_count' => $this->view_count,
+            'user_id' => $this->user->id,
             'user_image' => $this->user->image->path,
             'user_name' => $this->user->name,
             'user_email' => $this->user->email,

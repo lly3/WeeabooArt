@@ -54,3 +54,58 @@ export const authAPI = {
         }
     }
 }
+
+export const postAPI = {
+    createPost(post) {
+        return axiosInstance.post('/post', post)
+    },
+    transaction(id) {
+        return axiosInstance.get(`/post/transaction/${id}`)
+    },
+    premiumDownload(id) {
+        return axiosInstance.get(`/post/premium_download/${id}`, {responseType: 'arraybuffer'})
+    },
+    paginate(pageNumber) {
+        return axiosInstance.get('/post/?page=' + pageNumber)
+    },
+    mostLiked() {
+        return axiosInstance.post('/post/mostLiked')
+    },
+    mostViewed() {
+        return axiosInstance.post('/post/mostViewed')
+    },
+    fetch() {
+        return axiosInstance.get('/post')
+    },
+    editView(id) {
+        return axiosInstance.get(`/post/edit/${id}`)
+    },
+    edit(id, post) {
+        return axiosInstance.put(`/post/${id}`, post)
+    },
+    delete(id) {
+        return axiosInstance.delete(`/post/${id}`)
+    },
+    show(id) {
+        return axiosInstance.get(`/post/${id}`)
+    },
+    collected(id) {
+        return axiosInstance.get(`/post/collected/${id}`)
+    },
+    more_by(user_id, quantity = '') {
+        return axiosInstance.get(`/post/by/${user_id}?quantity=${quantity}`)
+    }
+
+}
+
+export const imageAPI = {
+    async uploadImage(image) {
+        try {
+            const formData = new FormData();
+            formData.append('image', image)
+            return axiosInstance.post('/image', formData).then(res => res.data.image_id)
+        } catch (e) {
+            console.log(e);
+        }
+    },
+}

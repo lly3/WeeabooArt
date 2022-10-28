@@ -51,6 +51,7 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
+import { postAPI, imageAPI } from '@/services/api.js'
 
 export default {
   setup() {
@@ -79,8 +80,8 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
 
-      const imageID = await this.uploadImage()
-      const response = await this.$axios.post('/post', {
+      const imageID = await imageAPI.uploadImage(this.image)
+      const response = await postAPI.createPost({
         title: this.title,
         description: this.description,
         tags: this.tags,
@@ -90,11 +91,6 @@ export default {
       })
       const postID = response.data.post_id
       this.$router.push(`/post/${postID}`)
-    },
-    async uploadImage() {
-      const formData = new FormData();
-      formData.append('image', this.image)
-      return await this.$axios.post('/image', formData).then(res => res.data.image_id)
     },
     previewImage(e) {
       this.image = e.target.files[0]

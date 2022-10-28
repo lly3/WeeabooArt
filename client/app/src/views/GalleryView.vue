@@ -169,6 +169,7 @@
 <script>
 import GalleryCardView from "@/components/GalleryCardView.vue";
 import pagination from '../components/Pagination.vue';
+import { postAPI } from '@/services/api.js'
 
 export default {
     components: {
@@ -201,7 +202,7 @@ export default {
         },
         async getData(pageNumber) {
             // axios.get('/post?page=' + pageNumber)
-            await this.$axios.get('/post/?page=' + pageNumber)
+            await postAPI.paginate(pageNumber)
                 .then(response => {
                     this.page = pageNumber;
                     this.posts = response.data.data;
@@ -278,11 +279,11 @@ export default {
     async mounted() {
         try {
             this.error = null
-            const response_mostLiked = await this.$axios.post('/post/mostLiked');
+            const response_mostLiked = await postAPI.mostLiked()
             this.posts_mostLiked = response_mostLiked.data
-            const response_mostViewed = await this.$axios.post('/post/mostViewed');
+            const response_mostViewed = await postAPI.mostViewed()
             this.posts_mostViewed = response_mostViewed.data
-            const response = await this.$axios.get('/post');
+            const response = await postAPI.fetch()
             this.posts = response.data.data
             this.paginate = response.data.meta
             this.total = response.data.meta.total

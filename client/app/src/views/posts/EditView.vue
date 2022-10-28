@@ -51,6 +51,7 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
+import { postAPI, imageAPI } from '@/services/api.js'
 
 export default {
   setup() {
@@ -59,7 +60,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await this.$axios.get(`/post/edit/${this.$route.params.id}`);
+      const response = await postAPI.editView(this.$route.params.id)
       this.post = response.data;
       this.image = this.post.image;
       console.log(this.post);
@@ -89,10 +90,10 @@ export default {
 
       try {
         if(this.imageFile != null) {
-          const imageID = await this.uploadImage()
-          await this.$axios.put(`/post/${this.post.id}`, { ...this.post, imageID })
+          const imageID = await imageAPI.uploadImage(this.imageFile)
+          await postAPI.edit(this.post.id, { ...this.post, imageID })
         }
-        await this.$axios.put(`/post/${this.post.id}`, this.post)
+        await postAPI.edit(this.post.id, this.post)
 
         this.$router.back()
       } catch (e) {
@@ -104,19 +105,10 @@ export default {
       
       try {
         if (confirm('Are you sure?')) {
-          await this.$axios.delete(`/post/${this.post.id}`)
+          await postAPI.delete(this.post.id)
 
           this.$router.back()
         }
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async uploadImage() {
-      try {
-        const formData = new FormData();
-        formData.append('image', this.imageFile)
-        return await this.$axios.post('/image', formData).then(res => res.data.image_id)
       } catch (e) {
         console.log(e);
       }
