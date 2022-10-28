@@ -97,6 +97,11 @@ const router = createRouter({
         path: '/my-collection',
         name: 'my-collection',
         component: () => import('@/views/MyCollectionView.vue')
+    },
+    {
+        path: '/forgot-password',
+        name: 'forgot-password',
+        component: () => import('@/views/ForgotPasswordView.vue')
     }
   ]
 })
