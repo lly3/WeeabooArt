@@ -225,16 +225,21 @@ export default {
                     console.log("This is get at " + pageNumber);
                 });
         },
-        async search() {
-            await this.$axios.get('/post/search?search=' + this.searchKey)
-                .then(response => {
-                    console.log('searchKey: ' + this.searchKey);
-                    this.post_searches = response.data.data;
-                    console.log(this.post_searches);
-                    this.onFormSubmit();
-                });
+        search() {
+            console.log('searchKey: ' + this.searchKey);
+            this.onFormSubmit();
+            console.log("$router.push success");
+
         },
-        onFormSubmit() {}
+        onFormSubmit() {
+            console.log("onFormSubmit");
+            // this.$router.push(`/post/search`);
+            this.$router.push({
+                name: 'post.search',
+                params: {searchKey: this.searchKey}
+            });
+            console.log("onFormSubmit success");
+        }
     },
     computed: {
         emptySearch(){

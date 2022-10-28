@@ -117,6 +117,11 @@ const router = createRouter({
           path: '/tags/:id',
           name: 'tags.show',
           component: () => import('@/views/tags/ShowTagView.vue')
+      },
+      {
+          path: '/post/search/:searchKey',
+          name: 'post.search',
+          component: () => import('@/views/SearchView.vue')
       }
   ]
 })
