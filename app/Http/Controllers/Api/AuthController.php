@@ -144,15 +144,31 @@ class AuthController extends Controller
         } else {
             $user->reset_password_token = rand(100000, 999999);
             if($user->save()) {
-                Mail::send('emails.reset_password', ['user' => $user], function ($m) use ($user) {
-                    $m->from('no-reply@weeaboo.art', 'WeeabooArt')->to($user->email, $user->name)->subject('Reset Password (WeeabooArt)');
-                });
 
-                if(Mail::failures()) {
-                    return response()->json(['error' => 'Email not sent'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
-                } else {
-                    return response()->json(['message' => 'Email sent'], Response::HTTP_OK); // 200
+                try {
+                    Mail::send('emails.reset_password', ['user' => $user], function ($m) use ($user) {
+                        $m->from('no-reply@weeaboo.art', 'WeeabooArt')->to($user->email, $user->name)->subject('Reset Password (WeeabooArt)');
+                    });
+                    return response()->json(['message' => 'Email sent successfully'], Response::HTTP_OK); // 200
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Error sending email'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
                 }
+
+
+                //check mail is sent or not
+
+
+//                if(count(Mail::failures()) > 0) {
+//                    return response()->json(['error' => 'Failed to send email'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
+//                } else {
+//                    return response()->json(['message' => 'Email sent successfully'], Response::HTTP_OK); // 200
+//                }
+
+//                if(Mail::failures()) {
+//                    return response()->json(['error' => 'Email not sent'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
+//                } else {
+//                    return response()->json(['message' => 'Email sent'], Response::HTTP_OK); // 200
+//                }
 
             }   else {
                 return response()->json(['error' => 'Email not sent'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
