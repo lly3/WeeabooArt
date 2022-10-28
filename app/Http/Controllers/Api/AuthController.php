@@ -199,7 +199,7 @@ class AuthController extends Controller
             $user->password = bcrypt($request->get('password'));
             $user->reset_password_token = null;
             if($user->save()) {
-                return response()->json(['message' => 'Password changed'], Response::HTTP_OK); // 200
+                return response()->json(['message' => 'Password changed'], Response::HTTP_CREATED); // 201
             } else {
                 return response()->json(['error' => 'Password not changed'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
             }
