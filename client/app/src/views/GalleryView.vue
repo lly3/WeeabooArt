@@ -1,5 +1,5 @@
 <template>
-    <div class="input-group flex items-center px-3 lg:px-10 md:px-5 pt-4 flex items-center justify-end pr-6" v-if="havePosts">
+    <div class="input-group flex items-center px-3 lg:px-10 md:px-5 pt-4 flex items-center justify-end pr-6">
         <form @submit.prevent="onFormSubmit" class="flex items-center">
             <div class="relative w-full">
                 <input type="text" v-model="searchKey" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-white focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
@@ -14,8 +14,6 @@
     </div>
 
     <section class="py-4 lg:py-8">
-        <h1 class="text-white container px-5 mx-auto lg:px-12" v-if="post_search">Search</h1>
-        <gallery-card-view :posts="post_searches"></gallery-card-view>
         <h1 class="text-white container px-5 mx-auto lg:px-12" v-if="havePosts">Post</h1>
         <gallery-card-view :posts="posts"></gallery-card-view>
     </section>
@@ -174,7 +172,7 @@
             </div>
         </div>
     </section>
-    
+
     <section class="center" v-if="havePosts">
         <pagination :total-pages="totalPages"
                          :total="total"
@@ -235,16 +233,21 @@ export default {
                     console.log("This is get at " + pageNumber);
                 });
         },
-        async search() {
-            await this.$axios.get('/post/search?search=' + this.searchKey)
-                .then(response => {
-                    console.log('searchKey: ' + this.searchKey);
-                    this.post_searches = response.data.data;
-                    console.log(this.post_searches);
-                    this.onFormSubmit();
-                });
+        search() {
+            console.log('searchKey: ' + this.searchKey);
+            this.onFormSubmit();
+            console.log("$router.push success");
+
         },
-        onFormSubmit() {}
+        onFormSubmit() {
+            console.log("onFormSubmit");
+            // this.$router.push(`/post/search`);
+            this.$router.push({
+                name: 'post.search',
+                params: {searchKey: this.searchKey}
+            });
+            console.log("onFormSubmit success");
+        }
     },
     computed: {
         emptySearch(){
