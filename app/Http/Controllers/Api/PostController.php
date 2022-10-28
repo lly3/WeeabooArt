@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use Image;
+use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,7 +28,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id', 'desc')->paginate(15);
+        $posts = Post::where('is_saleable', 0)
+            ->orderBy('id', 'desc')->paginate(15);
         return PostResource::collection($posts);
     }
 
@@ -123,7 +124,7 @@ class PostController extends Controller
             File::delete(public_path().'/images/'.$post->image->path);
             $post->image_id = $request->get('imageID');
         }
-        
+
         if ($post->save()) {
             return response()->json([
                 'success' => true,
@@ -157,6 +158,29 @@ class PostController extends Controller
             'success' => false,
             'message' => "Post {$post_title} deleted failed"
         ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function mostLiked() {
+        $posts = Post::where('is_saleable', 0)
+            ->orderBy('favorite_count', 'desc')->take(6)->get();
+        foreach ($posts as $post) {
+            $post->image;
+        }
+        return response()->json($posts->toArray());
+    }
+
+    public function mostViewed() {
+        $posts = Post::where('is_saleable', 0)
+            ->orderBy('view_count', 'desc')->take(6)->get();
+        foreach ($posts as $post) {
+            $post->image;
+        }
+        return response()->json($posts->toArray());
+    }
+
+    public function otherPosts() {
+        return Post::where('is_saleable', 0)
+            ->orderBy('id', 'desc')->paginate(15);
     }
 
     public function buyArtPost(Post $post) {
@@ -202,26 +226,6 @@ class PostController extends Controller
         File::move(public_path('images/'.$post->image->path), storage_path('images/'.$post->image->path));
         $img->insert(public_path('watermask.png'), 'center', 100, 100);
         $img->save(public_path('images/'.$post->image->path));
-    }
-
-    public function mostLiked() {
-        $posts = Post::orderBy('favorite_count', 'desc')->take(6)->get();
-        foreach ($posts as $post) {
-            $post->image;
-        }
-        return response()->json($posts->toArray());
-    }
-
-    public function mostViewed() {
-        $posts = Post::orderBy('view_count', 'desc')->take(6)->get();
-        foreach ($posts as $post) {
-            $post->image;
-        }
-        return response()->json($posts->toArray());
-    }
-
-    public function otherPosts() {
-        return Post::orderBy('id', 'desc')->paginate(15);
     }
 
     public function more_by(Request $request, $user_id) {

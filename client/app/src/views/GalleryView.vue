@@ -1,10 +1,10 @@
 <template>
     <section class="overflow-hidden text-gray-700">
         <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
-            <h1 class="text-white py-5">Most likes</h1>
+            <h1 class="dark:text-white py-5">Most likes</h1>
             <div class="flex flex-wrap -m-1 md:-m-2">
                 <div class="flex flex-wrap w-1/2" v-if="mostLikes">
-                    <a href="#" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
+                    <div @click="() => this.$router.push(`/post/${ posts_mostLiked[0].id }`)" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
                         <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[0].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -14,8 +14,8 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostLiked[0].favorite_count}}</span>
                         </button>
-                    </a>
-                    <a href="#" class="p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
+                    </div>
+                    <div @click="() => this.$router.push(`/post/${ posts_mostLiked[1].id }`)" class="p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
                         <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[1].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -25,8 +25,8 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostLiked[1].favorite_count}}</span>
                         </button>
-                    </a>
-                    <a href="#" class="w-full p-1 md:p-2 button-container" v-if="have3Posts">
+                    </div>
+                    <div @click="() => this.$router.push(`/post/${ posts_mostLiked[2].id }`)" class="w-full p-1 md:p-2 button-container" v-if="have3Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[2].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -36,10 +36,10 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostLiked[2].favorite_count}}</span>
                         </button>
-                    </a>
+                    </div>
                 </div>
                 <div class="flex flex-wrap w-1/2" v-if="mostLikes">
-                    <a href="#" class="w-full p-1 md:p-2 button-container" v-if="have4Posts">
+                    <div @click="() => this.$router.push(`/post/${ posts_mostLiked[3].id }`)" class="w-full p-1 md:p-2 button-container" v-if="have4Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[3].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -49,8 +49,8 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostLiked[3].favorite_count}}</span>
                         </button>
-                    </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
+                    </div>
+                    <div @click="() => this.$router.push(`/post/${ posts_mostLiked[4].id }`)" class="w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[4].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -60,8 +60,8 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostLiked[4].favorite_count}}</span>
                         </button>
-                    </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
+                    </div>
+                    <div @click="() => this.$router.push(`/post/${ posts_mostLiked[5].id }`)" class="w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostLiked[5].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -71,17 +71,17 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostLiked[5].favorite_count}}</span>
                         </button>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     <section class="overflow-hidden text-gray-700">
         <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
-            <h1 class="text-white py-5">Most View</h1>
+            <h1 class="dark:text-white py-5">Most View</h1>
             <div class="flex flex-wrap -m-1 md:-m-2">
                 <div class="flex flex-wrap w-1/2" v-if="mostViews">
-                    <a href="#" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
+                    <div @click="() => this.$router.push(`/post/${ posts_mostViewed[0].id }`)" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
                         <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[0].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -91,8 +91,8 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostViewed[0].favorite_count}}</span>
                         </button>
-                    </a>
-                    <a href="#" class="p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
+                    </div>
+                    <div @click="() => this.$router.push(`/post/${ posts_mostViewed[1].id }`)" class="p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
                         <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[1].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -102,8 +102,8 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostViewed[1].favorite_count}}</span>
                         </button>
-                    </a>
-                    <a href="#" class="w-full p-1 md:p-2 button-container" v-if="have3Posts">
+                    </div>
+                    <div @click="() => this.$router.push(`/post/${ posts_mostViewed[2].id }`)" class="w-full p-1 md:p-2 button-container" v-if="have3Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[2].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -113,10 +113,10 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostViewed[2].favorite_count}}</span>
                         </button>
-                    </a>
+                    </div>
                 </div>
                 <div class="flex flex-wrap w-1/2" v-if="mostViews">
-                    <a href="#" class="w-full p-1 md:p-2 button-container" v-if="have4Posts">
+                    <div @click="() => this.$router.push(`/post/${ posts_mostViewed[3].id }`)" class="w-full p-1 md:p-2 button-container" v-if="have4Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[3].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -126,8 +126,8 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostViewed[3].favorite_count}}</span>
                         </button>
-                    </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
+                    </div>
+                    <div @click="() => this.$router.push(`/post/${ posts_mostViewed[4].id }`)" class="w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[4].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -137,8 +137,8 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostViewed[4].favorite_count}}</span>
                         </button>
-                    </a>
-                    <a href="#" class="w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
+                    </div>
+                    <div @click="() => this.$router.push(`/post/${ posts_mostViewed[5].id }`)" class="w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
                         <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
                              :src="'http://localhost/images/' + posts_mostViewed[5].image.path.toString()">
                         <button class="m-4 btn-glow h-6 px-4 sm:h-8 sm:px-4">
@@ -148,12 +148,13 @@
                             </svg>
                             <span class="text-black text-[12px] pl-1 font-semibold hidden sm:block">{{ posts_mostViewed[5].favorite_count}}</span>
                         </button>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <section>
+    <section class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
+        <h1 class="dark:text-white py-5">Gallery</h1>
         <gallery-card-view :posts="posts"></gallery-card-view>
     </section>
     <section class="center" v-if="havePosts">
@@ -178,7 +179,7 @@ export default {
     },
     data () {
         return {
-            posts: Object,
+            posts: [],
             posts_mostLiked: [],
             posts_mostViewed: [],
             error: null,
@@ -285,7 +286,16 @@ export default {
             this.posts_mostViewed = response_mostViewed.data
             const response = await postAPI.fetch()
             this.posts = response.data.data
-            this.paginate = response.data.meta
+            if (this.posts !== null) {
+                const response_page1 = await this.$axios.get('/post?page=1');
+                this.posts = response_page1.data.data
+                this.page = 1;
+                this.posts = response_page1.data.data;
+                this.total = response_page1.data.meta.total;
+                this.totalPages = response_page1.data.meta.last_page;
+                this.perPage = response_page1.data.meta.per_page;
+                console.log("get page 1 success");
+            }
             this.total = response.data.meta.total
         } catch (error) {
             console.log(error)
@@ -297,9 +307,6 @@ export default {
 </script>
 
 <style>
-body {
-    background-color: #000000;
-}
 
 /*css bluwbyu*/
 
@@ -332,6 +339,7 @@ body {
     /*display:inline-block;*/
     display: inline-flex;
     position:relative;
+    cursor: pointer;
 }
 
 .button-container button{

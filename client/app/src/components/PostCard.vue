@@ -1,7 +1,11 @@
 <template>
-    <div class="aspect-square">
-            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                 :src=concatFunctionImage>
+    <div v-if=square class="aspect-square cursor-pointer" @click="() => this.$router.push(`/post/${this.post.id}`)">
+        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                            :src=concatFunctionImage>
+    </div>
+    <div v-else class="w-full justify-center flex cursor-pointer" @click="() => this.$router.push(`/post/${this.post.id}`)">
+        <img alt="No Image" class="rounded-lg normal_image"
+                            :src=concatFunctionImage>
     </div>
 
 <!--    <h1>http://localhost/images/{{ post.image.path }}</h1>-->
@@ -19,7 +23,11 @@ export default {
         }
     },
     props: {
-        post: Object
+        post: Object,
+        square: {
+            default: false,
+            type: Boolean
+        }
     }
 }
 </script>
@@ -77,5 +85,37 @@ export default {
     /*width: 1.25rem;*/
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
+}
+.normal_image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
+    justify-content: center;
+    text-align: center;
+}
+/*@media screen and (max-width: 480px) {*/
+/*    .normal_image {*/
+/*        width: 500px;*/
+/*        height: 100%;*/
+/*        object-fit: cover;*/
+/*        object-position: center;*/
+/*    }*/
+/*}*/
+/*@media screen and (max-width: 640px) {*/
+/*    .normal_image {*/
+/*        width: 700px;*/
+/*        height: 100%;*/
+/*        object-fit: cover;*/
+/*        object-position: center;*/
+/*    }*/
+/*}*/
+@media screen and (max-width: 1000px) {
+    .normal_image {
+        width: 800px;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
 }
 </style>

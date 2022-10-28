@@ -103,8 +103,8 @@
           <p class="font-bold dark:text-white">Comments</p>
           <div class="w-full h-[300px] mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
-              <div class="border mr-3 rounded-lg">
-                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
+              <div class="mr-3 rounded-lg">
+                <img :src=defaultImage() class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
               </div>
               <div class="w-full p-6 text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <span class="text-black dark:text-white hover:text-greenlogo dark:hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/register')">Join the community</span> to add your comment. Already a deviant? <span class="text-black dark:text-white dark:hover:text-greenlogo hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/login')">Log In</span>
@@ -162,6 +162,15 @@ export default {
     const auth_store = useAuthStore()
     return { auth_store }
   },
+  created() {
+    this.$watch(
+      () => this.$route.params,
+      async (toParams, previousParams) => {
+        const response = await postAPI.show(toParams.id)
+        this.post = response.data.data
+      }
+    )
+  },
   async mounted() {
     try {
       let response = await postAPI.show(this.$route.params.id)
@@ -204,6 +213,9 @@ export default {
     },
     imageURL(path) {
       return 'http://localhost/images/' + path
+    },
+    defaultImage() {
+      return 'http://localhost/image.png'
     },
     buyArtPost() {
       if(this.auth_store.isAuthen == false) 
