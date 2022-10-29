@@ -36,4 +36,8 @@ class Post extends Model
     public function collected_by() {
         return $this->morphedByMany(User::class, 'collection');
     }
+
+    public function favorited_by() {
+        return $this->morphedByMany(User::class, 'favorite');
+    }
 }

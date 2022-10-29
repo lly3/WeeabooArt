@@ -184,6 +184,14 @@ class PostController extends Controller
         return response()->json(false);
     }
 
+    public function isFavorited(Post $post) {
+        $user = User::find(auth()->user()->id);
+        if ($post->favorited_by->find($user->id) != null) {
+            return response()->json(true);
+        }
+        return response()->json(false);
+    }
+
     public function premiumDownload(Post $post) {
         if($post->is_saleable) {
             return response()->download(storage_path('images/'.$post->image->path));
