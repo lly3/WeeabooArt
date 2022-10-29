@@ -87,7 +87,17 @@ const router = createRouter({
         path: '/reset-password',
         name: 'reset-password',
         component: () => import('@/views/ResetPasswordView.vue')
-    }
+    },
+      {
+          path: '/tags',
+          name: 'tags',
+          component: () => import('@/views/tags/AllTagView.vue')
+      },
+      {
+          path: '/tags/:id',
+          name: 'tags.show',
+          component: () => import('@/views/tags/ShowTagView.vue')
+      }
   ]
 })
 

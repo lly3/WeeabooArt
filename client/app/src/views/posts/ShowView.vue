@@ -2,7 +2,7 @@
   <div class="flex flex-col xl:flex-row relative" v-if=is_loading>
     <div class="z-10 fixed top-0 left-0 w-full h-screen bg-white dark:bg-gray-800" v-if=overlay>
       <div class="h-full mx-auto p-6">
-        <img v-if=post.image :src=imageURL(post.image) class="object-contain h-full block mx-auto drop-shadow-2xl"> 
+        <img v-if=post.image :src=imageURL(post.image) class="object-contain h-full block mx-auto drop-shadow-2xl">
       </div>
       <div class="absolute top-0 right-0 w-[40px] m-3 cursor-pointer dark:text-white" @click="() => overlay = false">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12 6 6m6 6 6 6m-6-6 6-6m-6 6-6 6"/></svg>
@@ -14,7 +14,7 @@
         <div id="carousel-wrapper" class="h-[65vh] max-h-[65vh] flex" data-slice-index=0>
           <!-- Item 1 -->
           <div class="duration-700 ease-in-out grow-0 shrink-0 basis-full z-10 my-6">
-            <img v-if=post.image @click="() => overlay = true" :src=imageURL(post.image) class="block h-full cursor-pointer object-contain mx-auto drop-shadow-2xl"> 
+            <img v-if=post.image @click="() => overlay = true" :src=imageURL(post.image) class="block h-full cursor-pointer object-contain mx-auto drop-shadow-2xl">
           </div>
         </div>
       </div>
@@ -53,10 +53,10 @@
           <div class="flex items-center">
             <img :src=imageURL(post.user_image) class="w-[60px] h-[60px] rounded-xl object-cover" />
             <div class="flex flex-col ml-3 w-full">
-              <p class="text-3xl font-bold dark:text-white xl:w-2/3 w-full break-all">{{ post.title }}</p> 
+              <p class="text-3xl font-bold dark:text-white xl:w-2/3 w-full break-all">{{ post.title }}</p>
               <p class="dark:text-white text-lg">by <span class="font-bold underline cursor-pointer hover:text-greenlogo">{{ post.user_name }}</span></p>
             </div>
-          </div>   
+          </div>
         </div>
         <div class="flex space-x-5 text-gray-500 dark:text-gray-300">
           <div class="flex items-center space-x-1.5">
@@ -69,7 +69,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-fill" viewBox="0 0 16 16">
               <path d="M2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
             </svg>
-            <p>0 <span class="sm:inline hidden">Comments</span></p>
+            <p>{{comments.length}} <span class="sm:inline hidden"> Comments</span></p>
           </div>
           <div class="flex items-center space-x-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -79,15 +79,10 @@
             <p>{{ post.view_count }} <span class="sm:inline hidden">Views</span></p>
           </div>
         </div>
-        <div class="flex space-x-2 text-xs">
+
+        <div class="flex space-x-2 text-xs" v-for="tag in tags">
           <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white">
-            Tag 1
-          </div>
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-md p-3 dark:text-white">
-            Tag 2
-          </div>
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-md p-3 dark:text-white">
-            Tag 3
+              {{ tag.name }}
           </div>
         </div>
         <div class="whitespace-pre-wrap break-all dark:text-white">
@@ -101,10 +96,11 @@
         </div>
         <div>
           <p class="font-bold dark:text-white">Comments</p>
+            <CommentCard v-for="comment in comments" :comment="{...comment}"></CommentCard>
           <div class="w-full h-[300px] mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
               <div class="border mr-3 rounded-lg">
-                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
+                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
               </div>
               <div class="w-full p-6 text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <span class="text-black dark:text-white hover:text-greenlogo dark:hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/register')">Join the community</span> to add your comment. Already a deviant? <span class="text-black dark:text-white dark:hover:text-greenlogo hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/login')">Log In</span>
@@ -112,24 +108,24 @@
             </div>
           </div>
           <div v-else class="w-full mt-3">
-            <div class="flex">
-              <div class="mr-3 sm:rounded-lg rounded">
-                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
-              </div>
-              <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
-                <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-                  <div class="py-2 px-4 bg-gray-100 rounded-t-lg dark:bg-gray-800">
-                    <label for="comment" class="sr-only">Your comment</label>
-                    <textarea id="comment" rows="4" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+              <form class="flex" @submit="onSubmitComment">
+                  <div class="mr-3 sm:rounded-lg rounded">
+                      <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
                   </div>
-                  <div class="flex justify-between items-center py-2 px-3 border-t dark:border-gray-600">
-                    <button type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                      Comment
-                    </button>
+                  <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
+                      <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                          <div class="py-2 px-4 bg-gray-100 rounded-t-lg dark:bg-gray-800">
+                              <label for="message" class="sr-only">Your comment</label>
+                              <textarea v-model="message" ref="comment_section" maxlength="100" id="message" name="message" rows="4" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+                          </div>
+                          <div class="flex justify-between items-center py-2 px-3 border-t dark:border-gray-600">
+                              <button type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                                  Comment
+                              </button>
+                          </div>
+                      </div>
                   </div>
-                </div>
-              </div>
-            </div>
+              </form>
           </div>
         </div>
       </div>
@@ -137,12 +133,12 @@
     <div class="right-side py-3 px-7 xl:w-3/12 w-full dark:text-white bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
       <p class="font-bold">More by {{ post.user_name }}</p>
       <div class="w-full h-[200px] mt-3 border">
-        
+
       </div>
 
       <p class="my-3 dark:text-gray-200 text-gray-500 font-bold">Suggested Collections</p>
       <div class="w-full h-screen mt-3 border">
-        
+
       </div>
     </div>
   </div>
@@ -154,6 +150,7 @@
 <script>
 import { useAuthStore } from '@/stores/auth.js'
 import IsLoading from '@/components/IsLoading.vue'
+import CommentCard from '@/components/CommentCard.vue'
 
 export default {
   setup() {
@@ -163,7 +160,12 @@ export default {
   async mounted() {
     try {
       let response = await this.$axios.get(`/post/${this.$route.params.id}`);
+      let comment_response = await this.$axios.get(`/comment/post/${this.$route.params.id}`)
+      console.log(comment_response)
+      console.log(response)
+      this.comments = comment_response.data.data
       this.post = response.data.data;
+      this.tags = response.data.data.tags;
       this.is_loading = true;
       console.log(this.post);
     } catch (e) {
@@ -183,7 +185,10 @@ export default {
       post: {},
       is_loading: false,
       overlay: false,
-      bought: false
+      bought: false,
+      comments:{},
+      tags:{},
+
     }
   },
   methods: {
@@ -197,7 +202,7 @@ export default {
       return 'http://localhost/images/' + path
     },
     buyArtPost() {
-      if(this.auth_store.isAuthen == false) 
+      if(this.auth_store.isAuthen == false)
         return this.$router.push('/login');
 
       try {
@@ -231,10 +236,26 @@ export default {
           a.download = 'download_file.' + response.headers["content-type"].split("/")[1];
           a.click();
         })
-    }
+    },
+      onSubmitComment(e){
+          e.preventDefault()
+          this.$axios.post(`/comment`, {
+              message: this.message,
+              post_id: this.post.id,
+          }, {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+              }
+          })
+
+          this.$refs.comment_section.value=""
+
+      },
   },
+
   components: {
-    IsLoading
+    IsLoading,
+    CommentCard
   }
 }
 </script>
