@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
+            $table->string('path')->default('no_image.jpg');
 //            $table->foreignIdFor(\App\Models\Post::class); // foreign key is `post_id`
 //            $table->foreignIdFor(\App\Models\Commission::class); // foreign key is `commission_id`
             $table->timestamps();

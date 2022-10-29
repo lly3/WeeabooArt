@@ -11,7 +11,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use Image;
+use Intervention\Image\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -19,9 +19,11 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+
     public function __construct() {
         $this->middleware('auth:api', ['except' => ['index', 'show']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +31,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::get();
+        $posts = Post::orderBy('id', 'desc')->paginate(15);
         return PostResource::collection($posts);
     }
 
@@ -116,6 +118,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+
         if ($request->has('title')) $post->title = $request->get('title');
         if ($request->has('description')) $post->description = $request->get('description');
         if ($request->has('is_saleable')) $post->is_saleable = $request->get('is_saleable');
@@ -163,6 +166,28 @@ class PostController extends Controller
             'success' => false,
             'message' => "Post {$post_title} deleted failed"
         ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function mostLiked() {
+        $posts = Post::orderBy('favorite_count', 'desc')->take(6)->get();
+        foreach ($posts as $post) {
+            $post->image;
+            $post->user_name = $post->user->name;
+        }
+        return response()->json($posts->toArray());
+    }
+
+    public function mostViewed() {
+        $posts = Post::orderBy('view_count', 'desc')->take(6)->get();
+        foreach ($posts as $post) {
+            $post->image;
+            $post->user_name = $post->user->name;
+        }
+        return response()->json($posts->toArray());
+    }
+
+    public function otherPosts() {
+        return Post::orderBy('id', 'desc')->paginate(15);
     }
 
     public function buyArtPost(Post $post) {
@@ -229,5 +254,15 @@ class PostController extends Controller
         File::move(public_path('images/'.$post->image->path), storage_path('images/'.$post->image->path));
         $img->insert(public_path('watermask.png'), 'center', 100, 100);
         $img->save(public_path('images/'.$post->image->path));
+    }
+
+    public function search(Request $request) {
+        $search = $request->get('search');
+        $posts = Post::where('title', 'LIKE', "%{$search}%")->get();
+        foreach ($posts as $post) {
+            $post->image;
+        }
+        return PostResource::collection($posts);
+
     }
 }

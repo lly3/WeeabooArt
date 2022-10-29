@@ -59,11 +59,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await this.$axios.get(`/post/edit/${this.$route.params.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        }
-      });
+      const response = await this.$axios.get(`/post/edit/${this.$route.params.id}`);
       this.post = response.data;
       this.image = this.post.image;
       console.log(this.post);
@@ -94,17 +90,9 @@ export default {
       try {
         if(this.imageFile != null) {
           const imageID = await this.uploadImage()
-          await this.$axios.put(`/post/${this.post.id}`, { ...this.post, imageID }, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-            }
-          })
+          await this.$axios.put(`/post/${this.post.id}`, { ...this.post, imageID })
         }
-        await this.$axios.put(`/post/${this.post.id}`, this.post, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-            }
-        })
+        await this.$axios.put(`/post/${this.post.id}`, this.post)
 
         this.$router.back()
       } catch (e) {
@@ -116,11 +104,7 @@ export default {
       
       try {
         if (confirm('Are you sure?')) {
-          await this.$axios.delete(`/post/${this.post.id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-            }
-          })
+          await this.$axios.delete(`/post/${this.post.id}`)
 
           this.$router.back()
         }
@@ -132,12 +116,7 @@ export default {
       try {
         const formData = new FormData();
         formData.append('image', this.imageFile)
-        return await this.$axios.post('/image', formData, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-            }
-        })
-          .then(res => res.data.image_id)
+        return await this.$axios.post('/image', formData).then(res => res.data.image_id)
       } catch (e) {
         console.log(e);
       }

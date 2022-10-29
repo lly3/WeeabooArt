@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PostController;
-use App\Http\Controllers\Api\CollectionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +40,9 @@ Route::group([
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
 });
 
+Route::get('/post/search', [\App\Http\Controllers\Api\PostController::class, 'search']);
+Route::post('/post/mostLiked', [\App\Http\Controllers\Api\PostController::class, 'mostLiked']);
+Route::post('/post/mostViewed', [\App\Http\Controllers\Api\PostController::class, 'mostViewed']);
 Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
 Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class, 'edit'])
     ->name('post.edit');
@@ -48,7 +50,6 @@ Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
 Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
 Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);
 
-Route::get('/my-collection', [CollectionController::class, 'myCollection']);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
 

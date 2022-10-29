@@ -24,7 +24,7 @@ export const useAuthStore = defineStore({
 
         getEmail: (state) => state.auth.email,
 
-        getName: (state) => state.auth.name,
+        authName: (state) => state.auth.name,
 
         getImage: (state) => state.auth.image,
 
