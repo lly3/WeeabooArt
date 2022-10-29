@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,8 @@ Route::group([
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
     Route::post('register', [AuthController::class, 'register']);
+    Route::post('forgot-password', [AuthController::class, 'resetPasswordRequest']);
+    Route::post('reset-password', [AuthController::class, 'resetPassword']);
 });
 
 Route::get('/post/search', [\App\Http\Controllers\Api\PostController::class, 'search']);
@@ -56,3 +59,11 @@ Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
 Route::get('/image/email/{email}', [ImageController::class, 'getProfileImageByEmail']);
 
 Route::apiResource('/', \App\Http\Controllers\Api\GalleryController::class);
+
+Route::get('/sendmail', function (Request $request) {
+    $ip = $request->ip();
+    Mail::raw('Hi user, a new login into your account.', function ($message) {
+        $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+        $message->to('artweeaboo@gmail.com', 'Weeaboo Art');
+    });
+});

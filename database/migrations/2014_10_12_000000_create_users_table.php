@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('role')->default('user');
             $table->string('password');
             $table->foreignIdFor(\App\Models\Image::class)->default(1); // foreign key is `image_id`
+            $table->string('reset_password_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

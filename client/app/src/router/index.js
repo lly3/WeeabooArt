@@ -77,6 +77,21 @@ const router = createRouter({
         path: '/post/search/:searchKey',
         name: 'post.search',
         component: () => import('@/views/SearchView.vue')
+    },
+    {
+        path: '/my-collection',
+        name: 'my-collection',
+        component: () => import('@/views/MyCollectionView.vue')
+    },
+    {
+        path: '/forgot-password',
+        name: 'forgot-password',
+        component: () => import('@/views/ForgotPasswordView.vue')
+    },
+    {
+        path: '/reset-password',
+        name: 'reset-password',
+        component: () => import('@/views/ResetPasswordView.vue')
     }
   ]
 })
