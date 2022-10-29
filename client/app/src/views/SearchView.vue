@@ -15,7 +15,7 @@
 
 
     <section class="py-4 lg:py-8">
-        <h1 class="text-white container px-5 mx-auto lg:px-12" v-if="post_search">You are searching: " {{this.$route.params.searchKey}} "</h1>
+        <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="post_search">You are searching: " {{this.$route.params.searchKey}} "</h1>
         <gallery-card-view :posts="post_searches"></gallery-card-view>
     </section>
 
@@ -91,10 +91,6 @@ export default {
 </script>
 
 <style>
-body {
-    background-color: #000000;
-}
-
 /*css bluwbyu*/
 
 /*.button-on-pic{*/

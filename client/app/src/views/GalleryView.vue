@@ -1,6 +1,6 @@
 <template>
     <!-- Search bar -->
-    <div class="input-group flex items-center px-3 lg:px-10 md:px-5 pt-4 flex items-center justify-end pr-6">
+    <div class="input-group flex items-center px-3 lg:px-10 md:px-5 pt-4 flex items-center justify-end pr-6 dark:dark-body">
         <form @submit.prevent="onFormSubmit" class="flex items-center">
             <div class="relative w-full">
                 <input type="text" v-model="searchKey" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-white focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
@@ -15,9 +15,9 @@
     </div>
 
     <!-- Most Viewed & Most Liked -->
-    <section class="overflow-hidden text-gray-700">
+    <section class="overflow-hidden text-gray-700 dark:dark-body">
         <div class="container px-5 pb-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
-            <h1 class="text-white pb-5">Most likes</h1>
+            <h1 class="dark:text-white pb-5">Most likes</h1>
             <div class="flex flex-wrap -m-1 md:-m-2">
                 <div class="flex flex-wrap w-1/2" v-if="mostLikes">
                     <a :href="'http://localhost:3000/post/' + posts_mostLiked[0].id" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
@@ -134,9 +134,9 @@
             </div>
         </div>
     </section>
-    <section class="overflow-hidden text-gray-700">
+    <section class="overflow-hidden text-gray-700 dark:dark-body">
         <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
-            <h1 class="text-white pb-5">Most View</h1>
+            <h1 class="dark:text-white pb-5">Most View</h1>
             <div class="flex flex-wrap -m-1 md:-m-2">
                 <div class="flex flex-wrap w-1/2" v-if="mostViews">
                     <a :href="'http://localhost:3000/post/' + posts_mostViewed[0].id" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
@@ -255,13 +255,13 @@
     </section>
 
     <!-- Posts -->
-    <section class="py-4 lg:py-8">
-        <h1 class="text-white container px-5 mx-auto lg:px-12" v-if="havePosts">Post</h1>
+    <section class="py-4 lg:py-8 dark:dark-body">
+        <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="havePosts">Post</h1>
         <gallery-card-view :posts="posts"></gallery-card-view>
     </section>
 
     <!-- Pagination -->
-    <section class="center" v-if="havePosts">
+    <section class="center dark:dark-body" v-if="havePosts">
         <pagination :total-pages="totalPages"
                          :total="total"
                          :per-page="perPage"
@@ -402,10 +402,6 @@ export default {
 </script>
 
 <style>
-body {
-    background-color: #000000;
-}
-
 /*css bluwbyu*/
 
 /*.button-on-pic{*/
