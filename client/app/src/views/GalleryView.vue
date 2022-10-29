@@ -287,7 +287,7 @@ export default {
             const response = await postAPI.fetch()
             this.posts = response.data.data
             if (this.posts !== null) {
-                const response_page1 = await this.$axios.get('/post?page=1');
+                const response_page1 = await postAPI.paginate(1);
                 this.posts = response_page1.data.data
                 this.page = 1;
                 this.posts = response_page1.data.data;

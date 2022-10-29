@@ -63,6 +63,7 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
+import { commissionAPI, imageAPI } from '@/services/api.js'
 
 function calculateTranslate(sliceIndex) {
   const wrapper = document.getElementById('carousel-wrapper');
@@ -112,32 +113,15 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
 
-      const imagesID = await this.uploadImages()
-      const response = await this.$axios.post('/commission', {
+      const imagesID = await imageAPI.uploadImages(this.images)
+      const response = await commissionAPI.create({
         title: this.title,
         description: this.description,
         tags: this.tags,
         imagesID: imagesID,
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        }
       })
       const commissionID = response.data.commission_id
       this.$router.push(`/commission/${commissionID}`)
-    },
-    async uploadImages() {
-      const formData = new FormData();
-      for (let i = 0; i < this.images.length; i++) {
-        formData.append('images[]', this.images[i])
-      }
-      const response = await this.$axios.post('/images', formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        }
-      })
-      console.log(response);
-      return response.data.data;
     },
     previewImage(e) {
       calculateTranslate(0);

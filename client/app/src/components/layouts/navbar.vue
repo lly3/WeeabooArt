@@ -1,11 +1,11 @@
 <template>
   <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900 ease-out duration-300">
-    <div class="container flex flex-wrap justify-between items-center mx-auto">
+    <div class="container flex flex-col sm:flex-row flex-wrap justify-between items-center mx-auto">
       <button @click="() => this.$router.push('/')" class="flex items-center ">
         <img src="https://i.kym-cdn.com/photos/images/original/001/935/776/70f.gif" class="mr-3 h-6 sm:h-9" alt="Weeaboo Logo" />
-        <div class="flex flex-col items-start">
-          <p class="text-xl font-semibold whitespace-nowrap dark:text-white">Weeaboo</p>
-          <p class="text-xl font-semibold whitespace-nowrap dark:text-white">Art</p>
+        <div class="flex flex-row items-start my-3">
+          <p class="text-xl font-extrabold whitespace-nowrap dark:text-white">Weeaboo</p>
+          <p class="text-xl font-extrabold whitespace-nowrap dark:text-white">Art</p>
         </div>
       </button>
       <div class="flex items-center md:order-2 space-x-3">
@@ -63,7 +63,7 @@
         </div>
 
         <div class="relative">
-          <MyButton title='+ Submit' textColor='black' @click=toggleSubmitDropdown />
+          <MyButton title='+ Submit' textColor='black' />
           <div class="hidden text-sm absolute text-center w-full my-2 rounded border dark:border-gray-600 w-[125px] -left-1/4 z-20 bg-white dark:bg-gray-700 dark:text-white" id="submit-dropdown">
             <div @click="() => this.$router.push('/post/create')" class="px-2 py-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600">
               Art Post
@@ -88,9 +88,6 @@
           </li>
           <li>
             <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
-          </li>
-          <li>
-            <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
           </li>
         </ul>
       </div>

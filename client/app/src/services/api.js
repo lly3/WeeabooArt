@@ -98,6 +98,24 @@ export const postAPI = {
 
 }
 
+export const commissionAPI = {
+    editView(id) {
+        return axiosInstance.get(`/commission/edit/${id}`)
+    },
+    edit(id, post) {
+        return axiosInstance.put(`/commission/${id}`, post)
+    },
+    delete(id) {
+        return axiosInstance.delete(`/commission/${id}`)
+    },
+    show(id) {
+        return axiosInstance.get(`/commission/${id}`)
+    },
+    create(post) {
+        return axiosInstance.post('/commission', post)
+    }
+}
+
 export const imageAPI = {
     async uploadImage(image) {
         try {
@@ -108,4 +126,13 @@ export const imageAPI = {
             console.log(e);
         }
     },
+    async uploadImages(images) {
+      const formData = new FormData();
+      for (let i = 0; i < images.length; i++) {
+        formData.append('images[]', images[i])
+      }
+      const response = await axiosInstance.post('/images', formData)
+      console.log(response);
+      return response.data.data;
+    }
 }

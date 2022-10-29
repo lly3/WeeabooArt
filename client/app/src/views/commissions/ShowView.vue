@@ -161,10 +161,8 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
+import { commissionAPI } from '@/services/api.js'
 import IsLoading from '@/components/IsLoading.vue'
-
-function calculateTranslate(sliceIndex) {
-}
 
 export default {
   setup() {
@@ -173,7 +171,7 @@ export default {
   },
   async mounted() {
     try {
-      let response = await this.$axios.get(`/commission/${this.$route.params.id}`);
+      let response = await commissionAPI.show(this.$route.params.id);
       this.post = response.data.data;
       this.images = this.post.images;
       this.is_loading = true;

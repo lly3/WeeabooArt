@@ -73,6 +73,7 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
+import { commissionAPI, imageAPI } from '@/services/api.js'
 
 function calculateTranslate(sliceIndex) {
   const wrapper = document.getElementById('carousel-wrapper');
@@ -87,11 +88,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await this.$axios.get(`/commission/edit/${this.$route.params.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        }
-      })
+      const response = await commissionAPI.editView(this.$route.params.id)
       this.post = response.data.data
 
     } catch (e) {
@@ -128,51 +125,21 @@ export default {
       let response
 
       if(this.images != null) {
-        const imagesID = await this.uploadImages()
-        response = await this.$axios.put(`/commission/${this.post.id}`, {
-          ...this.post, imagesID
-        }, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-          }
-        })
-        const commissionID = response.data.commission_id
-        return this.$router.push(`/commission/${commissionID}`)
+        const imagesID = await imageAPI.uploadImages(this.images)
+        response = await commissionAPI.edit(this.post.id, { ...this.post, imagesID })
       }
       else {
-        response = await this.$axios.put(`/commission/${this.post.id}`, this.post, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-          }
-        })
+        response = await commissionAPI.edit(this.post.id, this.post)      
       }
       const commissionID = response.data.commission_id
       return this.$router.push(`/commission/${commissionID}`)
-    },
-    async uploadImages() {
-      const formData = new FormData();
-      for (let i = 0; i < this.images.length; i++) {
-        formData.append('images[]', this.images[i])
-      }
-      const response = await this.$axios.post('/images', formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        }
-      })
-      console.log(response);
-      return response.data.data;
     },
     async onDelete(e) {
       e.preventDefault();
 
       try {
         if (confirm('Are you sure?')) {
-          await this.$axios.delete(`/commission/${this.post.id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-            }
-          })
-
+          await commissionAPI.delete(this.post.id)
           this.$router.back()
         }
       } catch (e) {
