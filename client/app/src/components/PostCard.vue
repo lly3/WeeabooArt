@@ -1,5 +1,5 @@
 <template>
-    <div v-if=square class="aspect-square cursor-pointer" @click="() => this.$router.push(`/post/${this.post.id}`)">
+    <div v-if=square class="aspect-square cursor-pointer" @click="() => this.$router.push(`/${this.model}/${this.post.id}`)">
         <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
                             :src=concatFunctionImage>
     </div>
@@ -27,6 +27,10 @@ export default {
         square: {
             default: false,
             type: Boolean
+        },
+        model: {
+            default: 'post',
+            type: String
         }
     }
 }

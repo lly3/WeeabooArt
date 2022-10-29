@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CommissionController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
@@ -49,6 +50,7 @@ Route::get('/post/by/{user_id}', [PostController::class, 'more_by']);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
 Route::get('/commission/edit/{commission}', [\App\Http\Controllers\Api\CommissionController::class, 'edit']);
+Route::get('/commission/by/{user_id}', [CommissionController::class, 'more_by']);
 
 Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);
 

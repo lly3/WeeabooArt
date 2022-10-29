@@ -168,6 +168,8 @@ export default {
       async (toParams, previousParams) => {
         const response = await postAPI.show(toParams.id)
         this.post = response.data.data
+        await postAPI.more_by(this.post.user_id, 9, true)
+          .then(res => this.more_by = res.data.data)
       }
     )
   },
@@ -175,7 +177,7 @@ export default {
     try {
       let response = await postAPI.show(this.$route.params.id)
       this.post = response.data.data;
-      response = await postAPI.more_by(this.post.user_id, 9)
+      response = await postAPI.more_by(this.post.user_id, 9, true)
       this.more_by = response.data.data;
       console.log(this.more_by);
       this.is_loading = true;

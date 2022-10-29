@@ -92,8 +92,8 @@ export const postAPI = {
     collected(id) {
         return axiosInstance.get(`/post/collected/${id}`)
     },
-    more_by(user_id, quantity = '') {
-        return axiosInstance.get(`/post/by/${user_id}?quantity=${quantity}`)
+    more_by(user_id, quantity='', random=false) {
+        return axiosInstance.get(`/post/by/${user_id}?quantity=${quantity}&ramdom=${random}`)
     }
 
 }
@@ -113,6 +113,9 @@ export const commissionAPI = {
     },
     create(post) {
         return axiosInstance.post('/commission', post)
+    },
+    more_by(user_id, quantity='', random=false) {
+        return axiosInstance.get(`/commission/by/${user_id}?quantity=${quantity}&ramdom=${random}`)
     }
 }
 

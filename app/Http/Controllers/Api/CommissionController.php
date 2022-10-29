@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 class CommissionController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show', 'more_by']]);
     }
     /**
      * Display a listing of the resource.
@@ -158,4 +158,30 @@ class CommissionController extends Controller
             $image->delete();
         }
     }
+
+    public function more_by(Request $request, $user_id) {
+        if($request->query('quantity') != null) {
+            if($request->query('random') == 'false') {
+                $posts = Commission::where('user_id', $user_id)
+                    ->limit($request->query('quantity'))
+                    ->get();
+                return CommissionResource::collection($posts);
+            }
+            $posts = Commission::where('user_id', $user_id)
+                ->inRandomOrder()
+                ->limit($request->query('quantity'))
+                ->get();
+            return CommissionResource::collection($posts);
+        }
+        else {
+            $posts = Commission::where('user_id', $user_id)
+                ->get();
+            return CommissionResource::collection($posts);
+        }
+        return response()->json([
+            'message' => 'fetch more post by user_id' . $user_id . 'failed',
+            'success' => false
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
 }

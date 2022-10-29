@@ -230,7 +230,14 @@ class PostController extends Controller
 
     public function more_by(Request $request, $user_id) {
         if($request->query('quantity') != null) {
+            if($request->query('random') == 'false') {
+                $posts = Post::where('user_id', $user_id)
+                    ->limit($request->query('quantity'))
+                    ->get();
+                return PostResource::collection($posts);
+            }
             $posts = Post::where('user_id', $user_id)
+                ->inRandomOrder()
                 ->limit($request->query('quantity'))
                 ->get();
             return PostResource::collection($posts);

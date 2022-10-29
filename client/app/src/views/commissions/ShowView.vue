@@ -111,8 +111,8 @@
           <p class="font-bold dark:text-white">Comments</p>
           <div class="w-full h-[300px] mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
-              <div class="border mr-3 rounded-lg">
-                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
+              <div class="mr-3 rounded-lg">
+                <img :src=defaultImage() class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
               </div>
               <div class="w-full p-6 text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <span class="text-black dark:text-white hover:text-greenlogo dark:hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/register')">Join the community</span> to add your comment. Already a deviant? <span class="text-black dark:text-white dark:hover:text-greenlogo hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/login')">Log In</span>
@@ -144,8 +144,8 @@
     </div>
     <div class="right-side py-3 px-7 xl:w-3/12 w-full dark:text-white bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
       <p class="font-bold">More by {{ post.user_name }}</p>
-      <div class="w-full h-[200px] mt-3 border">
-        
+      <div class="w-full mt-3">
+        <Gallery :posts=more_by size='small' model='commission' />
       </div>
 
       <p class="my-3 dark:text-gray-200 text-gray-500 font-bold">Suggested Collections</p>
@@ -163,18 +163,34 @@
 import { useAuthStore } from '@/stores/auth.js'
 import { commissionAPI } from '@/services/api.js'
 import IsLoading from '@/components/IsLoading.vue'
+import Gallery from '@/components/GalleryCardView.vue'
 
 export default {
   setup() {
     const auth_store = useAuthStore()
     return { auth_store }
   },
+  created() {
+    this.$watch(
+      () => this.$route.params,
+      async (toParams, previousParams) => {
+        const response = await commissionAPI.show(toParams.id)
+        this.post = response.data.data
+        this.images = this.post.images
+        await commissionAPI.more_by(this.post.user_id, 9, true)
+          .then(res => this.more_by = res.data.data)
+      }
+    )
+  },
   async mounted() {
     try {
       let response = await commissionAPI.show(this.$route.params.id);
       this.post = response.data.data;
       this.images = this.post.images;
+      response = await commissionAPI.more_by(this.post.user_id, 9, true)
+      this.more_by = response.data.data
       this.is_loading = true;
+      console.log(response);
       console.log(this.post);
     } catch (e) {
       console.log(e);
@@ -185,6 +201,7 @@ export default {
   data() {
     return {
       post: {},
+      more_by: {},
       images: {},
       is_loading: false,
       overlay: false,
@@ -199,6 +216,9 @@ export default {
     },
     imageURL(path) {
       return 'http://localhost/images/' + path
+    },
+    defaultImage() {
+      return 'http://localhost/image.png'
     },
     nextImage() {
       console.log('hello');
@@ -236,7 +256,8 @@ export default {
     }
   },
   components: {
-    IsLoading
+    IsLoading,
+    Gallery
   }
 }
 </script>

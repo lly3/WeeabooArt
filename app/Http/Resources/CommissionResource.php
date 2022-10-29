@@ -20,9 +20,11 @@ class CommissionResource extends JsonResource
             'description' => $this->description,
             'favorite_count' => $this->favorite_count,
             'view_count' => $this->view_count,
+            'user_id' => $this->user->id,
             'user_image' => $this->user->image->path,
             'user_name' => $this->user->name,
             'user_email' => $this->user->email,
+            'image' => $this->images[0]->path,
             'images' => $this->images,
             'published' => $this->created_at->format('M d, Y')
         ];

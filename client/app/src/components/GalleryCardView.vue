@@ -2,7 +2,7 @@
 <!--    {{ posts}}-->
     <section v-if="size == 'small'" class="overflow-hidden text-gray-700">
         <div class="mx-auto grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2">
-            <post-card v-for="post in posts" :square="true" :post="{ ...post }" :key="post.id"></post-card>
+            <post-card v-for="post in posts" :model=model :square="true" :post="{ ...post }" :key="post.id"></post-card>
         </div>
     </section>
     <section v-else class="overflow-hidden text-gray-700">
@@ -22,6 +22,10 @@ export default {
         posts: Array,
         size: {
             default: 'large',
+            type: String
+        },
+        model: {
+            default: 'post',
             type: String
         }
     }
