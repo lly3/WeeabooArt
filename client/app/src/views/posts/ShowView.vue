@@ -81,7 +81,7 @@
         </div>
 
         <div class="flex space-x-2 text-xs" :v-for="tag in tags">
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white">
+          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.id}`)">
               {{ tag.name }}
           </div>
         </div>
@@ -148,7 +148,7 @@
 </template>
 
 <script>
-import {nextTick} from "vue";
+
 import { useAuthStore } from '@/stores/auth.js'
 import { postAPI } from '@/services/api.js'
 import IsLoading from '@/components/IsLoading.vue'
@@ -285,6 +285,9 @@ export default {
 
 
       },
+      // onClickTag(tag){
+      //     this.$router.push(`tags/${tag.id}`)
+      // },
   },
 
   components: {
