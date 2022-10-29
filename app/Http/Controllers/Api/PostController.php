@@ -163,6 +163,7 @@ class PostController extends Controller
         $posts = Post::orderBy('favorite_count', 'desc')->take(6)->get();
         foreach ($posts as $post) {
             $post->image;
+            $post->user_name = $post->user->name;
         }
         return response()->json($posts->toArray());
     }
@@ -171,6 +172,7 @@ class PostController extends Controller
         $posts = Post::orderBy('view_count', 'desc')->take(6)->get();
         foreach ($posts as $post) {
             $post->image;
+            $post->user_name = $post->user->name;
         }
         return response()->json($posts->toArray());
     }
