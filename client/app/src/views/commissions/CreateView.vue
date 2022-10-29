@@ -51,7 +51,10 @@
             </div>
           </div>
           <div class="flex items-center justify-end py-2 px-3 dark:border-gray-600">
-            <button type="submit" class="inline-flex items-center py-2.5 px-4 text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+            <button v-if=!disableButton type="submit" class="inline-flex items-center py-2.5 px-4 text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+              Submit now
+            </button>
+            <button v-if=disableButton disabled type="submit" class="inline-flex items-center py-2.5 px-4 text-center text-white bg-blue-400 dark:bg-blue-800 rounded-lg focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-600">
               Submit now
             </button>
           </div>
@@ -102,6 +105,7 @@ export default {
       title: '',
       description: '',
       tags: '',
+      disableButton: false,
       images: null,
       is_toggle: false,
     }
@@ -112,6 +116,7 @@ export default {
     },
     async onSubmit(e) {
       e.preventDefault();
+      this.disableButton = true
 
       const imagesID = await imageAPI.uploadImages(this.images)
       const response = await commissionAPI.create({

@@ -170,6 +170,8 @@ export default {
         this.post = response.data.data
         await postAPI.more_by(this.post.user_id, 9, true)
           .then(res => this.more_by = res.data.data)
+        await postAPI.collected(this.post.id)
+          .then(res => this.bought = res.data);
       }
     )
   },
