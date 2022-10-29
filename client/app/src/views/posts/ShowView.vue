@@ -96,7 +96,7 @@
         </div>
         <div>
           <p class="font-bold dark:text-white">Comments</p>
-            <CommentCard v-for="comment in comments" :comment="{...comment}"></CommentCard>
+            <CommentCard :comments="{...comments}"  :key="commentKey"></CommentCard>
           <div class="w-full h-[300px] mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
               <div class="border mr-3 rounded-lg">
@@ -108,7 +108,7 @@
             </div>
           </div>
           <div v-else class="w-full mt-3">
-              <form class="flex" @submit="onSubmitComment">
+              <form class="flex"  @submit="onSubmitComment">
                   <div class="mr-3 sm:rounded-lg rounded">
                       <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
                   </div>
@@ -148,6 +148,7 @@
 </template>
 
 <script>
+import {nextTick} from "vue";
 import { useAuthStore } from '@/stores/auth.js'
 import IsLoading from '@/components/IsLoading.vue'
 import CommentCard from '@/components/CommentCard.vue'
@@ -157,7 +158,7 @@ export default {
     const auth_store = useAuthStore()
     return { auth_store }
   },
-  async mounted() {
+    async mounted() {
     try {
       let response = await this.$axios.get(`/post/${this.$route.params.id}`);
       let comment_response = await this.$axios.get(`/comment/post/${this.$route.params.id}`)
@@ -182,16 +183,28 @@ export default {
   },
   data() {
     return {
+      polling:'',
       post: {},
       is_loading: false,
       overlay: false,
       bought: false,
       comments:{},
       tags:{},
+      commentKey: 0
 
     }
   },
   methods: {
+    async getData(){
+        await this.$axios.get(`/comment/post/${this.$route.params.id}`)
+            .then(response =>{
+                this.comments = response.data.data
+                console.log(this.comments)
+            })
+        this.$nextTick(()=>{
+            this.$refs.comment_section.value=""
+        })
+    },
     onEdit(id) {
       return this.$router.push(`/post/edit/${id}`);
     },
@@ -237,9 +250,10 @@ export default {
           a.click();
         })
     },
-      onSubmitComment(e){
+
+      async onSubmitComment(e){
           e.preventDefault()
-          this.$axios.post(`/comment`, {
+          await this.$axios.post(`/comment`, {
               message: this.message,
               post_id: this.post.id,
           }, {
@@ -247,8 +261,11 @@ export default {
                   Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
               }
           })
+          await this.getData()
+          this.$nextTick(()=>{
+              this.$refs.comment_section.value=""
+          })
 
-          this.$refs.comment_section.value=""
 
       },
   },

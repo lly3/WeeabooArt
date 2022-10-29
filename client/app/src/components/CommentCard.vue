@@ -1,5 +1,5 @@
 <template>
-    <!--    <div v-for="comment in comments">-->
+        <div v-for="comment in comments">
     <div class="antialiased  max-w-screen-l py-3">
         <div class="space-y-4">
             <div class="flex">
@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <!--    </div>-->
+        </div>
 </template>
 
 <script>
@@ -24,7 +24,7 @@
 export default {
 
     props:{
-        comment: Object
+        comments: Object
     },
     methods:{
         imageURL(path) {
