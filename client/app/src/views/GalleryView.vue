@@ -469,7 +469,7 @@ body {
 .snip {
     position: relative;
     display: inline-block;
-    overflow: hidden;
+    overflow-wrap: anywhere;
     margin: 10px 8px;
     width: 100%;
     color: #ffffff;
@@ -537,6 +537,7 @@ body {
 .snip h5 {
     font-weight: 400;
     background-color: #A0A0A0;
+    margin: 0px 10px;
     padding: 3px 10px;
     -webkit-transform : translateY(100%);
     transform : translateY(100%);
@@ -566,6 +567,6 @@ body {
 .snip.hover h5 {
     opacity: 1;
     -webkit-transform : translateY(0);
-    transform : translateY(0);
+    padding: 0px 10px;
 }
 </style>
