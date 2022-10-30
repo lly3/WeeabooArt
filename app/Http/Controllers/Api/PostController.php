@@ -212,7 +212,8 @@ class PostController extends Controller
     }
 
     public function premiumDownload(Post $post) {
-        if($post->is_saleable) {
+        $user = User::find(auth()->user()->id);
+        if($post->is_saleable && $post->collected_by->find($user->id) != null) {
             return response()->download(storage_path('images/'.$post->image->path));
         }
         return response()->json([
