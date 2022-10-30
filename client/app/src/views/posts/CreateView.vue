@@ -88,6 +88,7 @@ export default {
         premium_download: this.is_toggle,
         price: this.price,
       })
+      console.log(tags)
       const postID = response.data.post_id
       this.$router.push(`/post/${postID}`)
     },

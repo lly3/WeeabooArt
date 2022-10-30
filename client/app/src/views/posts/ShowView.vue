@@ -79,11 +79,11 @@
             <p>{{ post.view_count }} <span class="sm:inline hidden">Views</span></p>
           </div>
         </div>
+        <div class="flex flex-wrap justify-start gap-4 space-x-2 text-xs">
+                <div v-for="tag in tags" class="flex inline-flex items-center gap-[5px] border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.id}`)">
+                    {{ tag.name }}
+                </div>
 
-        <div class="flex space-x-2 text-xs" v-for="tag in tags">
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.id}`)">
-              {{ tag.name }}
-          </div>
         </div>
         <div class="whitespace-pre-wrap break-all dark:text-white">
           {{ post.description }}
@@ -108,7 +108,7 @@
             </div>
           </div>
           <div v-else class="w-full mt-3">
-              <form class="flex"  @submit="onSubmitComment">
+              <form class="flex"  @submit="onSubmitComment" >
                   <div class="mr-3 sm:rounded-lg rounded">
                       <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
                   </div>
@@ -116,10 +116,10 @@
                       <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
                           <div class="py-2 px-4 bg-gray-100 rounded-t-lg dark:bg-gray-800">
                               <label for="message" class="sr-only">Your comment</label>
-                              <textarea v-model="message" ref="comment_section" maxlength="100" id="message" name="message" rows="4" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+                              <textarea v-model="message"  ref="comment_section" maxlength="100" id="message" name="message" rows="4" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
                           </div>
                           <div class="flex justify-between items-center py-2 px-3 border-t dark:border-gray-600">
-                              <button type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                              <button :disabled="disabledButton" type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
                                   Comment
                               </button>
                           </div>
@@ -190,7 +190,8 @@ export default {
       bought: false,
       comments:{},
       tags:{},
-      commentKey: 0
+      commentKey: 0,
+      disabledButton:false
 
     }
   },
@@ -203,6 +204,7 @@ export default {
             })
         this.$nextTick(()=>{
             this.$refs.comment_section.value=""
+            this.disabledButton=false
         })
     },
     onEdit(id) {
@@ -244,6 +246,7 @@ export default {
 
       async onSubmitComment(e){
           e.preventDefault()
+          this.disableButton()
           await this.$axios.post(`/comment`, {
               message: this.message,
               post_id: this.post.id,
@@ -255,13 +258,15 @@ export default {
           await this.getData()
           this.$nextTick(()=>{
               this.$refs.comment_section.value=""
+              this.disabledButton=false
           })
 
 
       },
-      // onClickTag(tag){
-      //     this.$router.push(`tags/${tag.id}`)
-      // },
+      disableButton(){
+          this.error = null
+          this.disabledButton = true
+      }
   },
 
   components: {

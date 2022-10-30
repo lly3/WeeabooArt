@@ -62,8 +62,6 @@ class PostController extends Controller
         if($post->is_saleable) {
             $this->addWatermask($post);
         }
-        // $post->favorite_count = $request->get('favorite_count');
-        // $post->view_count = $request->get('view_count');
         $post->user_id = auth()->user()->id;
         if ($post->save()) {
             $tags = $request->get('tags');
@@ -232,7 +230,6 @@ class PostController extends Controller
     {
         $tags = explode(',', $tags);
         $tags = array_map(function ($v) {
-            // use Illuminate\Support\Str; ก่อน class
             return Str::ucfirst(trim($v));
         }, $tags);
 

@@ -12,10 +12,10 @@
   <div class="xl:w-3/6 md:w-4/6 w-5/6 mx-auto">
     <form>
       <div class="my-3">
-        <input class="form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
+        <input class="form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                type="file"
                id="browse"
-               name="image" 
+               name="image"
                @change=previewImage
                >
       </div>
@@ -30,7 +30,7 @@
             </div>
           </div>
           <label for="tags" class="block mb-2 text-xl  font-medium text-gray-900 dark:text-gray-300">Add tags</label>
-          <input v-model="tags" type="text" id="tags" name="tags" placeholder="E.g.: rose, watercolor, painting, fanart, tutorial, photoshop, poetry" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <input v-model="tags" type="text" required id="tags" name="tags" placeholder="E.g.: rose, watercolor, painting, fanart, tutorial, photoshop, poetry" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <div v-if=post.is_saleable>
             <label for="price" class="block mb-2 text-xl  font-medium text-gray-900 dark:text-gray-300">Price</label>
             <input v-model=post.price type="number" step=".01" min="0" id="price" name="price" placeholder="Enter your price here" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -44,7 +44,7 @@
             Edit Post
           </button>
         </div>
-      </div>  
+      </div>
     </form>
   </div>
 </template>
@@ -54,7 +54,7 @@ import { useAuthStore } from '@/stores/auth.js'
 
 export default {
   setup() {
-    const auth_store = useAuthStore()    
+    const auth_store = useAuthStore()
     return { auth_store }
   },
   async mounted() {
@@ -101,7 +101,7 @@ export default {
     },
     async onDelete(e) {
       e.preventDefault();
-      
+
       try {
         if (confirm('Are you sure?')) {
           await this.$axios.delete(`/post/${this.post.id}`)
