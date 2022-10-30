@@ -157,7 +157,7 @@
                 </div>
             </div>
         </section>
-        <section class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
+        <section v-if=havePosts class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
             <h1 class="dark:text-white py-5">Gallery</h1>
             <gallery-card-view :posts="posts"></gallery-card-view>
         </section>
