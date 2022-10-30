@@ -35,7 +35,7 @@
                 :key="page.name"
             >
 				<span
-                    class="rounded-sm border border-blue-100 px-3 py-2 bg-blue-100 no-underline text-blue-500 cursor-not-allowed mx-2"
+                    class="bg-gray-200 rounded-sm border border-blue-100 px-3 py-2 current_page no-underline text-blue-500 cursor-not-allowed mx-2"
                     v-if="isPageActive(page.name)"
                 >{{ page.name }}</span>
                 <a
@@ -196,6 +196,9 @@ export default defineComponent( {
 .pagination-item {
     display: inline-block;
 }
-
+.current_page {
+    background-color: #01e59b;
+    color: black;
+}
 
 </style>

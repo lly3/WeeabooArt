@@ -13,7 +13,7 @@
           <span class="sr-only">Open main menu</span>
           <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
         </button>
-        
+
         <div v-if=!auth_store.isAuthen class="flex flex-row space-x-3">
           <button @click="() => this.$router.push('/register')" class="font-semibold dark:text-white p-2 dark:hover:text-greenlogo hover:text-greenlogo duration-200 ease-in">Join</button>
           <button @click="() => this.$router.push('/login')" class="font-semibold dark:text-white p-2 dark:hover:text-greenlogo hover:text-greenlogo duration-200 ease-in">Login</button>
@@ -40,8 +40,8 @@
             </div>
             <div v-if=auth_store.isAuthen>
               <div class="py-3 px-4">
-                <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                  <span class="block text-sm text-gray-900 dark:text-white">{{  this.auth_store.getName }}</span>
+                  <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{{ this.auth_store.getEmail }}</span>
               </div>
               <ul class="py-1" aria-labelledby="user-menu-button">
                 <li>
@@ -84,7 +84,7 @@
       </div>
     </div>
   </nav>
-</template> 
+</template>
 
 <script>
 import MyButton from '@/components/MyButton.vue'

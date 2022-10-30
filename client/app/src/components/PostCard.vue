@@ -211,7 +211,7 @@ export default {
 
 .snip h5 {
     font-weight: 400;
-    background-color: #A0A0A0;
+    background-color: #01e59b;
     margin: 0px 10px;
     padding: 3px 10px;
     -webkit-transform : translateY(100%);

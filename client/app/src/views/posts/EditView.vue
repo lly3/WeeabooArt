@@ -12,10 +12,10 @@
   <div class="xl:w-3/6 md:w-4/6 w-5/6 mx-auto">
     <form>
       <div class="my-3">
-        <input class="form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
+        <input class="form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                type="file"
                id="browse"
-               name="image" 
+               name="image"
                @change=previewImage
                >
       </div>
@@ -44,7 +44,7 @@
             Edit Post
           </button>
         </div>
-      </div>  
+      </div>
     </form>
   </div>
 </template>
@@ -54,12 +54,16 @@ import { useAuthStore } from '@/stores/auth.js'
 
 export default {
   setup() {
-    const auth_store = useAuthStore()    
+    const auth_store = useAuthStore()
     return { auth_store }
   },
   async mounted() {
     try {
-      const response = await this.$axios.get(`/post/edit/${this.$route.params.id}`);
+        const response = await this.$axios.get(`/post/edit/${this.$route.params.id}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+            }
+        });
       this.post = response.data;
       this.image = this.post.image;
       console.log(this.post);
@@ -90,9 +94,17 @@ export default {
       try {
         if(this.imageFile != null) {
           const imageID = await this.uploadImage()
-          await this.$axios.put(`/post/${this.post.id}`, { ...this.post, imageID })
+            await this.$axios.put(`/post/${this.post.id}`, { ...this.post, imageID }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+                }
+            })
         }
-        await this.$axios.put(`/post/${this.post.id}`, this.post)
+          await this.$axios.put(`/post/${this.post.id}`, this.post, {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+              }
+          })
 
         this.$router.back()
       } catch (e) {
@@ -101,10 +113,14 @@ export default {
     },
     async onDelete(e) {
       e.preventDefault();
-      
+
       try {
         if (confirm('Are you sure?')) {
-          await this.$axios.delete(`/post/${this.post.id}`)
+            await this.$axios.delete(`/post/${this.post.id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+                }
+            })
 
           this.$router.back()
         }
@@ -116,7 +132,12 @@ export default {
       try {
         const formData = new FormData();
         formData.append('image', this.imageFile)
-        return await this.$axios.post('/image', formData).then(res => res.data.image_id)
+          return await this.$axios.post('/image', formData, {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+              }
+          })
+              .then(res => res.data.image_id)
       } catch (e) {
         console.log(e);
       }
