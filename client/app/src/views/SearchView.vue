@@ -8,7 +8,7 @@
     <!-- Result of search -->
     <section class="py-4 lg:py-8">
         <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="post_search">You are searching: " {{this.$route.params.searchKey}} "</h1>
-        <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="post_search === false">No post title:" {{this.$route.params.searchKey}} "</h1>
+        <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="no_post_search">No post title: " {{this.$route.params.searchKey}} "</h1>
         <gallery-card-view :posts="post_searches"></gallery-card-view>
     </section>
 
@@ -37,29 +37,15 @@ export default {
     props: {
         post: Object,
     },
-    methods: {
-        async search() {
-            await this.$axios.get('/post/search?search=' + this.searchKey)
-                .then(response => {
-                    console.log('searchKey: ' + this.searchKey);
-                    this.post_searches = response.data.data;
-                    console.log(this.post_searches);
-                    this.onFormSubmit();
-                });
-        },
-        onFormSubmit() {
-            console.log("onFormSubmit");
-            // this.$router.push(`/post/search`);
-            this.$router.push({
-                name: 'post.search',
-                params: {searchKey: this.searchKey}
-            });
-            console.log("onFormSubmit success");
-        }
-    },
     computed: {
         post_search(){
             return this.post_searches.length > 0
+        },
+        no_post_search(){
+            return this.post_searches.length == 0
+        },
+        searching(){
+            return this.$route.params.searchKey
         },
     },
     async mounted() {

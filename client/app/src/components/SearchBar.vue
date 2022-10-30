@@ -32,18 +32,16 @@ export default {
                 .then(response => {
                     console.log('searchKey: ' + this.searchKey);
                     this.post_searches = response.data.data;
-                    console.log(this.post_searches);
+                    console.log(this.post_searches.length);
                     this.onFormSubmit();
+                    this.$router.go(0);
                 });
         },
         onFormSubmit() {
-            console.log("onFormSubmit");
-            // this.$router.push(`/post/search`);
             this.$router.push({
                 name: 'post.search',
                 params: {searchKey: this.searchKey}
             });
-            console.log("onFormSubmit success");
         }
     },
     computed: {
