@@ -1,21 +1,14 @@
 <template>
-    <div class="input-group flex items-center px-3 lg:px-10 md:px-5 pt-4 flex items-center justify-end pr-6">
-        <form @submit.prevent="onFormSubmit" class="flex items-center">
-            <div class="relative w-full">
-                <input type="text" v-model="searchKey" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-white focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-            </div>
-            <div class="input-group-prepend">
-                <button :disabled="emptySearch"  @click="search()"  class="p-2.5 ml-2 text-sm font-medium text-black bg-white rounded-lg border border-gray-300 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    <span class="sr-only">Search</span>
-                </button>
-            </div>
-        </form>
-    </div>
 
+    <!-- Search bar component -->
+    <section>
+        <SearchBar></SearchBar>
+    </section>
 
+    <!-- Result of search -->
     <section class="py-4 lg:py-8">
         <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="post_search">You are searching: " {{this.$route.params.searchKey}} "</h1>
+        <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="post_search === false">No post title:" {{this.$route.params.searchKey}} "</h1>
         <gallery-card-view :posts="post_searches"></gallery-card-view>
     </section>
 
@@ -26,16 +19,17 @@
 
 <script>
 import GalleryCardView from "@/components/GalleryCardView.vue";
-import { useRoute, useRouter } from 'vue-router'
+import SearchBar from "../components/SearchBar.vue";
+
 export default {
     components: {
         GalleryCardView,
+        SearchBar
     },
     data () {
         return {
             error: null,
             searchKey: this.searching,
-            disabledSearch: false,
             post_searches: [],
 
         }
@@ -64,17 +58,10 @@ export default {
         }
     },
     computed: {
-        emptySearch(){
-            return this.searchKey === ''
-        },
         post_search(){
-            return this.post_searches.length
-        },
-        searching(){
-            return this.$route.params.searchKey
+            return this.post_searches.length > 0
         },
     },
-
     async mounted() {
         try {
             this.error = null
