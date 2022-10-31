@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use PhpParser\ErrorHandler\Collecting;
 
 class PostResource extends JsonResource
 {
@@ -28,7 +29,8 @@ class PostResource extends JsonResource
             'user_email' => $this->user->email,
             'image' => $this->image->path,
             'published' => $this->created_at->format('M d, Y'),
-            'tags'=>$this->tags
+            'tags' => $this->tags,
+            'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

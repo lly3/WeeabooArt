@@ -105,7 +105,11 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->user;
         $post->image;
-        return response()->json($post);
+        $tags = implode(', ', $post->tags->pluck('name')->all());
+        return response()->json([
+            'post' => $post,
+            'tags' => $tags
+        ]);
     }
 
     /**
@@ -117,7 +121,6 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-
         if ($request->has('title')) $post->title = $request->get('title');
         if ($request->has('description')) $post->description = $request->get('description');
         if ($request->has('is_saleable')) $post->is_saleable = $request->get('is_saleable');

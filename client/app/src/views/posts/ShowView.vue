@@ -79,14 +79,9 @@
             <p>{{ post.view_count }} <span class="sm:inline hidden">Views</span></p>
           </div>
         </div>
-        <div class="flex flex-wrap justify-start gap-4 space-x-2 text-xs">
-          <div :v-for="tag in tags" class="flex inline-flex items-center gap-[5px] border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.id}`)">
-            {{ tag.name }}
-          </div>
-        </div>
 
-        <div class="flex space-x-2 text-xs" :v-for="tag in tags">
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.id}`)">
+        <div class="flex flex-wrap gap-2 text-xs">
+          <div v-for="tag in tags" class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.id}`)">
               {{ tag.name }}
           </div>
         </div>
@@ -101,8 +96,7 @@
         </div>
         <div>
           <p class="font-bold dark:text-white">Comments</p>
-          <CommentCard :comments="{...comments}"  :key="commentKey"></CommentCard>
-          <div class="w-full h-[300px] mt-3" v-if=!auth_store.isAuthen>
+          <div class="w-full mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
               <div class="mr-3 rounded-lg">
                 <img :src=defaultImage() class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
@@ -113,25 +107,28 @@
             </div>
           </div>
           <div v-else class="w-full mt-3">
-              <form class="flex"  @submit="onSubmitComment" >
-                  <div class="mr-3 sm:rounded-lg rounded">
-                      <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
+            <form class="flex"  @submit="onSubmitComment" >
+              <div class="mr-3 sm:rounded-lg rounded">
+                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
+              </div>
+              <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
+                <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                  <div class="py-2 px-4 bg-gray-100 rounded-t-lg dark:bg-gray-800">
+                    <label for="message" class="sr-only">Your comment</label>
+                    <textarea v-model="message"  ref="comment_section" maxlength="100" id="message" name="message" rows="3" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
                   </div>
-                  <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
-                      <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-                          <div class="py-2 px-4 bg-gray-100 rounded-t-lg dark:bg-gray-800">
-                              <label for="message" class="sr-only">Your comment</label>
-                              <textarea v-model="message"  ref="comment_section" maxlength="100" id="message" name="message" rows="4" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
-                          </div>
-                          <div class="flex justify-between items-center py-2 px-3 border-t dark:border-gray-600">
-                              <button :disabled="disabledButton" type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                                  Comment
-                              </button>
-                          </div>
-                      </div>
+                  <div class="flex justify-between items-center py-2 px-3 border-t dark:border-gray-600">
+                    <button :disabled="disabledButton" type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                      Comment
+                    </button>
                   </div>
-              </form>
+                </div>
+              </div>
+            </form>
           </div>
+        </div>
+        <div class="space-y-2">
+          <CommentCard v-for="comment in comments" :comment="comment" :key="comment.id"></CommentCard>
         </div>
       </div>
     </div>
@@ -171,6 +168,8 @@ export default {
       async (toParams, previousParams) => {
         const response = await postAPI.show(toParams.id)
         this.post = response.data.data
+        this.tags = this.post.tags;
+        this.comments = this.post.comments;
         await postAPI.more_by(this.post.user_id, 9, true)
           .then(res => this.more_by = res.data.data)
         await postAPI.collected(this.post.id)
@@ -182,17 +181,12 @@ export default {
     try {
       let response = await postAPI.show(this.$route.params.id)
       this.post = response.data.data;
+      this.tags = this.post.tags;
+      this.comments = this.post.comments;
       response = await postAPI.more_by(this.post.user_id, 9, true)
       this.more_by = response.data.data;
       console.log(this.more_by);
-      let comment_response = await this.$axios.get(`/comment/post/${this.$route.params.id}`)
-      console.log(comment_response)
-      console.log(response)
-      this.comments = comment_response.data.data
-      this.post = response.data.data;
-      this.tags = response.data.data.tags;
       this.is_loading = true;
-      console.log(this.post);
     } catch (e) {
       console.log(e);
       this.$router.push('/');
@@ -217,10 +211,9 @@ export default {
       overlay: false,
       bought: false,
       comments:{},
-      tags:{},
+      tags: {},
       commentKey: 0,
-      disabledButton:false
-
+      disabledButton: false
     }
   },
   methods: {
