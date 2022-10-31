@@ -1,7 +1,7 @@
 <template>
 <!--    {{ posts}}-->
     <section v-if="size == 'small'" class="overflow-hidden text-gray-700">
-        <div class="mx-auto grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2">
+        <div class="mx-auto grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 md:gap-2 gap-4">
             <post-card v-for="post in posts" :model=model :square="true" :post="{ ...post }" :key="post.id"></post-card>
         </div>
     </section>
