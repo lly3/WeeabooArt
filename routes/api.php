@@ -55,7 +55,10 @@ Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController
 Route::get('/commission/edit/{commission}', [\App\Http\Controllers\Api\CommissionController::class, 'edit']);
 Route::get('/commission/by/{user_id}', [CommissionController::class, 'more_by']);
 
-Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);
+Route::apiResource('/comment',\App\Http\Controllers\Api\CommentController::class);
+Route::get('/comment/post/{post}',[\App\Http\Controllers\Api\CommentController::class, 'getComments']);
+
+Route::apiResource('/tags', \App\Http\Controllers\Api\TagController::class);
 
 Route::post('/images', [ImageController::class, 'storeMany']);
 Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
