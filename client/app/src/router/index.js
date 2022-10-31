@@ -92,6 +92,11 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'not_found',
       component: () => import('@/components/404NotFound.vue')
+    },
+    {
+        path: '/my-collection',
+        name: 'my-collection',
+        component: () => import('@/views/MyCollectionView.vue')
     }
   ]
 })
