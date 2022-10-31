@@ -53,7 +53,10 @@ Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDown
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
 
-Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);
+Route::apiResource('/comment',\App\Http\Controllers\Api\CommentController::class);
+Route::get('/comment/post/{post}',[\App\Http\Controllers\Api\CommentController::class, 'getComments']);
+
+Route::apiResource('/tags', \App\Http\Controllers\Api\TagController::class);
 
 Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
 Route::get('/image/email/{email}', [ImageController::class, 'getProfileImageByEmail']);
