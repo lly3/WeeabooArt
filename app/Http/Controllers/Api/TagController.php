@@ -64,6 +64,7 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
+
         return  PostResource::collection($tag->posts);
     }
 
