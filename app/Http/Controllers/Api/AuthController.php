@@ -37,11 +37,12 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+//            return response()->json(['error' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+            return response()->json(['error' => 'The email address or password is incorrect.'], Response::HTTP_UNPROCESSABLE_ENTITY); // 422
         }
 
         if (! $token = JWTAuth::attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED); // 401
+            return response()->json(['error' => 'The email address or password is incorrect.'], Response::HTTP_UNAUTHORIZED); // 401
         }
 
         return $this->respondWithToken($token);
