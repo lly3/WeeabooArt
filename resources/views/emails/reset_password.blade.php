@@ -46,16 +46,22 @@
                                         requested to reset your password</h1>
                                     <span
                                         style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
+                                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0; text-align: left !important;">
                                         We cannot simply send you your old password. A unique reset password token to reset your
                                         password has been generated for you. You can reset your password using the following code:
                                     </p>
-                                    <p style="background:#01e59b;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
-                                        {{ $user->reset_password_token }}
+
+                                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0; font-weight: bold; text-align: left !important;">
+                                        Your reset password token is {{ $user->reset_password_token }}
                                     </p>
-{{--                                    <a href="#"--}}
-{{--                                       style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">--}}
-{{--                                        {{ $user->reset_password_token }}</a>--}}
+
+
+{{--                                    <p style="background:#01e59b;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">--}}
+{{--                                        {{ $user->reset_password_token }}--}}
+{{--                                    </p>--}}
+                                    <a href="http://localhost:3000/reset-password"
+                                       style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
+                                        Reset Password</a>
                                 </td>
                             </tr>
                             <tr>
