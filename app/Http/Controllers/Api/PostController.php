@@ -11,10 +11,11 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use Intervention\Image\Image;
+//use Intervention\Image\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 
 class PostController extends Controller
