@@ -32,7 +32,7 @@
                             <p v-if="error" class="pb-4 pt-4 text-red-600">{{ error }}</p>
                         </div>
 
-                        <a @click="() => this.$router.push('/forgot-password')" class="underline text-sm text-gray-600 hover:text-gray-900" href="#">
+                        <a class="underline text-sm text-gray-600 hover:text-gray-900" href="http://localhost:3000/forgot-password">
                             Forgot your password?
                         </a>
 
