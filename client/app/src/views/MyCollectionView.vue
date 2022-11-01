@@ -7,7 +7,7 @@
 
     <!-- Posts -->
     <section class="py-4 lg:py-8 dark:dark-body">
-        <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="haveCollection">My Collection</h1>
+        <h1 class="dark:text-white container px-5 mx-auto lg:px-12">My Collection</h1>
         <h1 class="dark:text-white container px-5 mx-auto lg:px-12 text-center mt-4" v-if="!haveCollection">You don't have collection.</h1>
         <gallery-card-view :posts="posts"></gallery-card-view>
     </section>
