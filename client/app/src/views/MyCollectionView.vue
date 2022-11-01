@@ -16,7 +16,6 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
-import Collection from "@/components/Collection.vue";
 import GalleryCardView from "@/components/GalleryCardView.vue";
 import SearchBar from '../components/SearchBar.vue';
 export default {
