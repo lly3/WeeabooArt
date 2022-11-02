@@ -213,7 +213,8 @@ class PostController extends Controller
         $user = User::find(auth()->user()->id);
         if (! $post->favorited_by->find($user->id)) {
             if($post->favorited_by()->save($user, ['user_id' => $user->id])) {
-                $post->favorite_count+=1;
+                $post->favorite_count += 1;
+                $post->save();
                 return response()->json([
                     'success' => true,
                     'message' => 'Add favorite successfully'

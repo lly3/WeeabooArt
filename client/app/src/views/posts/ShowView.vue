@@ -256,7 +256,7 @@ export default {
                 .then(res => {
                     if(res.data.success)
                          this.favorite = true
-                        //this.post.favorite_count++
+                        this.post.favorite_count++
                 })
         } catch (e) {
             console.log(e)
