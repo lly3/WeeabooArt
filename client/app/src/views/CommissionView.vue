@@ -3,9 +3,9 @@
         <IsLoading />
     </div>
     <div v-else class="min-h-screen text-gary-700">
-        <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Gallery</h1>
+        <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Commissions</h1>
         <section v-if=havePosts class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
-            <gallery-card-view :posts="posts"></gallery-card-view>
+            <gallery-card-view :posts="posts" model='commission'></gallery-card-view>
         </section>
         <section class="center" v-if="havePosts">
             <pagination :total-pages="totalPages"
@@ -22,7 +22,7 @@
 import GalleryCardView from "@/components/GalleryCardView.vue";
 import pagination from '../components/Pagination.vue';
 import IsLoading from '@/components/IsLoading.vue'
-import { postAPI } from '@/services/api.js'
+import { commissionAPI } from '@/services/api.js'
 
 
 export default {
@@ -37,7 +37,7 @@ export default {
             async (toQuery, previousQuery) => {
                 const page = parseInt(toQuery.page)
                 this.currentPage = page
-                const response = await postAPI.paginate(page);
+                const response = await commissionAPI.paginate(page);
                 this.posts = response.data.data
             }
         )
@@ -72,7 +72,7 @@ export default {
         },
         async getData(pageNumber) {
             // axios.get('/post?page=' + pageNumber)
-            await postAPI.paginate(pageNumber)
+            await commissionAPI.paginate(pageNumber)
                 .then(response => {
                     this.page = pageNumber;
                     this.posts = response.data.data;
@@ -112,13 +112,14 @@ export default {
     async mounted() {
         try {
             this.error = null
-            const response = await postAPI.fetch()
+            const response = await commissionAPI.fetch()
             this.loading = false
             this.posts = response.data.data
+            console.log(this.posts);
             const page = parseInt(this.$route.query.page) ?? 1
             this.currentPage = page
             if (this.posts !== null) {
-                const response_page1 = await postAPI.paginate(page);
+                const response_page1 = await commissionAPI.paginate(page);
                 this.posts = response_page1.data.data
                 this.page = 1;
                 this.posts = response_page1.data.data;

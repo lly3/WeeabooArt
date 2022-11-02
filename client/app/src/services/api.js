@@ -65,8 +65,8 @@ export const postAPI = {
     premiumDownload(id) {
         return axiosInstance.get(`/post/premium_download/${id}`, {responseType: 'arraybuffer'})
     },
-    paginate(pageNumber) {
-        return axiosInstance.get('/post/?page=' + pageNumber)
+    paginate(pageNumber, type='art_post') {
+        return axiosInstance.get(`/post/?page=${pageNumber}&type=${type}`)
     },
     mostLiked() {
         return axiosInstance.post('/post/mostLiked')
@@ -116,7 +116,13 @@ export const commissionAPI = {
     },
     more_by(user_id, quantity='', random=false) {
         return axiosInstance.get(`/commission/by/${user_id}?quantity=${quantity}&ramdom=${random}`)
-    }
+    },
+    paginate(pageNumber) {
+        return axiosInstance.get(`/commission/?page=${pageNumber}`)
+    },
+    fetch() {
+        return axiosInstance.get('/commission')
+    },
 }
 
 export const imageAPI = {

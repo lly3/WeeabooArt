@@ -2,7 +2,7 @@
     <div v-if=loading>
         <IsLoading />
     </div>
-    <div v-else>
+    <div v-else class="min-h-screen">
         <section class="overflow-hidden text-gray-700">
             <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Home</h1>
             <div class="container px-5 py-2 mx-auto lg:px-12" v-if="havePosts">

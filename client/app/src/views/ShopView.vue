@@ -3,7 +3,7 @@
         <IsLoading />
     </div>
     <div v-else class="min-h-screen text-gary-700">
-        <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Gallery</h1>
+        <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Shop</h1>
         <section v-if=havePosts class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
             <gallery-card-view :posts="posts"></gallery-card-view>
         </section>
@@ -37,7 +37,7 @@ export default {
             async (toQuery, previousQuery) => {
                 const page = parseInt(toQuery.page)
                 this.currentPage = page
-                const response = await postAPI.paginate(page);
+                const response = await postAPI.paginate(page, 'premium_download');
                 this.posts = response.data.data
             }
         )
@@ -118,7 +118,7 @@ export default {
             const page = parseInt(this.$route.query.page) ?? 1
             this.currentPage = page
             if (this.posts !== null) {
-                const response_page1 = await postAPI.paginate(page);
+                const response_page1 = await postAPI.paginate(page, 'premium_download');
                 this.posts = response_page1.data.data
                 this.page = 1;
                 this.posts = response_page1.data.data;

@@ -29,9 +29,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::where('is_saleable', 0)
+        $type = $request->query('type') == 'premium_download' ? 1 : 0;
+        $posts = Post::where('is_saleable', $type)
             ->orderBy('id', 'desc')->paginate(15);
         return PostResource::collection($posts);
     }

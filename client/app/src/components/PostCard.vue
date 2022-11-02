@@ -3,7 +3,7 @@
         <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
                             :src=concatFunctionImage>
     </div>
-    <div v-else class="w-full justify-center flex cursor-pointer" @click="() => this.$router.push(`/post/${this.post.id}`)">
+    <div v-else class="w-full justify-center flex cursor-pointer" @click="() => this.$router.push(`/${this.model}/${this.post.id}`)">
         <img alt="No Image" class="rounded-lg normal_image"
                             :src=concatFunctionImage>
     </div>

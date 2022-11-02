@@ -179,6 +179,7 @@ export default {
         this.images = this.post.images
         await commissionAPI.more_by(this.post.user_id, 9, true)
           .then(res => this.more_by = res.data.data)
+        this.calculateTranslate(0)
       }
     )
   },

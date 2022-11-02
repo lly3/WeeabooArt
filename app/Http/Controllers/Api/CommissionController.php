@@ -24,7 +24,7 @@ class CommissionController extends Controller
      */
     public function index()
     {
-        $commissions = Commission::get();
+        $commissions = Commission::orderBy('id', 'desc')->paginate(15);
         return CommissionResource::collection($commissions);
     }
 

@@ -7,7 +7,7 @@
     </section>
     <section v-else class="overflow-hidden text-gray-700">
         <div class="container mx-auto grid lg:grid-cols-5 sm:grid-cols-2 gap-4">
-            <post-card v-for="post in posts" :post="{ ...post }" :key="post.id"></post-card>
+            <post-card v-for="post in posts" :model=model :post="{ ...post }" :key="post.id"></post-card>
         </div>
     </section>
 </template>
