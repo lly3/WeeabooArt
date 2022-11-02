@@ -26,7 +26,8 @@ class PostResource extends JsonResource
             'user_name' => $this->user->name,
             'user_email' => $this->user->email,
             'image' => $this->image->path,
-            'published' => $this->created_at->format('M d, Y')
+            'published' => $this->created_at->format('M d, Y'),
+            'tags'=>$this->tags
         ];
     }
 }

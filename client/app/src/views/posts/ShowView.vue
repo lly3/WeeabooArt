@@ -70,7 +70,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-fill" viewBox="0 0 16 16">
               <path d="M2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
             </svg>
-            <p>0 <span class="sm:inline hidden">Comments</span></p>
+            <p>{{comments.length}} <span class="sm:inline hidden"> Comments</span></p>
           </div>
           <div class="flex items-center space-x-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -80,16 +80,11 @@
             <p>{{ post.view_count }} <span class="sm:inline hidden">Views</span></p>
           </div>
         </div>
-        <div class="flex space-x-2 text-xs">
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white">
-            Tag 1
-          </div>
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-md p-3 dark:text-white">
-            Tag 2
-          </div>
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-md p-3 dark:text-white">
-            Tag 3
-          </div>
+        <div class="flex flex-wrap justify-start gap-4 space-x-2 text-xs">
+                <div v-for="tag in tags" class="flex inline-flex items-center gap-[5px] border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.id}`)">
+                    {{ tag.name }}
+                </div>
+
         </div>
         <div class="whitespace-pre-wrap break-all dark:text-white">
           {{ post.description }}
@@ -102,6 +97,7 @@
         </div>
         <div>
           <p class="font-bold dark:text-white">Comments</p>
+            <CommentCard :comments="{...comments}"  :key="commentKey"></CommentCard>
           <div class="w-full h-[300px] mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
               <div class="border mr-3 rounded-lg">
@@ -113,24 +109,24 @@
             </div>
           </div>
           <div v-else class="w-full mt-3">
-            <div class="flex">
-              <div class="mr-3 sm:rounded-lg rounded">
-                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
-              </div>
-              <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
-                <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-                  <div class="py-2 px-4 bg-gray-100 rounded-t-lg dark:bg-gray-800">
-                    <label for="comment" class="sr-only">Your comment</label>
-                    <textarea id="comment" rows="4" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+              <form class="flex"  @submit="onSubmitComment" >
+                  <div class="mr-3 sm:rounded-lg rounded">
+                      <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
                   </div>
-                  <div class="flex justify-between items-center py-2 px-3 border-t dark:border-gray-600">
-                    <button type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                      Comment
-                    </button>
+                  <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
+                      <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                          <div class="py-2 px-4 bg-gray-100 rounded-t-lg dark:bg-gray-800">
+                              <label for="message" class="sr-only">Your comment</label>
+                              <textarea v-model="message"  ref="comment_section" maxlength="100" id="message" name="message" rows="4" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+                          </div>
+                          <div class="flex justify-between items-center py-2 px-3 border-t dark:border-gray-600">
+                              <button :disabled="disabledButton" type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                                  Comment
+                              </button>
+                          </div>
+                      </div>
                   </div>
-                </div>
-              </div>
-            </div>
+              </form>
           </div>
         </div>
       </div>
@@ -153,18 +149,25 @@
 </template>
 
 <script>
+
 import { useAuthStore } from '@/stores/auth.js'
 import IsLoading from '@/components/IsLoading.vue'
+import CommentCard from '@/components/CommentCard.vue'
 
 export default {
   setup() {
     const auth_store = useAuthStore()
     return { auth_store }
   },
-  async mounted() {
+    async mounted() {
     try {
       let response = await this.$axios.get(`/post/${this.$route.params.id}`);
+      let comment_response = await this.$axios.get(`/comment/post/${this.$route.params.id}`)
+      console.log(comment_response)
+      console.log(response)
+      this.comments = comment_response.data.data
       this.post = response.data.data;
+      this.tags = response.data.data.tags;
       this.is_loading = true;
       console.log(this.post);
     } catch (e) {
@@ -188,14 +191,29 @@ export default {
   },
   data() {
     return {
+      polling:'',
       post: {},
       is_loading: false,
       overlay: false,
       bought: false,
-      favorite: false
+      comments:{},
+      tags:{},
+      commentKey: 0,
+      disabledButton:false
     }
   },
   methods: {
+    async getData(){
+        await this.$axios.get(`/comment/post/${this.$route.params.id}`)
+            .then(response =>{
+                this.comments = response.data.data
+                console.log(this.comments)
+            })
+        this.$nextTick(()=>{
+            this.$refs.comment_section.value=""
+            this.disabledButton=false
+        })
+    },
     onEdit(id) {
       return this.$router.push(`/post/edit/${id}`);
     },
@@ -265,10 +283,36 @@ export default {
           a.download = 'download_file.' + response.headers["content-type"].split("/")[1];
           a.click();
         })
-    }
+    },
+
+      async onSubmitComment(e){
+          e.preventDefault()
+          this.disableButton()
+          await this.$axios.post(`/comment`, {
+              message: this.message,
+              post_id: this.post.id,
+          }, {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+              }
+          })
+          await this.getData()
+          this.$nextTick(()=>{
+              this.$refs.comment_section.value=""
+              this.disabledButton=false
+          })
+
+
+      },
+      disableButton(){
+          this.error = null
+          this.disabledButton = true
+      }
   },
+
   components: {
-    IsLoading
+    IsLoading,
+    CommentCard
   }
 }
 </script>

@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CollectionController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PostController;
-use App\Http\Controllers\Api\CollectionController;
 use App\Http\Controllers\Api\FavoriteController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,20 +55,14 @@ Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDown
 Route::get('/my-collection', [CollectionController::class, 'myCollection']);
 Route::get('/my-favorite', [FavoriteController::class, 'myFavorite']);
 
-
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
 
-Route::apiResource('/tag', \App\Http\Controllers\Api\TagController::class);
+Route::apiResource('/comment',\App\Http\Controllers\Api\CommentController::class);
+Route::get('/comment/post/{post}',[\App\Http\Controllers\Api\CommentController::class, 'getComments']);
+
+Route::apiResource('/tags', \App\Http\Controllers\Api\TagController::class);
 
 Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
 Route::get('/image/email/{email}', [ImageController::class, 'getProfileImageByEmail']);
 
 Route::apiResource('/', \App\Http\Controllers\Api\GalleryController::class);
-
-Route::get('/sendmail', function (Request $request) {
-    $ip = $request->ip();
-    Mail::raw('Hi user, a new login into your account.', function ($message) {
-        $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-        $message->to('artweeaboo@gmail.com', 'Weeaboo Art');
-    });
-});

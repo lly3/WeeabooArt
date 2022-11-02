@@ -7,12 +7,16 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use Intervention\Image\Image;
+//use Intervention\Image\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+
 
 class PostController extends Controller
 {
@@ -59,10 +63,11 @@ class PostController extends Controller
         if($post->is_saleable) {
             $this->addWatermask($post);
         }
-        // $post->favorite_count = $request->get('favorite_count');
-        // $post->view_count = $request->get('view_count');
         $post->user_id = auth()->user()->id;
         if ($post->save()) {
+            $tags = $request->get('tags');
+            $tag_ids = $this->syncTags($tags);
+            $post->tags()->sync($tag_ids);
             return response()->json([
                 'success' => true,
                 'message' => 'Post saved successfully with id ' . $post->id,
@@ -125,6 +130,9 @@ class PostController extends Controller
         }
 
         if ($post->save()) {
+            $tags = $request->get('tags');
+            $tag_ids = $this->syncTags($tags);
+            $post->tags()->sync($tag_ids);
             return response()->json([
                 'success' => true,
                 'message' => 'Post updated successfully with id ' . $post->id,
@@ -225,6 +233,26 @@ class PostController extends Controller
             'success' => false,
             'message' => 'This post is not support premium download'
         ], Response::HTTP_BAD_REQUEST);
+    }
+
+    private function syncTags($tags)
+    {
+        $tags = explode(',', $tags);
+        $tags = array_map(function ($v) {
+            return Str::ucfirst(trim($v));
+        }, $tags);
+
+        $tag_ids = [];
+        foreach ($tags as $tag_name) {
+            $tag = Tag::where('name', $tag_name)->first();
+            if (!$tag) {
+                $tag = new Tag();
+                $tag->name = $tag_name;
+                $tag->save();
+            }
+            $tag_ids[] = $tag->id;
+        }
+        return $tag_ids;
     }
 
     private function addWatermask($post) {

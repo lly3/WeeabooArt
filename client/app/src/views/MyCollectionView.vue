@@ -1,24 +1,23 @@
 <template>
-    <div class="bg-gray-800 text-white p-6 ">
-        <div class="flex flex-row">
-            <h1 class="basis-1/3">HOME</h1>
-            <div class="basis-1/3 flex flex-row">
-                <button class="basis-1/2 grid justify-items-end mx-4">Gallery</button>
-                <button class="basis-1/2 grid justify-items-start mx-4 text-gray-400 hover:text-white">Posts</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="bg-black">
-        <section>
-            <collection :posts="posts"></collection>
-        </section>
-    </div>
+    <!-- Search bar component -->
+    <section>
+        <SearchBar></SearchBar>
+    </section>
+
+    <!-- Posts -->
+    <section class="py-4 lg:py-8 dark:dark-body">
+        <h1 class="dark:text-white container px-5 mx-auto lg:px-12">My Collection</h1>
+        <h1 class="dark:text-white container px-5 mx-auto lg:px-12 text-center mt-4" v-if="!haveCollection">You don't have collection.</h1>
+        <gallery-card-view :posts="posts"></gallery-card-view>
+    </section>
+
 </template>
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
-import Collection from "@/components/Collection.vue";
+import GalleryCardView from "@/components/GalleryCardView.vue";
+import SearchBar from '../components/SearchBar.vue';
 export default {
     setup() {
         const auth_store = useAuthStore()
@@ -34,7 +33,8 @@ export default {
         post: Object
     },
     components: {
-        Collection
+        GalleryCardView,
+        SearchBar
     },
     async mounted() {
         this.error = null
@@ -55,6 +55,11 @@ export default {
             }
         }
 
+    },
+    computed: {
+        haveCollection() {
+            return this.posts.length > 0
+        }
     }
 }
 </script>

@@ -25,7 +25,8 @@
                 <tr>
                     <td style="text-align:center;">
                         <a href="http://localhost:3000/" title="WeeabooArt" target="_blank">
-                            <img width="60" src="http://localhost/weeaboo_mail_icon.png"  alt="WeeabooArt">
+{{--                            <img width="60" src="http://localhost/weeaboo_mail_icon.png"  alt="WeeabooArt">--}}
+                            <img width="60" src="https://lh3.googleusercontent.com/a/ALm5wu38Bdq_4c3z0bKzYZhGMnN8aVWQG4SWNonnvhAb=s64-p-k-rw-no"  alt="WeeabooArt">
                         </a>
                     </td>
                 </tr>
@@ -45,16 +46,22 @@
                                         requested to reset your password</h1>
                                     <span
                                         style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
+                                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0; text-align: left !important;">
                                         We cannot simply send you your old password. A unique reset password token to reset your
                                         password has been generated for you. You can reset your password using the following code:
                                     </p>
-                                    <p style="background:#01e59b;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
-                                        {{ $user->reset_password_token }}
+
+                                    <p style="color:#455056; font-size:15px;line-height:24px; margin:0; font-weight: bold; text-align: left !important;">
+                                        Your reset password token is {{ $user->reset_password_token }}
                                     </p>
-{{--                                    <a href="#"--}}
-{{--                                       style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">--}}
-{{--                                        {{ $user->reset_password_token }}</a>--}}
+
+
+{{--                                    <p style="background:#01e59b;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">--}}
+{{--                                        {{ $user->reset_password_token }}--}}
+{{--                                    </p>--}}
+                                    <a href="http://localhost:3000/reset-password"
+                                       style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
+                                        Reset Password</a>
                                 </td>
                             </tr>
                             <tr>
@@ -67,7 +74,7 @@
                 </tr>
                 <tr>
                     <td style="text-align:center;">
-                        <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>http://localhost:3000/</strong></p>
+                        <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>http://localhost:3000/reset-password</strong></p>
                     </td>
                 </tr>
                 <tr>
