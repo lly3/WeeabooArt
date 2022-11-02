@@ -145,3 +145,9 @@ export const imageAPI = {
       return response.data.data;
     }
 }
+
+export const tagAPI = {
+    paginate(tag, pageNumber) {
+        return axiosInstance.get(`/tags/${tag}?page=${pageNumber}`);
+    }
+}

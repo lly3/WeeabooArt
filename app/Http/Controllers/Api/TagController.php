@@ -9,6 +9,7 @@ use App\Models\Tag;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class TagController extends Controller
 {
@@ -62,10 +63,10 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
+    public function show($tag)
     {
-
-        return  PostResource::collection($tag->posts);
+        $tag = Tag::where('name', $tag)->first();
+        return  PostResource::collection($tag->posts->toQuery()->paginate(15));
     }
 
     /**

@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         pageChanged(pageNumber) {
-            this.$router.push(`/gallery?page=${pageNumber}`)
+            this.$router.push(`/commission?page=${pageNumber}`)
             // this.page = pageNumber;
             // console.log("This is event at " + pageNumber);
             // this.getData(pageNumber);
@@ -116,7 +116,7 @@ export default {
             this.loading = false
             this.posts = response.data.data
             console.log(this.posts);
-            const page = parseInt(this.$route.query.page) ?? 1
+            const page = this.$route.query.page ? parseInt(this.$route.query.page) : 1
             this.currentPage = page
             if (this.posts !== null) {
                 const response_page1 = await commissionAPI.paginate(page);

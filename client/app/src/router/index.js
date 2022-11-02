@@ -124,7 +124,7 @@ const router = createRouter({
           component: () => import('@/views/tags/AllTagView.vue')
       },
       {
-          path: '/tags/:id',
+          path: '/tags/:tag',
           name: 'tags.show',
           component: () => import('@/views/tags/ShowTagView.vue')
       },

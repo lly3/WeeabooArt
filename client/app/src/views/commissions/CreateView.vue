@@ -54,7 +54,7 @@
             <button v-if=!disableButton type="submit" class="inline-flex items-center py-2.5 px-4 text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
               Submit now
             </button>
-            <button v-if=disableButton disabled type="submit" class="inline-flex items-center py-2.5 px-4 text-center text-white bg-blue-400 dark:bg-blue-800 rounded-lg focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-600">
+            <button v-else disabled type="submit" class="inline-flex items-center py-2.5 px-4 text-center text-white bg-blue-400 dark:bg-blue-800 rounded-lg focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-600">
               Submit now
             </button>
           </div>
