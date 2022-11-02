@@ -59,3 +59,5 @@ Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
 Route::get('/image/email/{email}', [ImageController::class, 'getProfileImageByEmail']);
 
 Route::apiResource('/', \App\Http\Controllers\Api\GalleryController::class);
+
+Route::get('/profile/{id}/posts', [\App\Http\Controllers\Api\PostController::class, 'getPostsPerAuthor']);

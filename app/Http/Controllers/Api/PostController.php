@@ -18,7 +18,7 @@ class PostController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show', 'getPostsPerAuthor']]);
     }
 
     /**
@@ -226,13 +226,19 @@ class PostController extends Controller
         $img->save(public_path('images/'.$post->image->path));
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $search = $request->get('search');
         $posts = Post::where('title', 'LIKE', "%{$search}%")->get();
         foreach ($posts as $post) {
             $post->image;
         }
         return PostResource::collection($posts);
+    }
 
+    public function getPostsPerAuthor($id) {
+        $user = User::findOrFail($id);
+        $posts = Post::all()->where('user_id', $user->id);
+        return PostResource::collection($posts);
     }
 }
