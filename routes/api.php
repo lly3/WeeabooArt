@@ -59,6 +59,8 @@ Route::get('/commission/by/{user_id}', [CommissionController::class, 'more_by'])
 
 Route::apiResource('/comment',\App\Http\Controllers\Api\CommentController::class);
 Route::get('/comment/post/{post}',[\App\Http\Controllers\Api\CommentController::class, 'getComments']);
+Route::post('/comment/commission',[\App\Http\Controllers\Api\CommentController::class, 'storeCommission']);
+Route::get('/comment/commission/{commission}',[\App\Http\Controllers\Api\CommentController::class, 'getCommissionComments']);
 
 Route::apiResource('/tags', \App\Http\Controllers\Api\TagController::class);
 

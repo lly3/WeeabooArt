@@ -49,6 +49,7 @@ class CommissionController extends Controller
         $commission = new Commission();
         $commission->title = $request->get('title');
         $commission->description = $request->get('description') ?? "ไม่ระบุรายละเอียดเพิ่มเติม";
+        $commission->price = $request->get('price');
         $commission->user_id = auth()->user()->id;
 
         if (! $commission->save()) {
@@ -105,6 +106,7 @@ class CommissionController extends Controller
     {
         if ($request->has('title')) $commission->title = $request->get('title');
         if ($request->has('description')) $commission->description = $request->get('description');
+        if ($request->has('price')) $commission->price = $request->get('price');
 
         if (! $commission->save()) {
             return response()->json([

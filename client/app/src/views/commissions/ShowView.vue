@@ -32,12 +32,6 @@
         </button>
       </div>
       <div class="p-4 flex font-bold dark:text-white lg:ml-28 lg:mr-0 md:mx-12">
-        <div class="flex items-center sm:mr-8 mr-5 space-x-1.5 hover:text-greenlogo cursor-pointer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-          </svg>
-          <p class="sm:block hidden">Add to favorites</p>
-        </div>
         <div v-if=isOwner() class="flex items-center mr-2 space-x-1.5 hover:text-greenlogo cursor-pointer" @click=onEdit(post.id)>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
@@ -45,15 +39,19 @@
           </svg>
           <p>Edit</p>
         </div>
-        <div class="ml-auto" />
+        <div class="ml-auto"></div>
+        <div class="flex items-center mr-2 md:text-lg border-r border-black pr-2">
+          <p>${{ post.price }}</p>
+        </div>
         <div class="mr-5">
           <button @click=chat class="flex justify-center px-5 py-1 hover:bg-black hover:text-white dark:hover:text-black dark:hover:bg-white duration-200 ease-in-out border border-black dark:border-white rounded-3xl">
-            Chat
+            Order Commission
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-fill ml-2" viewBox="0 0 16 16">
               <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"/>
             </svg>
           </button>
         </div>
+
       </div>
 
       <div class="md:w-9/12 w-5/6 mx-auto my-3 space-y-3 relative">
@@ -68,16 +66,10 @@
         </div>
         <div class="flex space-x-5 text-gray-500 dark:text-gray-300">
           <div class="flex items-center space-x-1.5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-            </svg>
-            <p>{{ post.favorite_count }} <span class="sm:inline hidden">Favorites</span></p>
-          </div>
-          <div class="flex items-center space-x-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-fill" viewBox="0 0 16 16">
               <path d="M2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
             </svg>
-            <p>0 <span class="sm:inline hidden">Comments</span></p>
+            <p>{{ comments.length }} <span class="sm:inline hidden">Comments</span></p>
           </div>
           <div class="flex items-center space-x-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -85,17 +77,6 @@
               <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
             </svg>
             <p>{{ post.view_count }} <span class="sm:inline hidden">Views</span></p>
-          </div>
-        </div>
-        <div class="flex space-x-2 text-xs">
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white">
-            Tag 1
-          </div>
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-md p-3 dark:text-white">
-            Tag 2
-          </div>
-          <div class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-md p-3 dark:text-white">
-            Tag 3
           </div>
         </div>
         <div class="whitespace-pre-wrap break-all dark:text-white">
@@ -124,21 +105,24 @@
               <div class="mr-3 sm:rounded-lg rounded">
                 <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
               </div>
-              <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
+              <form @submit=submitComment class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
                   <div class="py-2 px-4 bg-gray-100 rounded-t-lg dark:bg-gray-800">
                     <label for="comment" class="sr-only">Your comment</label>
-                    <textarea id="comment" rows="4" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+                    <textarea v-model=message id="comment" rows="3" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
                   </div>
                   <div class="flex justify-between items-center py-2 px-3 border-t dark:border-gray-600">
-                    <button type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                    <button type=submit class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
                       Comment
                     </button>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
+        </div>
+        <div class="space-y-2">
+          <CommentCard v-for="comment in comments" :comment="comment" :key="comment.id"></CommentCard>
         </div>
       </div>
     </div>
@@ -146,11 +130,6 @@
       <p class="font-bold">More by {{ post.user_name }}</p>
       <div class="w-full mt-3">
         <Gallery :posts=more_by size='small' model='commission' />
-      </div>
-
-      <p class="my-3 dark:text-gray-200 text-gray-500 font-bold">Suggested Collections</p>
-      <div class="w-full h-screen mt-3 border">
-        
       </div>
     </div>
   </div>
@@ -161,9 +140,10 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
-import { commissionAPI } from '@/services/api.js'
+import { commissionAPI, commentAPI } from '@/services/api.js'
 import IsLoading from '@/components/IsLoading.vue'
 import Gallery from '@/components/GalleryCardView.vue'
+import CommentCard from '@/components/CommentCard.vue'
 
 export default {
   setup() {
@@ -177,7 +157,7 @@ export default {
         const response = await commissionAPI.show(toParams.id)
         this.post = response.data.data
         this.images = this.post.images
-        await commissionAPI.more_by(this.post.user_id, 9, true)
+        await commissionAPI.more_by(this.post.user_id, 12, true)
           .then(res => this.more_by = res.data.data)
         this.calculateTranslate(0)
       }
@@ -187,8 +167,10 @@ export default {
     try {
       let response = await commissionAPI.show(this.$route.params.id);
       this.post = response.data.data;
+      console.log(this.post);
       this.images = this.post.images;
-      response = await commissionAPI.more_by(this.post.user_id, 9, true)
+      this.comments = this.post.comments;
+      response = await commissionAPI.more_by(this.post.user_id, 12, true)
       this.more_by = response.data.data
       this.is_loading = true;
       console.log(response);
@@ -204,6 +186,8 @@ export default {
       post: {},
       more_by: {},
       images: {},
+      comments: {},
+      message: null,
       is_loading: false,
       overlay: false,
     }
@@ -254,11 +238,22 @@ export default {
         container.children[i].classList.add('hidden')
       }
       container.classList.add('hidden')
+    },
+    async submitComment(e) {
+      e.preventDefault()
+
+      const response = await commentAPI.commissionComment(this.message, this.post.id)
+      console.log(response);
+      const comment = response.data.data
+      this.comments = { ...this.comments, comment }
+
+      this.message = null
     }
   },
   components: {
     IsLoading,
-    Gallery
+    Gallery,
+    CommentCard
   }
 }
 </script>

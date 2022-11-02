@@ -284,8 +284,6 @@ export default {
               this.$refs.comment_section.value=""
               this.disabledButton=false
           })
-
-
       },
       disableButton(){
           this.error = null

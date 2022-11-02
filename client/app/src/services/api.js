@@ -151,3 +151,9 @@ export const tagAPI = {
         return axiosInstance.get(`/tags/${tag}?page=${pageNumber}`);
     }
 }
+
+export const commentAPI = {
+    commissionComment(message, commission_id) {
+        return axiosInstance.post(`/comment/commission`, { message, commission_id });
+    },
+}

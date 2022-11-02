@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\CommentResource;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Commission;
 use Illuminate\Http\Response;
 
 class CommentController extends Controller
@@ -49,6 +50,26 @@ class CommentController extends Controller
         ], Response::HTTP_BAD_REQUEST);
     }
 
+    public function storeCommission(Request $request)
+    {
+        $comment = new Comment();
+        $comment->user_id = auth()->user()->id;
+        $comment->message = $request->get('message');
+        $comment->commission_id = $request->get('commission_id');
+        if ($comment->save()) {
+            return response()->json([
+                'data' => new CommentResource($comment),
+                'success' => true,
+                'message' => 'Comment saved successfully ' . $comment->id,
+                'comment_id' => $comment->id
+            ], Response::HTTP_CREATED);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Comment saved failed'
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -74,10 +95,9 @@ class CommentController extends Controller
 
     public function getComments(Post $post)
     {
-
-
         return CommentResource::collection($post->comments);
     }
+
 
     /**
      * Remove the specified resource from storage.
