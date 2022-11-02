@@ -16,17 +16,20 @@
 
 <script>
 import TagCard from '@/components/TagCard.vue'
+import IsLoading from '@/components/IsLoading.vue'
 
 export default {
     data() {
         return {
             tags: null,
             name: null,
-            error: null
+            error: null,
+            loading: true
         }
     },
     components: {
-        TagCard
+        TagCard,
+        IsLoading
     },
     // },
     methods: {
@@ -37,6 +40,7 @@ export default {
             const response = await this.$axios.get('/tags');
             console.log(response)
             this.tags = response.data.data
+            this.loading = false
         } catch(error) {
             console.log(error)
             this.error = error.message

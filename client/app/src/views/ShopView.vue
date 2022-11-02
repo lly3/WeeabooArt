@@ -112,22 +112,12 @@ export default {
     async mounted() {
         try {
             this.error = null
-            const response = await postAPI.fetch()
-            this.loading = false
-            this.posts = response.data.data
             const page = this.$route.query.page ? parseInt(this.$route.query.page) : 1
+            const response_page1 = await postAPI.paginate(page, 'premium_download');
+            this.posts = response_page1.data.data
             this.currentPage = page
-            if (this.posts !== null) {
-                const response_page1 = await postAPI.paginate(page, 'premium_download');
-                this.posts = response_page1.data.data
-                this.page = 1;
-                this.posts = response_page1.data.data;
-                this.total = response_page1.data.meta.total;
-                this.totalPages = response_page1.data.meta.last_page;
-                this.perPage = response_page1.data.meta.per_page;
-                console.log("get page 1 success");
-            }
-            this.total = response.data.meta.total
+            this.totalPages = response_page1.data.meta.last_page;
+            this.loading = false
         } catch (error) {
             console.log(error)
             this.error = error.message

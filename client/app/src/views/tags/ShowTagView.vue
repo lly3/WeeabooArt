@@ -21,6 +21,7 @@
 <script>
 import GalleryCardView from "@/components/GalleryCardView.vue";
 import Pagination from "@/components/Pagination.vue"
+import IsLoading from '@/components/IsLoading.vue'
 import { tagAPI } from "@/services/api.js"
 
 export default {
@@ -47,13 +48,15 @@ export default {
             currentPage: 1,
             hasMorePages: true,
             page: 1,
+            loading: true
         }
     },
     props: {
     },
     components: {
         GalleryCardView,
-        Pagination
+        Pagination,
+        IsLoading
     },
     async mounted() {
         try {
@@ -63,6 +66,7 @@ export default {
             this.posts = response.data.data
             this.currentPage = page
             this.totalPages = response.data.meta.last_page
+            this.loading = false
             console.log(response.data.meta);
         } catch(error) {
             console.log(error)
