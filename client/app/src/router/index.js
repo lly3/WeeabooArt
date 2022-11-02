@@ -78,6 +78,11 @@ const router = createRouter({
         name: 'my-collection',
         component: () => import('@/views/MyCollectionView.vue')
     },
+      {
+          path: '/my-favorite',
+          name: 'my-favorite',
+          component: () => import('@/views/MyFavoriteView.vue')
+      },
     {
         path: '/forgot-password',
         name: 'forgot-password',

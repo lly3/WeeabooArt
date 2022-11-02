@@ -16,9 +16,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('favorites', function (Blueprint $table) {
-            $table->id();
-            $table->integer('collection_id');
-            $table->string('collection_type');
+            $table->increments('id');
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Post::class);
             $table->timestamps();
