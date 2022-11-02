@@ -3,10 +3,11 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\CollectionController;
+use App\Http\Controllers\Api\FavoriteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\CollectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,9 +50,11 @@ Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class
     ->name('post.edit');
 Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
 Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
+Route::get('/post/favorited/{post}', [PostController::class, 'isFavorited']);
 Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);
 
 Route::get('/my-collection', [CollectionController::class, 'myCollection']);
+Route::get('/my-favorite', [FavoriteController::class, 'myFavorite']);
 
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
