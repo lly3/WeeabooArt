@@ -49,6 +49,7 @@ Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class
     ->name('post.edit');
 Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
 Route::get('/post/favorite/{post}', [\App\Http\Controllers\Api\PostController::class, 'addFavorite']);
+Route::get('/post/unfavorite/{post}', [\App\Http\Controllers\Api\PostController::class, 'unFavorite']);
 Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
 Route::get('/post/favorited/{post}', [\App\Http\Controllers\Api\PostController::class, 'isFavorited']);
 Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);

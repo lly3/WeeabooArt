@@ -228,6 +228,25 @@ class PostController extends Controller
 
     }
 
+    public function unFavorite(Post $post) {
+        $user = User::find(auth()->user()->id);
+        if ($post->favorited_by->find($user->id)) {
+            if($post->favorited_by()->detach($user, ['user_id' => $user->id])) {
+                $post->favorite_count -= 1;
+                $post->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Unfavorite successfully'
+                ], Response::HTTP_OK);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Unfavorite failed'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+    }
+
     public function isCollected(Post $post) {
         $user = User::find(auth()->user()->id);
         if ($post->collected_by->find($user->id) != null) {
