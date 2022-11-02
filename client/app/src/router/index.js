@@ -5,11 +5,11 @@ import CoinDeskView from '@/views/CoinDeskView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView
-    },
+    // {
+    //   path: '/',
+    //   name: 'home',
+    //   component: HomeView
+    // },
     {
       path: '/about',
       name: 'about',
@@ -54,6 +54,11 @@ const router = createRouter({
       component: () => import('@/views/posts/ShowView.vue')
     },
     {
+      path: '/post/edit/:id',
+      name: 'post.edit',
+      component: () => import('@/views/posts/EditView.vue')
+    },
+    {
         path: '/logout',
         name: 'logout',
         component: () => import('@/views/LogoutView.vue')
@@ -63,6 +68,31 @@ const router = createRouter({
         name: 'register',
         component: () => import('@/views/RegisterView.vue')
     },
+    {
+        path: '/',
+        name: 'gallery',
+        component: () => import('@/views/GalleryView.vue')
+    },
+    {
+        path: '/post/search/:searchKey',
+        name: 'post.search',
+        component: () => import('@/views/SearchView.vue')
+    },
+    {
+        path: '/my-collection',
+        name: 'my-collection',
+        component: () => import('@/views/MyCollectionView.vue')
+    },
+    {
+        path: '/forgot-password',
+        name: 'forgot-password',
+        component: () => import('@/views/ForgotPasswordView.vue')
+    },
+    {
+        path: '/reset-password',
+        name: 'reset-password',
+        component: () => import('@/views/ResetPasswordView.vue')
+    }
   ]
 })
 

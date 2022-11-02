@@ -16,7 +16,6 @@ const axiosInstance = axios.create({
     headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
     }
-
 })
 
 app.config.globalProperties.$axios = { ...axiosInstance }

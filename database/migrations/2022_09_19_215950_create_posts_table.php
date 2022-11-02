@@ -22,8 +22,8 @@ return new class extends Migration
             $table->integer('favorite_count')->default(0);
             $table->integer('view_count')->default(0);
 //            $table->foreignIdFor(\App\Models\Tag::class);
-//            $table->foreignIdFor(\App\Models\Image::class);
-//            $table->foreignIdFor(\App\Models\User::class); // foreign key is `user_id`
+            $table->foreignIdFor(\App\Models\Image::class);
+            $table->foreignIdFor(\App\Models\User::class); // foreign key is `user_id`
 //            $table->foreignIdFor(\App\Models\Comment::class);
             $table->timestamps();
         });

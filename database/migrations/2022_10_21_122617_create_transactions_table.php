@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +15,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('path')->default('no_image.jpg');
-//            $table->foreignIdFor(\App\Models\Post::class); // foreign key is `post_id`
-//            $table->foreignIdFor(\App\Models\Commission::class); // foreign key is `commission_id`
+            $table->foreignIdFor(Post::class);
+            $table->foreignIdFor(User::class);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('transactions');
     }
 };
