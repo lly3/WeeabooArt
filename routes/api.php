@@ -48,8 +48,9 @@ Route::apiResource('/post', \App\Http\Controllers\Api\PostController::class);
 Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class, 'edit'])
     ->name('post.edit');
 Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
+Route::get('/post/favorite/{post}', [\App\Http\Controllers\Api\PostController::class, 'addFavorite']);
 Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
-Route::get('/post/favorited/{post}', [PostController::class, 'isFavorited']);
+Route::get('/post/favorited/{post}', [\App\Http\Controllers\Api\PostController::class, 'isFavorited']);
 Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);
 
 Route::get('/my-collection', [CollectionController::class, 'myCollection']);

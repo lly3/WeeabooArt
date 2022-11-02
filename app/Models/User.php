@@ -80,6 +80,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function favorites() {
-        return $this->morphToMany(Post::class, 'favorite');
+        return $this->hasMany(Favorite::class);
     }
 }
