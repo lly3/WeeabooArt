@@ -19,26 +19,6 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/coin-desk',
-      name: 'coin-desk',
-      component: CoinDeskView
-    },
-    {
-      path: '/rewards',
-      name: 'rewards',
-      component: () => import('@/views/rewards/AllRewardView.vue')
-    },
-    {
-      path: '/rewards/:id',
-      name: 'rewards.show',
-      component: () => import('@/views/rewards/DetailView.vue')
-    },
-    {
-      path: '/rewards/create',
-      name: 'rewards.create',
-      component: () => import('@/views/rewards/CreateView.vue')
-    },
-    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue')
@@ -118,21 +98,21 @@ const router = createRouter({
         name: 'reset-password',
         component: () => import('@/views/ResetPasswordView.vue')
     },
-      {
-          path: '/tags',
-          name: 'tags',
-          component: () => import('@/views/tags/AllTagView.vue')
-      },
-      {
-          path: '/tags/:tag',
-          name: 'tags.show',
-          component: () => import('@/views/tags/ShowTagView.vue')
-      },
-      {
-          path: '/post/search/:searchKey',
-          name: 'post.search',
-          component: () => import('@/views/SearchView.vue')
-      }
+    {
+      path: '/tags',
+      name: 'tags',
+      component: () => import('@/views/tags/AllTagView.vue')
+    },
+    {
+      path: '/tags/:tag',
+      name: 'tags.show',
+      component: () => import('@/views/tags/ShowTagView.vue')
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import('@/views/SearchView.vue')
+    }
   ]
 })
 

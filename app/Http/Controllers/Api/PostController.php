@@ -21,7 +21,7 @@ class PostController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['index', 'show', 'mostLiked', 'mostViewed', 'otherPosts', 'more_by']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show', 'mostLiked', 'mostViewed', 'otherPosts', 'more_by', 'search']]);
     }
 
     /**
