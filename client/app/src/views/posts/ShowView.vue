@@ -81,7 +81,7 @@
         </div>
 
         <div class="flex flex-wrap gap-2 text-xs">
-          <div v-for="tag in tags" class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.id}`)">
+          <div v-for="tag in tags" class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.name}`)">
               {{ tag.name }}
           </div>
         </div>
@@ -139,8 +139,19 @@
       </div>
 
       <p class="my-3 dark:text-gray-200 text-gray-500 font-bold">Suggested Collections</p>
-      <div class="w-full h-screen mt-3 border">
-
+      <div class="w-full h-screen mt-3 space-y-3">
+        <section v-if="tags[0] != null" class="space-y-3">
+          <h1 class="font-bold">{{ tags[0].name }}</h1>
+          <Gallery :posts=suggested_collection_1 size='small' />
+        </section>
+        <section v-if="tags[1] != null" class="space-y-3">
+          <h1 class="font-bold">{{ tags[1].name }}</h1>
+          <Gallery :posts=suggested_collection_2 size='small' />
+        </section>
+        <section v-if="tags[2] != null" class="space-y-3">
+          <h1 class="font-bold">{{ tags[2].name }}</h1>
+          <Gallery :posts=suggested_collection_3 size='small' />
+        </section>
       </div>
     </div>
   </div>
@@ -152,7 +163,7 @@
 <script>
 
 import { useAuthStore } from '@/stores/auth.js'
-import { postAPI } from '@/services/api.js'
+import { postAPI, tagAPI } from '@/services/api.js'
 import IsLoading from '@/components/IsLoading.vue'
 import Gallery from '@/components/GalleryCardView.vue'
 import CommentCard from '@/components/CommentCard.vue'
@@ -174,6 +185,12 @@ export default {
           .then(res => this.more_by = res.data.data)
         await postAPI.collected(this.post.id)
           .then(res => this.bought = res.data);
+        await tagAPI.paginate(this.tags[0].name, 1, 3)
+          .then(res => this.suggested_collection_1 = res.data.data)
+        await tagAPI.paginate(this.tags[1].name, 1, 3)
+          .then(res => this.suggested_collection_2 = res.data.data)
+        await tagAPI.paginate(this.tags[2].name, 1, 3)
+          .then(res => this.suggested_collection_3 = res.data.data)
       }
     )
   },
@@ -195,6 +212,12 @@ export default {
     try {
       postAPI.collected(this.post.id)
         .then(res => this.bought = res.data);
+      await tagAPI.paginate(this.tags[0].name, 1, 3)
+        .then(res => this.suggested_collection_1 = res.data.data)
+      await tagAPI.paginate(this.tags[1].name, 1, 3)
+        .then(res => this.suggested_collection_2 = res.data.data)
+      await tagAPI.paginate(this.tags[2].name, 1, 3)
+        .then(res => this.suggested_collection_3 = res.data.data)
     } catch (e) {
       console.log(e);
     }

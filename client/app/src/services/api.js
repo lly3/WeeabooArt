@@ -147,9 +147,9 @@ export const imageAPI = {
 }
 
 export const tagAPI = {
-    paginate(tag, pageNumber) {
-        return axiosInstance.get(`/tags/${tag}?page=${pageNumber}`);
-    }
+    paginate(tag, pageNumber, quantity=0) {
+        return axiosInstance.get(`/tags/${tag}?page=${pageNumber}&quantity=${quantity}`);
+    },
 }
 
 export const commentAPI = {
