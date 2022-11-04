@@ -35,7 +35,7 @@
                 :key="page.name"
             >
 				<span
-                    class="bg-gray-200 rounded-sm border border-blue-100 px-3 py-2 current_page no-underline text-blue-500 cursor-not-allowed mx-2"
+                    class="rounded-sm border px-3 py-2 current_page no-underline cursor-not-allowed mx-2"
                     v-if="isPageActive(page.name)"
                 >{{ page.name }}</span>
                 <a
