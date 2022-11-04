@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CollectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,9 @@ Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
 Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
 Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);
 Route::get('/post/by/{user_id}', [PostController::class, 'more_by']);
+
+
+Route::get('/my-collection', [CollectionController::class, 'myCollection']);
 
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);

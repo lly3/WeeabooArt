@@ -220,7 +220,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 /*css bluwbyu*/
 
@@ -287,7 +287,6 @@ export default {
     position: relative;
     display: inline-block;
     overflow: hidden;
-    margin: 10px 8px;
     width: 100%;
     color: #ffffff;
     text-align: center;

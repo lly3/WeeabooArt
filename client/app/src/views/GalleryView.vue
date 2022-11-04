@@ -25,6 +25,7 @@ import IsLoading from '@/components/IsLoading.vue'
 import { postAPI } from '@/services/api.js'
 
 
+
 export default {
     components: {
         GalleryCardView,
@@ -35,7 +36,7 @@ export default {
         this.$watch(
             () => this.$route.query,
             async (toQuery, previousQuery) => {
-                const page = parseInt(toQuery.page)
+                const page = toQuery.page == null ? 1 : parseInt(toQuery.page)
                 this.currentPage = page
                 const response = await postAPI.paginate(page);
                 this.posts = response.data.data
@@ -137,7 +138,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 /*css bluwbyu*/
 
@@ -203,8 +204,7 @@ export default {
 .snip {
     position: relative;
     display: inline-block;
-    overflow: hidden;
-    margin: 10px 8px;
+    overflow-wrap: anywhere;
     width: 100%;
     color: #ffffff;
     text-align: center;
@@ -219,6 +219,7 @@ export default {
 
 .snip:before {
     position: absolute;
+    border-radius: 5px;
     top: 10px;
     left: 10px;
     right: 10px;
@@ -240,6 +241,7 @@ export default {
 
 .snip figcaption {
     position: absolute;
+    padding: 10px;
     top: 0;
     left: 0;
     right: 0;
@@ -270,7 +272,9 @@ export default {
 
 .snip h5 {
     font-weight: 400;
-    background-color: #A0A0A0;
+    border-radius: 10px;
+    background-color: #01e59b;
+    margin: 0px 10px;
     padding: 3px 10px;
     -webkit-transform : translateY(100%);
     transform : translateY(100%);
@@ -300,6 +304,6 @@ export default {
 .snip.hover h5 {
     opacity: 1;
     -webkit-transform : translateY(0);
-    transform : translateY(0);
+    padding: 0px 10px;
 }
 </style>

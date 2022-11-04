@@ -76,6 +76,11 @@ export default {
         const auth_store = useAuthStore()
         return { auth_store }
     },
+    mounted() {
+        if(this.auth_store.isAuthen) {
+            return this.$router.push('/')
+        }
+    },
     components: {
         AuthCard
     },

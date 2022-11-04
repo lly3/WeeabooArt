@@ -96,6 +96,10 @@ export default {
         imageID: imageID,
         premium_download: this.is_toggle,
         price: this.price,
+      }, {
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+          }
       })
       console.log(tags)
       const postID = response.data.post_id
