@@ -485,6 +485,7 @@ body {
 
 .snip:before {
     position: absolute;
+    border-radius: 5px;
     top: 10px;
     left: 10px;
     right: 10px;
@@ -506,6 +507,7 @@ body {
 
 .snip figcaption {
     position: absolute;
+    padding: 10px;
     top: 0;
     left: 0;
     right: 0;
@@ -536,6 +538,7 @@ body {
 
 .snip h5 {
     font-weight: 400;
+    border-radius: 10px;
     background-color: #01e59b;
     margin: 0px 10px;
     padding: 3px 10px;

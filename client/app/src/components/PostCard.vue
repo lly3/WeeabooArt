@@ -160,6 +160,7 @@ export default {
 
 .snip:before {
     position: absolute;
+    border-radius: 5px;
     top: 10px;
     left: 10px;
     right: 10px;
@@ -181,6 +182,7 @@ export default {
 
 .snip figcaption {
     position: absolute;
+    padding: 10px;
     top: 0;
     left: 0;
     right: 0;
@@ -212,6 +214,7 @@ export default {
 .snip h5 {
     font-weight: 400;
     background-color: #01e59b;
+    border-radius: 10px;
     margin: 0px 10px;
     padding: 3px 10px;
     -webkit-transform : translateY(100%);

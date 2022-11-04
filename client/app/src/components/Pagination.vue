@@ -198,7 +198,7 @@ export default defineComponent( {
 }
 .current_page {
     background-color: #01e59b;
-    color: black;
+    color: white;
 }
 
 </style>
