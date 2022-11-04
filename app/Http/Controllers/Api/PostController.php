@@ -239,7 +239,12 @@ class PostController extends Controller
             $tag = Tag::where('name', $tag_name)->first();
             if (!$tag) {
                 $tag = new Tag();
-                $tag->name = $tag_name;
+                if($tag_name == ''){
+                    $tag->name='No tag';
+                }
+                else{
+                    $tag->name = $tag_name;
+                }
                 $tag->save();
             }
             $tag_ids[] = $tag->id;
