@@ -9,6 +9,7 @@ use App\Models\Tag;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class TagController extends Controller
 {
@@ -17,7 +18,7 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $tags = Tag::get();
         return TagResource::collection($tags);
@@ -62,10 +63,17 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
+    public function show(Request $request, $tag)
     {
+        $quantity = $request->query('quantity');
+        $tag = Tag::where('name', $tag)->first();
+        if($tag == null)
+            return response()->json(['success' => false, 'message' => 'Can\'t find tag on null'], Response::HTTP_NOT_FOUND);
 
-        return  PostResource::collection($tag->posts);
+        if($quantity == 0)
+            return  PostResource::collection($tag->posts->toQuery()->paginate(15));
+        else 
+            return  PostResource::collection($tag->posts->toQuery()->inRandomOrder()->limit($quantity)->get());
     }
 
     /**

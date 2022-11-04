@@ -1,20 +1,18 @@
 <template>
+    <div>
+        <!-- Search bar component -->
+        <section>
+            <SearchBar></SearchBar>
+        </section>
 
-    <!-- Search bar component -->
-    <section>
-        <SearchBar></SearchBar>
-    </section>
+        <!-- Result of search -->
+        <section class="py-4 lg:py-8">
+            <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="post_search">You are searching: " {{this.$route.params.searchKey}} "</h1>
+            <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="no_post_search">No post title: " {{this.$route.params.searchKey}} "</h1>
+            <gallery-card-view :posts="post_searches"></gallery-card-view>
+        </section>
 
-    <!-- Result of search -->
-    <section class="py-4 lg:py-8">
-        <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="post_search">You are searching: " {{this.$route.params.searchKey}} "</h1>
-        <h1 class="dark:text-white container px-5 mx-auto lg:px-12" v-if="no_post_search">No post title: " {{this.$route.params.searchKey}} "</h1>
-        <gallery-card-view :posts="post_searches"></gallery-card-view>
-    </section>
-
-
-
-
+    </div>
 </template>
 
 <script>
@@ -31,7 +29,6 @@ export default {
             error: null,
             searchKey: this.searching,
             post_searches: [],
-
         }
     },
     props: {

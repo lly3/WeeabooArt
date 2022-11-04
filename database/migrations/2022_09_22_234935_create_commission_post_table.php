@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('commission_post', function (Blueprint $table) {
             $table->id();
-            $table->string('path')->default('no_image.jpg');
-//            $table->foreignIdFor(\App\Models\Post::class); // foreign key is `post_id`
-            $table->foreignIdFor(\App\Models\Commission::class)->nullable(); // foreign key is `commission_id`
+            $table->string('title');
+            $table->string('description');
+            $table->integer('favorite_count');
+            $table->integer('view_count');
+//            $table->foreignIdFor(Tag);
+//            $table->foreignIdFor(Comment);
+//            $table->foreignIdFor(Image);
+//            $table->foreignIdFor(User);
             $table->timestamps();
         });
     }
@@ -29,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('commission_post');
     }
 };

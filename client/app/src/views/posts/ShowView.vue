@@ -79,11 +79,10 @@
             <p>{{ post.view_count }} <span class="sm:inline hidden">Views</span></p>
           </div>
         </div>
-        <div class="flex flex-wrap justify-start gap-4 space-x-2 text-xs">
-                <div v-for="tag in tags" class="flex inline-flex items-center gap-[5px] border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.id}`)">
-                    {{ tag.name }}
-                </div>
-
+        <div class="flex flex-wrap gap-2 text-xs">
+          <div v-for="tag in tags" class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.name}`)">
+              {{ tag.name }}
+          </div>
         </div>
         <div class="whitespace-pre-wrap break-all dark:text-white">
           {{ post.description }}
@@ -96,11 +95,10 @@
         </div>
         <div>
           <p class="font-bold dark:text-white">Comments</p>
-            <CommentCard :comments="{...comments}"  :key="commentKey"></CommentCard>
-          <div class="w-full h-[300px] mt-3" v-if=!auth_store.isAuthen>
+          <div class="w-full mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
-              <div class="border mr-3 rounded-lg">
-                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
+              <div class="mr-3 rounded-lg">
+                <img :src=defaultImage() class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
               </div>
               <div class="w-full p-6 text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <span class="text-black dark:text-white hover:text-greenlogo dark:hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/register')">Join the community</span> to add your comment. Already a deviant? <span class="text-black dark:text-white dark:hover:text-greenlogo hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/login')">Log In</span>
@@ -108,37 +106,51 @@
             </div>
           </div>
           <div v-else class="w-full mt-3">
-              <form class="flex"  @submit="onSubmitComment" >
-                  <div class="mr-3 sm:rounded-lg rounded">
-                      <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
+            <form class="flex"  @submit="onSubmitComment" >
+              <div class="mr-3 sm:rounded-lg rounded">
+                <img :src=imageURL(this.auth_store.getImage) class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
+              </div>
+              <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
+                <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                  <div class="py-2 px-4 bg-gray-100 rounded-t-lg dark:bg-gray-800">
+                    <label for="message" class="sr-only">Your comment</label>
+                    <textarea v-model="message"  ref="comment_section" maxlength="100" id="message" name="message" rows="3" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
                   </div>
-                  <div class="w-full rounded-lg text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
-                      <div class="w-full bg-gray-200 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-                          <div class="py-2 px-4 bg-gray-100 rounded-t-lg dark:bg-gray-800">
-                              <label for="message" class="sr-only">Your comment</label>
-                              <textarea v-model="message"  ref="comment_section" maxlength="100" id="message" name="message" rows="4" class="px-0 bg-gray-100 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
-                          </div>
-                          <div class="flex justify-between items-center py-2 px-3 border-t dark:border-gray-600">
-                              <button :disabled="disabledButton" type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                                  Comment
-                              </button>
-                          </div>
-                      </div>
+                  <div class="flex justify-between items-center py-2 px-3 border-t dark:border-gray-600">
+                    <button :disabled="disabledButton" type="submit" class="inline-flex ml-auto items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                      Comment
+                    </button>
                   </div>
-              </form>
+                </div>
+              </div>
+            </form>
           </div>
+        </div>
+        <div class="space-y-2">
+          <CommentCard v-for="comment in comments" :comment="comment" :key="comment.id"></CommentCard>
         </div>
       </div>
     </div>
     <div class="right-side py-3 px-7 xl:w-3/12 w-full dark:text-white bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
       <p class="font-bold">More by {{ post.user_name }}</p>
-      <div class="w-full h-[200px] mt-3 border">
-
+      <div class="w-full mt-3">
+        <Gallery :posts=more_by size='small' />
       </div>
 
       <p class="my-3 dark:text-gray-200 text-gray-500 font-bold">Suggested Collections</p>
-      <div class="w-full h-screen mt-3 border">
-
+      <div class="w-full h-screen mt-3 space-y-3">
+        <section v-if="tags[0] != null" class="space-y-3">
+          <h1 class="font-bold">{{ tags[0].name }}</h1>
+          <Gallery :posts=suggested_collection_1 size='small' />
+        </section>
+        <section v-if="tags[1] != null" class="space-y-3">
+          <h1 class="font-bold">{{ tags[1].name }}</h1>
+          <Gallery :posts=suggested_collection_2 size='small' />
+        </section>
+        <section v-if="tags[2] != null" class="space-y-3">
+          <h1 class="font-bold">{{ tags[2].name }}</h1>
+          <Gallery :posts=suggested_collection_3 size='small' />
+        </section>
       </div>
     </div>
   </div>
@@ -150,7 +162,9 @@
 <script>
 
 import { useAuthStore } from '@/stores/auth.js'
+import { postAPI, tagAPI } from '@/services/api.js'
 import IsLoading from '@/components/IsLoading.vue'
+import Gallery from '@/components/GalleryCardView.vue'
 import CommentCard from '@/components/CommentCard.vue'
 
 export default {
@@ -158,25 +172,51 @@ export default {
     const auth_store = useAuthStore()
     return { auth_store }
   },
-    async mounted() {
+  created() {
+    this.$watch(
+      () => this.$route.params,
+      async (toParams, previousParams) => {
+        const response = await postAPI.show(toParams.id)
+        this.post = response.data.data
+        this.tags = this.post.tags;
+        this.comments = this.post.comments;
+        await postAPI.more_by(this.post.user_id, 9, true)
+          .then(res => this.more_by = res.data.data)
+        await postAPI.collected(this.post.id)
+          .then(res => this.bought = res.data);
+        await tagAPI.paginate(this.tags[0].name, 1, 3)
+          .then(res => this.suggested_collection_1 = res.data.data)
+        await tagAPI.paginate(this.tags[1].name, 1, 3)
+          .then(res => this.suggested_collection_2 = res.data.data)
+        await tagAPI.paginate(this.tags[2].name, 1, 3)
+          .then(res => this.suggested_collection_3 = res.data.data)
+      }
+    )
+  },
+  async mounted() {
     try {
-      let response = await this.$axios.get(`/post/${this.$route.params.id}`);
-      let comment_response = await this.$axios.get(`/comment/post/${this.$route.params.id}`)
-      console.log(comment_response)
-      console.log(response)
-      this.comments = comment_response.data.data
+      let response = await postAPI.show(this.$route.params.id)
       this.post = response.data.data;
-      this.tags = response.data.data.tags;
+      this.tags = this.post.tags;
+      this.comments = this.post.comments;
+      response = await postAPI.more_by(this.post.user_id, 9, true)
+      this.more_by = response.data.data;
+      console.log(this.more_by);
       this.is_loading = true;
-      console.log(this.post);
     } catch (e) {
       console.log(e);
       this.$router.push('/');
     }
 
     try {
-      this.$axios.get(`/post/collected/${this.post.id}`)
+      postAPI.collected(this.post.id)
         .then(res => this.bought = res.data);
+      await tagAPI.paginate(this.tags[0].name, 1, 3)
+        .then(res => this.suggested_collection_1 = res.data.data)
+      await tagAPI.paginate(this.tags[1].name, 1, 3)
+        .then(res => this.suggested_collection_2 = res.data.data)
+      await tagAPI.paginate(this.tags[2].name, 1, 3)
+        .then(res => this.suggested_collection_3 = res.data.data)
     } catch (e) {
       console.log(e);
     }
@@ -185,14 +225,17 @@ export default {
     return {
       polling:'',
       post: {},
+      more_by: {},
+      suggested_collection_1: {},
+      suggested_collection_2: {},
+      suggested_collection_3: {},
       is_loading: false,
       overlay: false,
       bought: false,
       comments:{},
-      tags:{},
+      tags: {},
       commentKey: 0,
-      disabledButton:false
-
+      disabledButton: false
     }
   },
   methods: {
@@ -216,16 +259,15 @@ export default {
     imageURL(path) {
       return 'http://localhost/images/' + path
     },
+    defaultImage() {
+      return 'http://localhost/image.png'
+    },
     buyArtPost() {
       if(this.auth_store.isAuthen == false)
         return this.$router.push('/login');
 
       try {
-          this.$axios.get(`/post/transaction/${this.post.id}`, {
-              headers: {
-                  Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-              }
-          })
+        postAPI.transaction(this.post.id)
           .then(res => {
             if(res.data.success)
               this.bought = true
@@ -235,12 +277,7 @@ export default {
       }
     },
     download() {
-        this.$axios.get(`/post/premium_download/${this.post.id}`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-            },
-            responseType: 'arraybuffer'
-        })
+      postAPI.premiumDownload(this.post.id)
         .then((response) => {
           console.log();
           const url = URL.createObjectURL(new Blob([response.data], { type: response.headers["content-type"] }));
@@ -269,8 +306,6 @@ export default {
               this.$refs.comment_section.value=""
               this.disabledButton=false
           })
-
-
       },
       disableButton(){
           this.error = null
@@ -280,6 +315,7 @@ export default {
 
   components: {
     IsLoading,
+    Gallery,
     CommentCard
   }
 }

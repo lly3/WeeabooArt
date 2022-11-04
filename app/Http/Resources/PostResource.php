@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use PhpParser\ErrorHandler\Collecting;
 
 class PostResource extends JsonResource
 {
@@ -22,12 +23,14 @@ class PostResource extends JsonResource
             'price' => $this->price,
             'favorite_count' => $this->favorite_count,
             'view_count' => $this->view_count,
+            'user_id' => $this->user->id,
             'user_image' => $this->user->image->path,
             'user_name' => $this->user->name,
             'user_email' => $this->user->email,
             'image' => $this->image->path,
             'published' => $this->created_at->format('M d, Y'),
-            'tags'=>$this->tags
+            'tags' => $this->tags,
+            'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

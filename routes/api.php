@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CollectionController;
+use App\Http\Controllers\Api\CommissionController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
@@ -50,17 +51,32 @@ Route::get('/post/edit/{post}', [\App\Http\Controllers\Api\PostController::class
 Route::get('/post/transaction/{post}', [PostController::class, 'buyArtPost']);
 Route::get('/post/collected/{post}', [PostController::class, 'isCollected']);
 Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDownload']);
+Route::get('/post/by/{user_id}', [PostController::class, 'more_by']);
+
 
 Route::get('/my-collection', [CollectionController::class, 'myCollection']);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
+Route::get('/commission/edit/{commission}', [\App\Http\Controllers\Api\CommissionController::class, 'edit']);
+Route::get('/commission/by/{user_id}', [CommissionController::class, 'more_by']);
 
 Route::apiResource('/comment',\App\Http\Controllers\Api\CommentController::class);
 Route::get('/comment/post/{post}',[\App\Http\Controllers\Api\CommentController::class, 'getComments']);
+Route::post('/comment/commission',[\App\Http\Controllers\Api\CommentController::class, 'storeCommission']);
+Route::get('/comment/commission/{commission}',[\App\Http\Controllers\Api\CommentController::class, 'getCommissionComments']);
 
 Route::apiResource('/tags', \App\Http\Controllers\Api\TagController::class);
 
+Route::post('/images', [ImageController::class, 'storeMany']);
 Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
 Route::get('/image/email/{email}', [ImageController::class, 'getProfileImageByEmail']);
 
 Route::apiResource('/', \App\Http\Controllers\Api\GalleryController::class);
+
+Route::get('/sendmail', function (Request $request) {
+    $ip = $request->ip();
+    Mail::raw('Hi user, a new login into your account.', function ($message) {
+        $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+        $message->to('artweeaboo@gmail.com', 'Weeaboo Art');
+    });
+});
