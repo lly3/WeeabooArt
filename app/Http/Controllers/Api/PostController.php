@@ -30,7 +30,6 @@ class PostController extends Controller
             'otherPosts',
             'more_by',
             'search', 
-            'isCollected'
         ]]);
     }
 
@@ -68,7 +67,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'imageID' => ['required', 'string']
+            'imageID' => ['required']
         ]);
 
         if ($validator->fails()) {
@@ -237,7 +236,7 @@ class PostController extends Controller
     }
 
     public function isCollected(Post $post) {
-        if (auth()->user() != null && $post->collected_by->find(auth()->user()->id) != null) {
+        if ($post->collected_by->find(auth()->user()->id) != null) {
             return response()->json(true);
         }
         return response()->json(false);

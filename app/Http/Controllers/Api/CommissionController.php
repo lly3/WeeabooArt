@@ -50,7 +50,7 @@ class CommissionController extends Controller
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:0'],
-            'imagesID' => ['required', 'string']
+            'imagesID' => ['required']
         ]);
 
         if ($validator->fails()) {
