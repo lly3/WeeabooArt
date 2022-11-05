@@ -5,7 +5,7 @@
     <div v-else class="min-h-screen">
         <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Home</h1>
         <!-- Search bar -->
-        <div class="input-group flex items-center px-3 lg:px-10 md:px-5 pt-4 flex items-center justify-end">
+        <div class="input-group flex items-center px-3 lg:px-10 md:px-5 py-4 flex items-center justify-end">
             <form @submit.prevent="onFormSubmit" class="flex items-center w-full md:w-1/2 lg:w-1/3">
                 <div class="w-full">
                     <input type="text" v-model="searchKey" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white dark:bg-gray-700 bg-clip-padding border border-solid border-gray-300 dark:border-gray-600 dark:text-white rounded-l-3xl transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-white focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
