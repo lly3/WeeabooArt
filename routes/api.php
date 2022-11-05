@@ -54,13 +54,19 @@ Route::get('/post/premium_download/{post}', [PostController::class, 'premiumDown
 Route::get('/my-collection', [CollectionController::class, 'myCollection']);
 
 Route::apiResource('/commission', \App\Http\Controllers\Api\CommissionController::class);
+Route::get('/commission/edit/{commission}', [\App\Http\Controllers\Api\CommissionController::class, 'edit']);
 
 Route::apiResource('/comment',\App\Http\Controllers\Api\CommentController::class);
 Route::get('/comment/post/{post}',[\App\Http\Controllers\Api\CommentController::class, 'getComments']);
 
 Route::apiResource('/tags', \App\Http\Controllers\Api\TagController::class);
 
+Route::post('/images', [ImageController::class, 'storeMany']);
 Route::apiResource('/image', \App\Http\Controllers\Api\ImageController::class);
 Route::get('/image/email/{email}', [ImageController::class, 'getProfileImageByEmail']);
 
 Route::apiResource('/', \App\Http\Controllers\Api\GalleryController::class);
+
+Route::get('/profile/{id}/posts', [\App\Http\Controllers\Api\PostController::class, 'getPostsPerAuthor']);
+
+Route::get('/profile/{id}', [\App\Http\Controllers\Api\UserController::class, 'getUserProfile']);
