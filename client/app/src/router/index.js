@@ -112,6 +112,11 @@ const router = createRouter({
             path: '/update-password',
             name: 'update-password',
             component: () => import('@/views/UpdatePasswordView.vue')
+      },
+      {
+          path: '/update-profile-picture',
+          name: 'update-profile-picture',
+          component: () => import('@/views/UpdateProfilePictureView.vue')
       }
   ]
 })
