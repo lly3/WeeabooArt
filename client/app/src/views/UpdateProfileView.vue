@@ -9,6 +9,8 @@
             <ul class="flex border-b border-gray-300 font-medium text-gray-600 mt-3 px-6 md:px-0">
                 <li class="mr-8 text-gray-900 border-b-2 border-gray-800"><a href="#_" class="py-4 inline-block">Profile Info</a></li>
                 <li class="mr-8 hover:text-gray-900"><a href="http://localhost:3000/update-password" class="py-4 inline-block">Password</a></li>
+                <li class="mr-8 text-gray-900 border-b-2 border-gray-800"><a href="http://localhost:3000/update-profile-picture"
+                                                                             class="py-4 inline-block">Profile Picture</a></li>
             </ul>
             <form @submit.prevent="onFormSave()">
                 <!-- @csrf -->
