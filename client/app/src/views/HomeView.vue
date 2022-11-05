@@ -3,82 +3,171 @@
         <IsLoading />
     </div>
     <div v-else class="min-h-screen">
+        <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Home</h1>
+        <!-- Search bar -->
+        <div class="input-group flex items-center px-3 lg:px-10 md:px-5 py-4 flex items-center justify-end">
+            <form @submit.prevent="onFormSubmit" class="flex items-center w-full md:w-1/2 lg:w-1/3">
+                <div class="w-full">
+                    <input type="text" v-model="searchKey" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white dark:bg-gray-700 bg-clip-padding border border-solid border-gray-300 dark:border-gray-600 dark:text-white rounded-l-3xl transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-white focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                </div>
+                <div class="input-group-prepend">
+                    <button :disabled="emptySearch"  @click="search()"  class="cursor-pointer py-2 px-3 text-sm font-medium text-black bg-gray-50 dark:bg-gray-700 rounded-r-3xl border-r border-y border-gray-300 dark:border-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        <span class="sr-only">Search</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Most Viewed & Most Liked -->
         <section class="overflow-hidden text-gray-700">
-            <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Home</h1>
-            <div class="container px-5 py-2 mx-auto lg:px-12" v-if="havePosts">
-                <h1 class="dark:text-white py-5">Most likes</h1>
+            <div class="container px-5 pb-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
+                <h1 class="dark:text-white pb-5">Most likes</h1>
                 <div class="flex flex-wrap -m-1 md:-m-2">
                     <div class="flex flex-wrap w-1/2" v-if="mostLikes">
-                        <div @click="() => this.$router.push(`/post/${ posts_mostLiked[0].id }`)" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
-                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                                :src="'http://localhost/images/' + posts_mostLiked[0].image.path.toString()">
-                        </div>
-                        <div @click="() => this.$router.push(`/post/${ posts_mostLiked[1].id }`)" class="p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
-                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                                :src="'http://localhost/images/' + posts_mostLiked[1].image.path.toString()">
-                        </div>
-                        <div @click="() => this.$router.push(`/post/${ posts_mostLiked[2].id }`)" class="w-full p-1 md:p-2 button-container" v-if="have3Posts">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                               :src="'http://localhost/images/' + posts_mostLiked[2].image.path.toString()">
-                        </div>
+                        <a @click="() => this.$router.push(`/post/${posts_mostLiked[0].id}`)" class="cursor-pointer p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
+                            <figure class="snip">
+                                <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                                                    :src="'http://localhost/images/' + posts_mostLiked[0].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostLiked[0].title }}</h3>
+                                    <h5>By {{ posts_mostLiked[0].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
+                        <a @click="() => this.$router.push(`/post/${posts_mostLiked[1].id}`)"  class="cursor-pointer p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
+                            <figure class="snip">
+                                <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                                                    :src="'http://localhost/images/' + posts_mostLiked[1].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostLiked[1].title }}</h3>
+                                    <h5>By {{ posts_mostLiked[1].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
+                        <a @click="() => this.$router.push(`/post/${posts_mostLiked[2].id}`)" class="cursor-pointer w-full p-1 md:p-2 button-container" v-if="have3Posts">
+                            <figure class="snip">
+                                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                                   :src="'http://localhost/images/' + posts_mostLiked[2].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostLiked[2].title }}</h3>
+                                    <h5>By {{ posts_mostLiked[2].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
                     </div>
                     <div class="flex flex-wrap w-1/2" v-if="mostLikes">
-                        <div @click="() => this.$router.push(`/post/${ posts_mostLiked[3].id }`)" class="w-full p-1 md:p-2 button-container" v-if="have4Posts">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                               :src="'http://localhost/images/' + posts_mostLiked[3].image.path.toString()">
-                        </div>
-                        <div @click="() => this.$router.push(`/post/${ posts_mostLiked[4].id }`)" class="w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                               :src="'http://localhost/images/' + posts_mostLiked[4].image.path.toString()">
-                        </div>
-                        <div @click="() => this.$router.push(`/post/${ posts_mostLiked[5].id }`)" class="w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                               :src="'http://localhost/images/' + posts_mostLiked[5].image.path.toString()">
-                        </div>
+                        <a @click="() => this.$router.push(`/post/${posts_mostLiked[3].id}`)" class="cursor-pointer w-full p-1 md:p-2 button-container" v-if="have4Posts">
+                            <figure class="snip">
+                                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                                   :src="'http://localhost/images/' + posts_mostLiked[3].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostLiked[3].title }}</h3>
+                                    <h5>By {{ posts_mostLiked[3].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
+                        <a @click="() => this.$router.push(`/post/${posts_mostLiked[4].id}`)" class="cursor-pointer w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
+                            <figure class="snip">
+                                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                                   :src="'http://localhost/images/' + posts_mostLiked[4].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostLiked[4].title }}</h3>
+                                    <h5>By {{ posts_mostLiked[4].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
+                        <a @click="() => this.$router.push(`/post/${posts_mostLiked[5].id}`)" class="cursor-pointer w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
+                            <figure class="snip">
+                                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                                   :src="'http://localhost/images/' + posts_mostLiked[5].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostLiked[5].title }}</h3>
+                                    <h5>By {{ posts_mostLiked[5].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
         <section class="overflow-hidden text-gray-700">
             <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
-                <h1 class="dark:text-white py-5">Most View</h1>
+                <h1 class="dark:text-white pb-5">Most View</h1>
                 <div class="flex flex-wrap -m-1 md:-m-2">
                     <div class="flex flex-wrap w-1/2" v-if="mostViews">
-                        <div @click="() => this.$router.push(`/post/${ posts_mostViewed[0].id }`)" class="p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
-                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                                :src="'http://localhost/images/' + posts_mostViewed[0].image.path.toString()">
-                        </div>
-                        <div @click="() => this.$router.push(`/post/${ posts_mostViewed[1].id }`)" class="p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
-                            <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                                :src="'http://localhost/images/' + posts_mostViewed[1].image.path.toString()">
-                        </div>
-                        <div @click="() => this.$router.push(`/post/${ posts_mostViewed[2].id }`)" class="w-full p-1 md:p-2 button-container" v-if="have3Posts">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                               :src="'http://localhost/images/' + posts_mostViewed[2].image.path.toString()">
-                        </div>
+                        <a @click="() => this.$router.push(`/post/${posts_mostViewed[0].id}`)" class="cursor-pointer p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
+                            <figure class="snip">
+                                <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                                                    :src="'http://localhost/images/' + posts_mostViewed[0].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostViewed[0].title }}</h3>
+                                    <h5>By {{ posts_mostViewed[0].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
+                        <a @click="() => this.$router.push(`/post/${posts_mostViewed[1].id}`)" class="cursor-pointer p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
+                            <figure class="snip">
+                                <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                                                    :src="'http://localhost/images/' + posts_mostViewed[1].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostViewed[1].title }}</h3>
+                                    <h5>By {{ posts_mostViewed[1].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
+                        <a @click="() => this.$router.push(`/post/${posts_mostViewed[2].id}`)" class="cursor-pointer w-full p-1 md:p-2 button-container" v-if="have3Posts">
+                            <figure class="snip">
+                                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                                   :src="'http://localhost/images/' + posts_mostViewed[2].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostViewed[2].title }}</h3>
+                                    <h5>By {{ posts_mostViewed[2].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
                     </div>
                     <div class="flex flex-wrap w-1/2" v-if="mostViews">
-                        <div @click="() => this.$router.push(`/post/${ posts_mostViewed[3].id }`)" class="w-full p-1 md:p-2 button-container" v-if="have4Posts">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                               :src="'http://localhost/images/' + posts_mostViewed[3].image.path.toString()">
-                        </div>
-                        <div @click="() => this.$router.push(`/post/${ posts_mostViewed[4].id }`)" class="w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                               :src="'http://localhost/images/' + posts_mostViewed[4].image.path.toString()">
-                        </div>
-                        <div @click="() => this.$router.push(`/post/${ posts_mostViewed[5].id }`)" class="w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
-                            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                               :src="'http://localhost/images/' + posts_mostViewed[5].image.path.toString()">
-                        </div>
+                        <a @click="() => this.$router.push(`/post/${posts_mostViewed[3].id}`)" class="cursor-pointer w-full p-1 md:p-2 button-container" v-if="have4Posts">
+                            <figure class="snip">
+                                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                                   :src="'http://localhost/images/' + posts_mostViewed[3].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostViewed[3].title }}</h3>
+                                    <h5>By {{ posts_mostViewed[3].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
+                        <a @click="() => this.$router.push(`/post/${posts_mostViewed[4].id}`)" class="cursor-pointer w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
+                            <figure class="snip">
+                                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                                   :src="'http://localhost/images/' + posts_mostViewed[4].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostViewed[4].title }}</h3>
+                                    <h5>By {{ posts_mostViewed[4].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
+                        <a @click="() => this.$router.push(`/post/${posts_mostViewed[5].id}`)" class="cursor-pointer w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
+                            <figure class="snip">
+                                <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
+                                                   :src="'http://localhost/images/' + posts_mostViewed[5].image.path.toString()">
+                                <figcaption>
+                                    <h3>{{ posts_mostViewed[5].title }}</h3>
+                                    <h5>By {{ posts_mostViewed[5].user_name}}</h5>
+                                </figcaption>
+                            </figure>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
+
         <section v-if=havePosts class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
             <h1 class="dark:text-white py-5">Gallery</h1>
             <gallery-card-view :posts="posts"></gallery-card-view>
         </section>
-        <section class="center" v-if="havePosts">
+        <section class="flex justify-center p-5" v-if="havePosts">
             <pagination :total-pages="totalPages"
                 :total="total"
                 :per-page="perPage"
@@ -143,14 +232,13 @@ export default {
             console.log('searchKey: ' + this.searchKey);
             this.onFormSubmit();
             console.log("$router.push success");
-
         },
         onFormSubmit() {
             console.log("onFormSubmit");
             // this.$router.push(`/post/search`);
             this.$router.push({
-                name: 'post.search',
-                params: {searchKey: this.searchKey}
+                name: 'search',
+                query: { searchKey: this.searchKey }
             });
             console.log("onFormSubmit success");
         }
@@ -220,8 +308,7 @@ export default {
 
 </script>
 
-<style>
-
+<style scoped>
 /*css bluwbyu*/
 
 /*.button-on-pic{*/
@@ -253,7 +340,6 @@ export default {
     /*display:inline-block;*/
     display: inline-flex;
     position:relative;
-    cursor: pointer;
 }
 
 .button-container button{
@@ -276,18 +362,42 @@ export default {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
 }
-.center {
-    display: flex;
+.normal_image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
     justify-content: center;
     text-align: center;
-    padding: 10px;
 }
-
+/*@media screen and (max-width: 480px) {*/
+/*    .normal_image {*/
+/*        width: 500px;*/
+/*        height: 100%;*/
+/*        object-fit: cover;*/
+/*        object-position: center;*/
+/*    }*/
+/*}*/
+/*@media screen and (max-width: 640px) {*/
+/*    .normal_image {*/
+/*        width: 700px;*/
+/*        height: 100%;*/
+/*        object-fit: cover;*/
+/*        object-position: center;*/
+/*    }*/
+/*}*/
+@media screen and (max-width: 1000px) {
+    .normal_image {
+        width: 800px;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+}
 .snip {
     position: relative;
     display: inline-block;
-    overflow: hidden;
-    margin: 10px 8px;
+    overflow-wrap: anywhere;
     width: 100%;
     color: #ffffff;
     text-align: center;
@@ -302,6 +412,7 @@ export default {
 
 .snip:before {
     position: absolute;
+    border-radius: 5px;
     top: 10px;
     left: 10px;
     right: 10px;
@@ -323,6 +434,7 @@ export default {
 
 .snip figcaption {
     position: absolute;
+    padding: 10px;
     top: 0;
     left: 0;
     right: 0;
@@ -353,7 +465,9 @@ export default {
 
 .snip h5 {
     font-weight: 400;
-    background-color: #A0A0A0;
+    background-color: #01e59b;
+    border-radius: 10px;
+    margin: 0px 10px;
     padding: 3px 10px;
     -webkit-transform : translateY(100%);
     transform : translateY(100%);
@@ -383,6 +497,6 @@ export default {
 .snip.hover h5 {
     opacity: 1;
     -webkit-transform : translateY(0);
-    transform : translateY(0);
+    padding: 0px 10px;
 }
 </style>

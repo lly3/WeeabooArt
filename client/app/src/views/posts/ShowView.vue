@@ -134,7 +134,7 @@
     <div class="right-side py-3 px-7 xl:w-3/12 w-full dark:text-white bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
       <p class="font-bold">More by {{ post.user_name }}</p>
       <div class="w-full mt-3">
-        <Gallery :posts=more_by size='small' />
+        <Gallery v-if=more_by :posts=more_by size='small' />
       </div>
 
       <p class="my-3 dark:text-gray-200 text-gray-500 font-bold">Suggested Collections</p>
@@ -176,20 +176,27 @@ export default {
     this.$watch(
       () => this.$route.params,
       async (toParams, previousParams) => {
-        const response = await postAPI.show(toParams.id)
-        this.post = response.data.data
-        this.tags = this.post.tags;
-        this.comments = this.post.comments;
-        await postAPI.more_by(this.post.user_id, 9, true)
-          .then(res => this.more_by = res.data.data)
+        try {
+          const response = await postAPI.show(toParams.id)
+          this.post = response.data.data
+          this.tags = this.post.tags;
+          this.comments = this.post.comments;
+          await postAPI.more_by(this.post.user_id, 9, true)
+            .then(res => this.more_by = res.data.data)
+          if(this.tags[0] != null)
+            await tagAPI.paginate(this.tags[0].name, 1, 3)
+              .then(res => this.suggested_collection_1 = res.data.data)
+          if(this.tags[1] != null)
+            await tagAPI.paginate(this.tags[1].name, 1, 3)
+              .then(res => this.suggested_collection_2 = res.data.data)
+          if(this.tags[2] != null)
+            await tagAPI.paginate(this.tags[2].name, 1, 3)
+              .then(res => this.suggested_collection_3 = res.data.data)
+        } catch (e) {
+          console.log(e);
+        }
         await postAPI.collected(this.post.id)
           .then(res => this.bought = res.data);
-        await tagAPI.paginate(this.tags[0].name, 1, 3)
-          .then(res => this.suggested_collection_1 = res.data.data)
-        await tagAPI.paginate(this.tags[1].name, 1, 3)
-          .then(res => this.suggested_collection_2 = res.data.data)
-        await tagAPI.paginate(this.tags[2].name, 1, 3)
-          .then(res => this.suggested_collection_3 = res.data.data)
       }
     )
   },
@@ -211,12 +218,15 @@ export default {
     try {
       postAPI.collected(this.post.id)
         .then(res => this.bought = res.data);
-      await tagAPI.paginate(this.tags[0].name, 1, 3)
-        .then(res => this.suggested_collection_1 = res.data.data)
-      await tagAPI.paginate(this.tags[1].name, 1, 3)
-        .then(res => this.suggested_collection_2 = res.data.data)
-      await tagAPI.paginate(this.tags[2].name, 1, 3)
-        .then(res => this.suggested_collection_3 = res.data.data)
+      if(this.tags[0] != null)
+        await tagAPI.paginate(this.tags[0].name, 1, 3)
+          .then(res => this.suggested_collection_1 = res.data.data)
+      if(this.tags[1] != null)
+        await tagAPI.paginate(this.tags[1].name, 1, 3)
+          .then(res => this.suggested_collection_2 = res.data.data)
+      if(this.tags[2] != null)
+        await tagAPI.paginate(this.tags[2].name, 1, 3)
+          .then(res => this.suggested_collection_3 = res.data.data)
     } catch (e) {
       console.log(e);
     }
@@ -233,6 +243,7 @@ export default {
       overlay: false,
       bought: false,
       comments:{},
+      message: '',
       tags: {},
       commentKey: 0,
       disabledButton: false

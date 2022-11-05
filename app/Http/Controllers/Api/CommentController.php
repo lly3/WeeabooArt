@@ -95,7 +95,7 @@ class CommentController extends Controller
 
     public function getComments(Post $post)
     {
-        return CommentResource::collection($post->comments);
+        return CommentResource::collection($post->comments->sortByDesc('created_at'));
     }
 
 

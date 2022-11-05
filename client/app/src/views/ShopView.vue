@@ -35,7 +35,7 @@ export default {
         this.$watch(
             () => this.$route.query,
             async (toQuery, previousQuery) => {
-                const page = parseInt(toQuery.page)
+                const page = toQuery.page == null ? 1 : parseInt(toQuery.page)
                 this.currentPage = page
                 const response = await postAPI.paginate(page, 'premium_download');
                 this.posts = response.data.data
@@ -127,7 +127,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 /*css bluwbyu*/
 
@@ -194,7 +194,6 @@ export default {
     position: relative;
     display: inline-block;
     overflow: hidden;
-    margin: 10px 8px;
     width: 100%;
     color: #ffffff;
     text-align: center;

@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\CollectionController;
 use App\Http\Controllers\Api\CommissionController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CollectionController;
 
 /*
 |--------------------------------------------------------------------------

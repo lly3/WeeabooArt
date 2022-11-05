@@ -40,7 +40,7 @@
           <p>Edit</p>
         </div>
         <div class="ml-auto"></div>
-        <div class="flex items-center mr-2 md:text-lg border-r border-black pr-2">
+        <div class="flex items-center mr-2 md:text-lg border-r dark:border-white border-black pr-2">
           <p>${{ post.price }}</p>
         </div>
         <div class="mr-5">
@@ -69,7 +69,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-fill" viewBox="0 0 16 16">
               <path d="M2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
             </svg>
-            <p>{{ Object.keys(comments).length }} <span class="sm:inline hidden">Comments</span></p>
+            <p>{{ comments.length }} <span class="sm:inline hidden">Comments</span></p>
           </div>
           <div class="flex items-center space-x-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -90,7 +90,7 @@
         </div>
         <div>
           <p class="font-bold dark:text-white">Comments</p>
-          <div class="w-full h-[300px] mt-3" v-if=!auth_store.isAuthen>
+          <div class="w-full mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
               <div class="mr-3 rounded-lg">
                 <img :src=defaultImage() class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
@@ -156,6 +156,7 @@ export default {
       async (toParams, previousParams) => {
         const response = await commissionAPI.show(toParams.id)
         this.post = response.data.data
+        this.comments = this.post.comments
         this.images = this.post.images
         await commissionAPI.more_by(this.post.user_id, 12, true)
           .then(res => this.more_by = res.data.data)
@@ -173,8 +174,6 @@ export default {
       response = await commissionAPI.more_by(this.post.user_id, 12, true)
       this.more_by = response.data.data
       this.is_loading = true;
-      console.log(response);
-      console.log(this.post);
     } catch (e) {
       console.log(e);
       this.$router.push('/');
@@ -186,7 +185,7 @@ export default {
       post: {},
       more_by: {},
       images: {},
-      comments: {},
+      comments: [],
       message: null,
       is_loading: false,
       overlay: false,
@@ -245,7 +244,8 @@ export default {
       const response = await commentAPI.commissionComment(this.message, this.post.id)
       console.log(response);
       const comment = response.data.data
-      this.comments = { ...this.comments, comment }
+      this.comments = [ comment, ...this.comments ]
+      console.log(this.comments);
 
       this.message = null
     }

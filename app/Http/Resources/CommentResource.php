@@ -19,7 +19,7 @@ class CommentResource extends JsonResource
             'message' => $this->message,
             'user_name' => $this->user->name,
             'user_image' => $this->user->image->path,
-            'published'=>$this->created_at->format('M d, Y H:i'),
+            'published' => $this->created_at->format('M d, Y H:i'),
         ];
     }
 }

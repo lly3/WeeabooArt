@@ -20,7 +20,7 @@ export default {
         PostCard
     },
     props: {
-        posts: Array,
+        posts: {},
         size: {
             default: 'large',
             type: String

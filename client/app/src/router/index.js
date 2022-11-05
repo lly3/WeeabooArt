@@ -97,21 +97,21 @@ const router = createRouter({
         name: 'reset-password',
         component: () => import('@/views/ResetPasswordView.vue')
     },
-      {
-          path: '/tags',
-          name: 'tags',
-          component: () => import('@/views/tags/AllTagView.vue')
-      },
-      {
-          path: '/tags/:tag',
-          name: 'tags.show',
-          component: () => import('@/views/tags/ShowTagView.vue')
-      },
-      {
-          path: '/post/search/:searchKey',
-          name: 'post.search',
-          component: () => import('@/views/SearchView.vue')
-      }
+    {
+      path: '/tags',
+      name: 'tags',
+      component: () => import('@/views/tags/AllTagView.vue')
+    },
+    {
+      path: '/tags/:tag',
+      name: 'tags.show',
+      component: () => import('@/views/tags/ShowTagView.vue')
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import('@/views/SearchView.vue')
+    }
   ]
 })
 
