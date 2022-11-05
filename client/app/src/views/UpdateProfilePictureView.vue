@@ -5,11 +5,11 @@
                   <p>{{ session('alert') }}</p>
             @endif -->
 
-        <h1 class="text-2xl font-bold text-gray-700 px-6 md:px-0">Update Profile</h1>
+        <h1 class="dark:text-white text-2xl font-bold text-gray-700 px-6 md:px-0">Update Profile</h1>
         <ul class="flex border-b border-gray-300 font-medium text-gray-600 mt-3 px-6 md:px-0">
-            <li class="mr-8 hover:text-gray-900"><a href="http://localhost:3000/update-profile" class="py-4 inline-block">Profile Info</a></li>
-            <li class="mr-8 hover:text-gray-900"><a href="http://localhost:3000/update-password" class="py-4 inline-block">Password</a></li>
-            <li class="mr-8 text-gray-900 border-b-2 border-gray-800"><a href="#" class="py-4 inline-block">Profile Picture</a></li>
+            <li class="dark:text-gray-600 mr-8 hover:text-gray-900"><a href="http://localhost:3000/update-profile" class="py-4 inline-block">Profile Info</a></li>
+            <li class="dark:text-gray-600 mr-8 hover:text-gray-900"><a href="http://localhost:3000/update-password" class="py-4 inline-block">Password</a></li>
+            <li class="dark:text-white mr-8 text-gray-900 border-b-2 border-gray-800"><a href="#" class="py-4 inline-block">Profile Picture</a></li>
         </ul>
         <form @submit="onFormSave">
             <!-- @csrf -->
