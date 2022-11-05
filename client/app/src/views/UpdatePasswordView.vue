@@ -19,10 +19,21 @@
                 </div>
                 <div class="md:w-2/3 w-full pb-8">
                     <div class="py-8 px-16">
-                        <label for="name" class="text-gray-600">Password</label>
-                        <input v-model="password" class="mt-2 border-2 border-gray-200 px-3 py-2 block w-full rounded-lg text-base text-gray-900 focus:outline-none focus:border-indigo-500" type="password" :placeholder="Password" name="name">
-                        <label for="email" class="text-gray-600">Password Confirmation</label>
-                        <input v-model="password_confirmation" class="mt-2 border-2 border-gray-200 px-3 py-2 block w-full rounded-lg text-base text-gray-900 focus:outline-none focus:border-indigo-500" type="password" name="email" :placeholder="Password">
+
+                        <label for="current_password" class="text-gray-600">Current Password</label>
+                        <input v-model="current_password" class="mt-2 border-2 border-gray-200 px-3 py-2
+                        block w-full rounded-lg text-base text-gray-900 focus:outline-none focus:border-indigo-500"
+                               type="password" placeholder="Current Password" name="current_password">
+
+                        <label for="password" class="text-gray-600">New Password</label>
+                        <input v-model="password" class="mt-2 border-2 border-gray-200 px-3 py-2
+                        block w-full rounded-lg text-base text-gray-900 focus:outline-none focus:border-indigo-500"
+                               type="password" placeholder="New Password" name="password">
+
+                        <label for="password_confirmation" class="text-gray-600">New Password Confirmation</label>
+                        <input v-model="password_confirmation" class="mt-2 border-2 border-gray-200 px-3 py-2
+                        block w-full rounded-lg text-base text-gray-900 focus:outline-none focus:border-indigo-500"
+                               type="password" name="password_confirmation" placeholder="New Password Confirmation">
                     </div>
                     <div class="px-16">
                         <label v-if="message" for="email" class="text-greenlogo">{{ this.message }}</label>
@@ -32,7 +43,7 @@
                 </div>
             </div>
             <div class="p-16 py-8 bg-gray-300 clearfix rounded-b-lg border-t border-gray-200 flex justify-between">
-                <p class="float-left text-gray-500 tracking-tight mt-2">Click on Save to update your Profile Info</p>
+                <p class="float-left text-gray-500 tracking-tight mt-2">Click on Save to update your Password</p>
                 <!--                    <input type="submit" class="bg-greenlogo text-black text-sm font-medium px-6 py-2 rounded float-right my-auto uppercase cursor-pointer" value="Save">-->
                 <button type="submit" class="shadow bg-greenlogo hover:bg-secondaryfont duration-200 ease-in focus:shadow-outline focus:outline-none font-semibold py-1.5 px-4 rounded">SAVE</button>
             </div>
@@ -52,6 +63,7 @@ export default {
     },
     data() {
         return {
+            current_password: '',
             password: '',
             password_confirmation: '',
             error: null,
@@ -65,9 +77,10 @@ export default {
                 this.error = null
                 this.message = null
 
-                const response = await this.$axios.post('/auth/update-profile', {
-                    name: this.name ? this.name : this.auth_store.getName,
-                    email: this.email ? this.email : this.auth_store.getEmail
+                const response = await this.$axios.post('/auth/update-password', {
+                    current_password: this.current_password,
+                    password: this.password,
+                    password_confirmation: this.password_confirmation
                 }, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
@@ -80,7 +93,7 @@ export default {
                 }
             } catch (error) {
                 console.log(error)
-                this.error = error.response.data.email[0]
+                this.error = error.response.data
             }
         }
     }

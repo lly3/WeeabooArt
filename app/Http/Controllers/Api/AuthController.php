@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -237,8 +238,23 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
            'current_password' => ['required', 'string'],
            'password' => ['required', 'string', 'min:6', 'confirmed'],
-
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
+        $user = auth()->user();
+        if (Hash::check($request->get('current_password'), $user->password)) {
+            $user->password = bcrypt($request->get('password'));
+            if ($user->save()) {
+                return response()->json(['message' => 'Password updated'], Response::HTTP_OK); // 200
+            } else {
+                return response()->json(['error' => 'Password not updated'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
+            }
+        } else {
+            return response()->json(['error' => 'Current password is incorrect'], Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
     }
 
     public function updateProfilePicture(Request $request) {

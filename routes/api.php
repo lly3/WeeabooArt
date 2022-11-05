@@ -40,6 +40,7 @@ Route::group([
     Route::post('forgot-password', [AuthController::class, 'resetPasswordRequest']);
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::post('update-profile', [AuthController::class, 'updateProfile']);
+    Route::post('update-password', [AuthController::class, 'updatePassword']);
     Route::post('update-profile-picture', [AuthController::class, 'updateProfilePicture']);
 });
 
