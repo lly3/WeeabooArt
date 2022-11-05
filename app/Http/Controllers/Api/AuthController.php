@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 
@@ -204,6 +205,58 @@ class AuthController extends Controller
             } else {
                 return response()->json(['error' => 'Password not changed'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
             }
+        }
+    }
+
+    public function updateProfile(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => ['string', 'max:255'],
+            'email' => ['string', 'email', 'max:255', Rule::unique('users')->ignore(auth()->user()->id)],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
+        $user = auth()->user();
+        if ($request->get('name')) {
+            $user->name = $request->get('name');
+        }
+        if ($request->get('email')) {
+            $user->email = $request->get('email');
+        }
+
+        if ($user->save()) {
+            return response()->json(['message' => 'Profile updated'], Response::HTTP_OK); // 200
+        } else {
+            return response()->json(['error' => 'Profile not updated'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
+        }
+    }
+
+    public function updatePassword(Request $request) {
+        $validator = Validator::make($request->all(), [
+           'current_password' => ['required', 'string'],
+           'password' => ['required', 'string', 'min:6', 'confirmed'],
+
+        ]);
+    }
+
+    public function updateProfilePicture(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'image_id' => ['integer', 'required'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
+        $user = auth()->user();
+        $user->image_id = $request->get('image_id');
+
+        if ($user->save()) {
+            return response()->json(['message' => 'Profile picture updated'], Response::HTTP_OK); // 200
+        } else {
+            return response()->json(['error' => 'Profile picture not updated'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
         }
     }
 }

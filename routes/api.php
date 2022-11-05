@@ -39,6 +39,8 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
     Route::post('forgot-password', [AuthController::class, 'resetPasswordRequest']);
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
+    Route::post('update-profile', [AuthController::class, 'updateProfile']);
+    Route::post('update-profile-picture', [AuthController::class, 'updateProfilePicture']);
 });
 
 Route::get('/post/search', [\App\Http\Controllers\Api\PostController::class, 'search']);

@@ -102,6 +102,16 @@ const router = createRouter({
           path: '/tags/:id',
           name: 'tags.show',
           component: () => import('@/views/tags/ShowTagView.vue')
+      },
+      {
+            path: '/update-profile',
+            name: 'update-profile',
+            component: () => import('@/views/UpdateProfileView.vue')
+      },
+      {
+            path: '/update-password',
+            name: 'update-password',
+            component: () => import('@/views/UpdatePasswordView.vue')
       }
   ]
 })
