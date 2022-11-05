@@ -94,9 +94,9 @@ const router = createRouter({
         component: () => import('@/views/ResetPasswordView.vue')
     },
     {
-        path: '/profile/:id/posts',
-        name: 'show.profile.posts',
-        component: () => import('@/views/profile/AuthorPostsView.vue')
+        path: '/profile/:id',
+        name: 'show.profile',
+        component: () => import('@/views/profiles/AuthorPostsView.vue')
     }
   ]
 })
