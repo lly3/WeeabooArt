@@ -7,7 +7,7 @@
         <section class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
             <gallery-card-view :posts="posts"></gallery-card-view>
         </section>
-        <section class="center">
+        <section class="flex justify-center p-5">
             <pagination :total-pages="totalPages"
                 :total="total"
                 :per-page="perPage"

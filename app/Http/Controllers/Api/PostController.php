@@ -21,7 +21,7 @@ class PostController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['index', 'show', 'mostLiked', 'mostViewed', 'otherPosts', 'more_by', 'search']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show', 'mostLiked', 'mostViewed', 'otherPosts', 'more_by', 'search', 'isCollected']]);
     }
 
     /**
@@ -217,8 +217,7 @@ class PostController extends Controller
     }
 
     public function isCollected(Post $post) {
-        $user = User::find(auth()->user()->id);
-        if ($post->collected_by->find($user->id) != null) {
+        if (auth()->user() != null && $post->collected_by->find(auth()->user()->id) != null) {
             return response()->json(true);
         }
         return response()->json(false);
