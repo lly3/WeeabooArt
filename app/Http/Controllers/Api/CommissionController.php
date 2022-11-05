@@ -5,11 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommissionResource;
 use App\Models\Commission;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class CommissionController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api', ['except' => ['index', 'show', 'more_by']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +24,7 @@ class CommissionController extends Controller
      */
     public function index()
     {
-        $commissions = Commission::get();
+        $commissions = Commission::orderBy('id', 'desc')->paginate(15);
         return CommissionResource::collection($commissions);
     }
 
@@ -39,23 +46,40 @@ class CommissionController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'imagesID' => ['required']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
         $commission = new Commission();
         $commission->title = $request->get('title');
         $commission->description = $request->get('description') ?? "ไม่ระบุรายละเอียดเพิ่มเติม";
-        $commission->favorite_count = $request->get('favorite_count');
-        $commission->view_count = $request->get('view_count');
-//        $commission->user_id = $request->get('user_id');
-        if ($commission->save()) {
+        $commission->price = $request->get('price');
+        $commission->user_id = auth()->user()->id;
+
+        if (! $commission->save()) {
             return response()->json([
-                'success' => true,
-                'message' => 'Commission saved successfully with id ' . $commission->id,
-                'commission_id' => $commission->id
-            ], Response::HTTP_CREATED);
+                'success' => false,
+                'message' => 'Commission saved failed'
+            ], Response::HTTP_BAD_REQUEST);
         }
+
+        $imagesID = json_decode($request->get('imagesID'));
+        foreach (Image::find($imagesID)->all() as $image) {
+           $commission->images()->save($image); 
+        }
+
         return response()->json([
-            'success' => false,
-            'message' => 'Commission saved failed'
-        ], Response::HTTP_BAD_REQUEST);
+            'success' => true,
+            'message' => 'Commission saved successfully with id ' . $commission->id,
+            'commission_id' => $commission->id
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -64,10 +88,11 @@ class CommissionController extends Controller
      * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Commission $commission) 
     {
-        $commissions = Commission::find($id);
-        return $commissions;
+        $commission->view_count++;
+        $commission->save();
+        return new CommissionResource($commission);
     }
 
     /**
@@ -78,7 +103,7 @@ class CommissionController extends Controller
      */
     public function edit(Commission $commission)
     {
-        //
+        return new CommissionResource($commission);
     }
 
     /**
@@ -92,19 +117,29 @@ class CommissionController extends Controller
     {
         if ($request->has('title')) $commission->title = $request->get('title');
         if ($request->has('description')) $commission->description = $request->get('description');
-        if ($request->has('favorite_count')) $commission->favorite_count = $request->get('favorite_count');
-        if ($request->has('view_count')) $commission->view_count = $request->get('view_count');
-        if ($commission->save()) {
+        if ($request->has('price')) $commission->price = $request->get('price');
+
+        if (! $commission->save()) {
             return response()->json([
-                'success' => true,
-                'message' => 'Commission saved successfully with id ' . $commission->id,
-                'commission_id' => $commission->id
-            ], Response::HTTP_CREATED);
+                'success' => false,
+                'message' => 'Commission update failed'
+            ], Response::HTTP_BAD_REQUEST);
         }
+
+        if($request->has('imagesID')) {
+            $this->deleteOldImages($commission);
+
+            $imagesID = json_decode($request->get('imagesID'));
+            foreach (Image::find($imagesID)->all() as $image) {
+                $commission->images()->save($image); 
+            }
+        }
+
         return response()->json([
-            'success' => false,
-            'message' => 'Commission saved failed'
-        ], Response::HTTP_BAD_REQUEST);
+            'success' => true,
+            'message' => 'Commission update successfully with id ' . $commission->id,
+            'commission_id' => $commission->id
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -116,6 +151,7 @@ class CommissionController extends Controller
     public function destroy(Commission $commission)
     {
         $commission_title = $commission->title;
+        $this->deleteOldImages($commission);
         if ($commission->delete()) {
             return response()->json([
                 'success' => true,
@@ -127,4 +163,38 @@ class CommissionController extends Controller
             'message' => "Commission {$commission_title} deleted failed"
         ], Response::HTTP_BAD_REQUEST);
     }
+
+    private function deleteOldImages($commission) {
+        // delete old images
+        foreach($commission->images as $image) {
+            File::delete(public_path().'/images/'.$image->path);
+            $image->delete();
+        }
+    }
+
+    public function more_by(Request $request, $user_id) {
+        if($request->query('quantity') != null) {
+            if($request->query('random') == 'false') {
+                $posts = Commission::where('user_id', $user_id)
+                    ->limit($request->query('quantity'))
+                    ->get();
+                return CommissionResource::collection($posts);
+            }
+            $posts = Commission::where('user_id', $user_id)
+                ->inRandomOrder()
+                ->limit($request->query('quantity'))
+                ->get();
+            return CommissionResource::collection($posts);
+        }
+        else {
+            $posts = Commission::where('user_id', $user_id)
+                ->get();
+            return CommissionResource::collection($posts);
+        }
+        return response()->json([
+            'message' => 'fetch more post by user_id' . $user_id . 'failed',
+            'success' => false
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
 }

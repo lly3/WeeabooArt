@@ -11,18 +11,26 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-//use Intervention\Image\Image;
+use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
 
 
 class PostController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => [
+            'index',
+            'show',
+            'mostLiked',
+            'mostViewed',
+            'otherPosts',
+            'more_by',
+            'search', 
+        ]]);
     }
 
     /**
@@ -30,9 +38,11 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::orderBy('id', 'desc')->paginate(15);
+        $type = $request->query('type') == 'premium_download' ? 1 : 0;
+        $posts = Post::where('is_saleable', $type)
+            ->orderBy('id', 'desc')->paginate(15);
         return PostResource::collection($posts);
     }
 
@@ -54,6 +64,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'imageID' => ['required']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
         $post = new Post();
         $post->title = $request->get('title');
         $post->description = $request->get('description') ?? "ไม่ระบุรายละเอียดเพิ่มเติม";
@@ -105,7 +125,11 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->user;
         $post->image;
-        return response()->json($post);
+        $tags = implode(', ', $post->tags->pluck('name')->all());
+        return response()->json([
+            'post' => $post,
+            'tags' => $tags
+        ]);
     }
 
     /**
@@ -117,7 +141,6 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-
         if ($request->has('title')) $post->title = $request->get('title');
         if ($request->has('description')) $post->description = $request->get('description');
         if ($request->has('is_saleable')) $post->is_saleable = $request->get('is_saleable');
@@ -125,7 +148,7 @@ class PostController extends Controller
         if ($request->has('favorite_count')) $post->favorite_count = $request->get('favorite_count');
         if ($request->has('view_count')) $post->view_count = $request->get('view_count');
         if($request->has('imageID')) {
-            File::delete('images/'.$post->image->path);
+            File::delete(public_path().'/images/'.$post->image->path);
             $post->image_id = $request->get('imageID');
         }
 
@@ -168,7 +191,8 @@ class PostController extends Controller
     }
 
     public function mostLiked() {
-        $posts = Post::orderBy('favorite_count', 'desc')->take(6)->get();
+        $posts = Post::where('is_saleable', 0)
+            ->orderBy('favorite_count', 'desc')->take(6)->get();
         foreach ($posts as $post) {
             $post->image;
             $post->user_name = $post->user->name;
@@ -177,7 +201,8 @@ class PostController extends Controller
     }
 
     public function mostViewed() {
-        $posts = Post::orderBy('view_count', 'desc')->take(6)->get();
+        $posts = Post::where('is_saleable', 0)
+            ->orderBy('view_count', 'desc')->take(6)->get();
         foreach ($posts as $post) {
             $post->image;
             $post->user_name = $post->user->name;
@@ -186,7 +211,8 @@ class PostController extends Controller
     }
 
     public function otherPosts() {
-        return Post::orderBy('id', 'desc')->paginate(15);
+        return Post::where('is_saleable', 0)
+            ->orderBy('id', 'desc')->paginate(15);
     }
 
     public function buyArtPost(Post $post) {
@@ -248,8 +274,7 @@ class PostController extends Controller
     }
 
     public function isCollected(Post $post) {
-        $user = User::find(auth()->user()->id);
-        if ($post->collected_by->find($user->id) != null) {
+        if ($post->collected_by->find(auth()->user()->id) != null) {
             return response()->json(true);
         }
         return response()->json(false);
@@ -264,7 +289,8 @@ class PostController extends Controller
     }
 
     public function premiumDownload(Post $post) {
-        if($post->is_saleable) {
+        $user = User::find(auth()->user()->id);
+        if($post->is_saleable && $post->collected_by->find($user->id) != null) {
             return response()->download(storage_path('images/'.$post->image->path));
         }
         return response()->json([
@@ -285,7 +311,12 @@ class PostController extends Controller
             $tag = Tag::where('name', $tag_name)->first();
             if (!$tag) {
                 $tag = new Tag();
-                $tag->name = $tag_name;
+                if($tag_name == ''){
+                    $tag->name='No tag';
+                }
+                else{
+                    $tag->name = $tag_name;
+                }
                 $tag->save();
             }
             $tag_ids[] = $tag->id;
@@ -296,8 +327,33 @@ class PostController extends Controller
     private function addWatermask($post) {
         $img = Image::make(public_path('images/'.$post->image->path));
         File::move(public_path('images/'.$post->image->path), storage_path('images/'.$post->image->path));
-        $img->insert(public_path('watermask.png'), 'center', 100, 100);
+        $img->insert(public_path('watermask.png'), 'center');
         $img->save(public_path('images/'.$post->image->path));
+    }
+
+    public function more_by(Request $request, $user_id) {
+        if($request->query('quantity') != null) {
+            if($request->query('random') == 'false') {
+                $posts = Post::where('user_id', $user_id)
+                    ->limit($request->query('quantity'))
+                    ->get();
+                return PostResource::collection($posts);
+            }
+            $posts = Post::where('user_id', $user_id)
+                ->inRandomOrder()
+                ->limit($request->query('quantity'))
+                ->get();
+            return PostResource::collection($posts);
+        }
+        else {
+            $posts = Post::where('user_id', $user_id)
+                ->get();
+            return PostResource::collection($posts);
+        }
+        return response()->json([
+            'message' => 'fetch more post by user_id' . $user_id . 'failed',
+            'success' => false
+        ], Response::HTTP_BAD_REQUEST);
     }
 
     public function search(Request $request) {

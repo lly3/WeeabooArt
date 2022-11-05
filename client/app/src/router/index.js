@@ -1,15 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import CoinDeskView from '@/views/CoinDeskView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: HomeView
-    // },
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
     {
       path: '/about',
       name: 'about',
@@ -17,26 +16,6 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
-    },
-    {
-      path: '/coin-desk',
-      name: 'coin-desk',
-      component: CoinDeskView
-    },
-    {
-      path: '/rewards',
-      name: 'rewards',
-      component: () => import('@/views/rewards/AllRewardView.vue')
-    },
-    {
-      path: '/rewards/:id',
-      name: 'rewards.show',
-      component: () => import('@/views/rewards/DetailView.vue')
-    },
-    {
-      path: '/rewards/create',
-      name: 'rewards.create',
-      component: () => import('@/views/rewards/CreateView.vue')
     },
     {
       path: '/login',
@@ -69,14 +48,39 @@ const router = createRouter({
         component: () => import('@/views/RegisterView.vue')
     },
     {
-        path: '/',
+        path: '/gallery',
         name: 'gallery',
         component: () => import('@/views/GalleryView.vue')
     },
     {
-        path: '/post/search/:searchKey',
-        name: 'post.search',
-        component: () => import('@/views/SearchView.vue')
+        path: '/shop',
+        name: 'shop',
+        component: () => import('@/views/ShopView.vue')
+    },
+    {
+        path: '/commission',
+        name: 'commission',
+        component: () => import('@/views/CommissionView.vue')
+    },
+    {
+      path: '/commission/create',
+      name: 'commission.create',
+      component: () => import('@/views/commissions/CreateView.vue')
+    },
+    {
+      path: '/commission/:id',
+      name: 'commission.show',
+      component: () => import('@/views/commissions/ShowView.vue')
+    },
+    {
+      path: '/commission/edit/:id',
+      name: 'commission.edit',
+      component: () => import('@/views/commissions/EditView.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not_found',
+      component: () => import('@/components/404NotFound.vue')
     },
     {
         path: '/my-collection',
@@ -98,15 +102,35 @@ const router = createRouter({
         name: 'reset-password',
         component: () => import('@/views/ResetPasswordView.vue')
     },
+    {
+      path: '/tags',
+      name: 'tags',
+      component: () => import('@/views/tags/AllTagView.vue')
+    },
+    {
+      path: '/tags/:tag',
+      name: 'tags.show',
+      component: () => import('@/views/tags/ShowTagView.vue')
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: () => import('@/views/SearchView.vue')
+    },
       {
-          path: '/tags',
-          name: 'tags',
-          component: () => import('@/views/tags/AllTagView.vue')
+            path: '/update-profile',
+            name: 'update-profile',
+            component: () => import('@/views/UpdateProfileView.vue')
       },
       {
-          path: '/tags/:id',
-          name: 'tags.show',
-          component: () => import('@/views/tags/ShowTagView.vue')
+            path: '/update-password',
+            name: 'update-password',
+            component: () => import('@/views/UpdatePasswordView.vue')
+      },
+      {
+          path: '/update-profile-picture',
+          name: 'update-profile-picture',
+          component: () => import('@/views/UpdateProfilePictureView.vue')
       }
   ]
 })

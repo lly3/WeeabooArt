@@ -3,7 +3,7 @@
         <IsLoading />
     </div>
     <div v-else class="min-h-screen text-gary-700">
-        <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Gallery</h1>
+        <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Shop</h1>
         <section v-if=havePosts class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
             <gallery-card-view :posts="posts"></gallery-card-view>
         </section>
@@ -21,7 +21,6 @@
 <script>
 import GalleryCardView from "@/components/GalleryCardView.vue";
 import pagination from '../components/Pagination.vue';
-import SearchBar from '../components/SearchBar.vue';
 import IsLoading from '@/components/IsLoading.vue'
 import { postAPI } from '@/services/api.js'
 
@@ -30,7 +29,6 @@ export default {
     components: {
         GalleryCardView,
         pagination,
-        SearchBar,
         IsLoading
     },
     created() {
@@ -39,7 +37,7 @@ export default {
             async (toQuery, previousQuery) => {
                 const page = toQuery.page == null ? 1 : parseInt(toQuery.page)
                 this.currentPage = page
-                const response = await postAPI.paginate(page);
+                const response = await postAPI.paginate(page, 'premium_download');
                 this.posts = response.data.data
             }
         )
@@ -67,7 +65,7 @@ export default {
     },
     methods: {
         pageChanged(pageNumber) {
-            this.$router.push(`/gallery?page=${pageNumber}`)
+            this.$router.push(`/shop?page=${pageNumber}`)
             // this.page = pageNumber;
             // console.log("This is event at " + pageNumber);
             // this.getData(pageNumber);
@@ -114,22 +112,12 @@ export default {
     async mounted() {
         try {
             this.error = null
-            const response = await postAPI.fetch()
-            this.loading = false
-            this.posts = response.data.data
             const page = this.$route.query.page ? parseInt(this.$route.query.page) : 1
+            const response_page1 = await postAPI.paginate(page, 'premium_download');
+            this.posts = response_page1.data.data
             this.currentPage = page
-            if (this.posts !== null) {
-                const response_page1 = await postAPI.paginate(page);
-                this.posts = response_page1.data.data
-                this.page = 1;
-                this.posts = response_page1.data.data;
-                this.total = response_page1.data.meta.total;
-                this.totalPages = response_page1.data.meta.last_page;
-                this.perPage = response_page1.data.meta.per_page;
-                console.log("get page 1 success");
-            }
-            this.total = response.data.meta.total
+            this.totalPages = response_page1.data.meta.last_page;
+            this.loading = false
         } catch (error) {
             console.log(error)
             this.error = error.message
@@ -205,7 +193,7 @@ export default {
 .snip {
     position: relative;
     display: inline-block;
-    overflow-wrap: anywhere;
+    overflow: hidden;
     width: 100%;
     color: #ffffff;
     text-align: center;
@@ -220,7 +208,6 @@ export default {
 
 .snip:before {
     position: absolute;
-    border-radius: 5px;
     top: 10px;
     left: 10px;
     right: 10px;
@@ -242,7 +229,6 @@ export default {
 
 .snip figcaption {
     position: absolute;
-    padding: 10px;
     top: 0;
     left: 0;
     right: 0;
@@ -273,9 +259,7 @@ export default {
 
 .snip h5 {
     font-weight: 400;
-    border-radius: 10px;
-    background-color: #01e59b;
-    margin: 0px 10px;
+    background-color: #A0A0A0;
     padding: 3px 10px;
     -webkit-transform : translateY(100%);
     transform : translateY(100%);
@@ -305,6 +289,6 @@ export default {
 .snip.hover h5 {
     opacity: 1;
     -webkit-transform : translateY(0);
-    padding: 0px 10px;
+    transform : translateY(0);
 }
 </style>

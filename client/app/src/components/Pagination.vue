@@ -1,9 +1,9 @@
 <template>
     <div class="flex justify-end">
-        <ul class="pagination bg-white p-2 shadow-sm rounded dark:bg-gray-900">
+        <ul class="pagination bg-white p-2 shadow-sm rounded">
             <li class="pagination-item">
 				<span
-                    class="bg-gray-200 rounded-l rounded-sm border border-gray-100 px-3 py-2 cursor-not-allowed no-underline text-gray-600 h-10"
+                    class="rounded-l rounded-sm border border-gray-100 px-3 py-2 cursor-not-allowed no-underline text-gray-600 h-10"
                     v-if="isInFirstPage"
                 >&laquo;</span>
                 <a
@@ -24,7 +24,7 @@
                     @click="onClickPreviousPage"
                     :disabled="isInFirstPage"
                     aria-label="Go to previous page"
-                    class="bg-gray-200 rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
+                    class="rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
                     :class="{'cursor-not-allowed': isInFirstPage}"
                 >Previous</button>
             </li>
@@ -35,7 +35,7 @@
                 :key="page.name"
             >
 				<span
-                    class="bg-gray-200 rounded-sm border border-blue-100 px-3 py-2 bg-blue-100 no-underline text-blue-500 cursor-not-allowed mx-2"
+                    class="rounded-sm border px-3 py-2 current_page no-underline cursor-not-allowed mx-2"
                     v-if="isPageActive(page.name)"
                 >{{ page.name }}</span>
                 <a
@@ -59,7 +59,7 @@
                     @click="onClickNextPage"
                     :disabled="isInLastPage"
                     aria-label="Go to next page"
-                    class="bg-gray-200 rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
+                    class="rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline mx-2 text-sm"
                     :class="{'cursor-not-allowed': isInLastPage}"
                 >Next</button>
             </li>
@@ -72,7 +72,7 @@
                     aria-label="Go to last page"
                 >Last</button> -->
                 <a
-                    class="bg-gray-200 rounded-r rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline"
+                    class="rounded-r rounded-sm border border-gray-100 px-3 py-2 hover:bg-gray-100 text-gray-600 no-underline"
                     href="#"
                     @click.prevent="onClickLastPage"
                     rel="next"
@@ -87,6 +87,7 @@
         </ul>
     </div>
 </template>
+
 <script>
 import {defineComponent} from 'vue'
 export default defineComponent( {
@@ -198,7 +199,7 @@ export default defineComponent( {
 }
 .current_page {
     background-color: #01e59b;
-    color: black;
+    color: white;
 }
 
 </style>
