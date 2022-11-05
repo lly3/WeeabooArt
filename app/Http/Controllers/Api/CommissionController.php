@@ -46,6 +46,17 @@ class CommissionController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'imagesID' => ['required', 'string']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
         $commission = new Commission();
         $commission->title = $request->get('title');
         $commission->description = $request->get('description') ?? "ไม่ระบุรายละเอียดเพิ่มเติม";

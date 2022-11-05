@@ -40,7 +40,7 @@
           <p>Edit</p>
         </div>
         <div class="ml-auto"></div>
-        <div class="flex items-center mr-2 md:text-lg border-r border-black pr-2">
+        <div class="flex items-center mr-2 md:text-lg border-r dark:border-white border-black pr-2">
           <p>${{ post.price }}</p>
         </div>
         <div class="mr-5">

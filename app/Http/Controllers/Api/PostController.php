@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 
@@ -21,7 +22,16 @@ class PostController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['index', 'show', 'mostLiked', 'mostViewed', 'otherPosts', 'more_by', 'search', 'isCollected']]);
+        $this->middleware('auth:api', ['except' => [
+            'index',
+            'show',
+            'mostLiked',
+            'mostViewed',
+            'otherPosts',
+            'more_by',
+            'search', 
+            'isCollected'
+        ]]);
     }
 
     /**
@@ -55,6 +65,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'imageID' => ['required', 'string']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
         $post = new Post();
         $post->title = $request->get('title');
         $post->description = $request->get('description') ?? "ไม่ระบุรายละเอียดเพิ่มเติม";
