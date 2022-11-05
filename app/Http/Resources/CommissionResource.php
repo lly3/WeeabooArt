@@ -19,7 +19,7 @@ class CommissionResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
-            'comments' => CommentResource::collection($this->comments),
+            'comments' => CommentResource::collection($this->comments->sortByDesc('created_at')),
             'view_count' => $this->view_count,
             'user_id' => $this->user->id,
             'user_image' => $this->user->image->path,

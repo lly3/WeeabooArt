@@ -30,7 +30,7 @@ class PostResource extends JsonResource
             'image' => $this->image->path,
             'published' => $this->created_at->format('M d, Y'),
             'tags' => $this->tags,
-            'comments' => CommentResource::collection($this->comments),
+            'comments' => CommentResource::collection($this->comments->sortByDesc('created_at')),
         ];
     }
 }
