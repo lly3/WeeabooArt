@@ -66,7 +66,7 @@ export default {
             this.posts = response.data.data
             this.currentPage = page
             this.totalPages = response.data.meta.last_page
-            console.log(response.data.meta);
+            console.log(response.data);
         } catch(error) {
             console.log(error)
             this.error = error.message

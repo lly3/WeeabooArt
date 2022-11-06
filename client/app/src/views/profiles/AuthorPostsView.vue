@@ -1,19 +1,20 @@
 <template>
-    <div >
+    <div class="min-h-screen">
         <div class="dark:bg-gray-800">
-            <section class="py-4 lg:py-8">
+            <section class="" >
                 <profile-header :author="author"></profile-header>
             </section>
             
-            <h1 class="mx-8 font-bold dark:text-white text-2xl">Posts</h1>
-            <section class="py-4 lg:py-8 dark:dark-body">
+            <section class="container px-5 py-2 mx-auto lg:px-12" >
+                <h1 class="dark:text-white py-5 text-xl font-light">Posts</h1>
                 <gallery-card-view :posts="posts"></gallery-card-view>
             </section>
 
-            <h1 class="mx-8 font-bold dark:text-white text-2xl">Commissions</h1>
-            <section class="py-4 lg:py-8 dark:dark-body">
-                <all-commission-card :commissions="commissions"></all-commission-card>
+            <section class="container pb-5 py-2 mx-auto lg:px-12" >
+                <h1 class="dark:text-white py-5 text-xl font-light">Commissions</h1>
+                <gallery-card-view :posts="commissions" model=commission ></gallery-card-view>
             </section>
+
         </div>
     </div>
 </template>
