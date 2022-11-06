@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CollectionController;
 use App\Http\Controllers\Api\CommissionController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PostController;
