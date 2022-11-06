@@ -66,12 +66,12 @@ export default {
             this.posts = response.data.data
             this.currentPage = page
             this.totalPages = response.data.meta.last_page
-            this.loading = false
             console.log(response.data.meta);
         } catch(error) {
             console.log(error)
             this.error = error.message
         }
+        this.loading = false
     },
     methods: {
         pageChanged(pageNumber) {
