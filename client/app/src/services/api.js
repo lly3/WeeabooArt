@@ -94,6 +94,9 @@ export const postAPI = {
     },
     more_by(user_id, quantity='', random=false) {
         return axiosInstance.get(`/post/by/${user_id}?quantity=${quantity}&ramdom=${random}`)
+    },
+    favorited(id) {
+        return axiosInstance.get(`/post/favorited/${id}`)
     }
 
 }

@@ -1,5 +1,5 @@
 <template>
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 min-h-screen">
 
             <!--     @if (session('alert'))
                       <p>{{ session('alert') }}</p>
