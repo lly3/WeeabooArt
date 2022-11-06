@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class UserResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'image' => $this->image->path,
-            'date_of_birth' => $this->date_of_birth,
+            'date_of_birth' => Str::substr($this->date_of_birth,0,10),
             'role' => $this->role,
 //            'image' => $this->whenLoaded('image'),
         ];
