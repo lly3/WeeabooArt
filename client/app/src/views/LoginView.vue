@@ -29,8 +29,8 @@
                             <button type="submit" :disabled="disabledButton" class="shadow bg-greenlogo hover:bg-secondaryfont focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
                                 Log In
                             </button>
+                            <p v-if="error" class="pb-4 pt-4 text-red-600">{{ error }}</p>
                         </div>
-
                         <a @click="() => this.$router.push('/forgot-password')" class="underline text-sm text-gray-600 hover:text-gray-900" href="#">
                             Forgot your password?
                         </a>
@@ -64,7 +64,8 @@ export default {
             email: '',
             password: '',
             error: null,
-            disabledButton: false
+            disabledButton: false,
+            message_error: null
         }
     },
     methods: {
@@ -78,7 +79,8 @@ export default {
                     this.disabledButton = false
                 }
             } catch (error) {
-                this.error = error.message
+                console.log(error)
+                this.error = error.response.data.error
                 this.disabledButton = false
             }
         }

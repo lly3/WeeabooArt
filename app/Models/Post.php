@@ -33,7 +33,15 @@ class Post extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function favorites() {
+        return $this->hasMany(Favorite::class);
+    }
+
     public function collected_by() {
         return $this->morphedByMany(User::class, 'collection');
+    }
+
+    public function favorited_by() {
+        return $this->morphedByMany(User::class, 'favorite');
     }
 }

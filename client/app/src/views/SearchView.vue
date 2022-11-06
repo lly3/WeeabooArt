@@ -25,18 +25,19 @@
 
 <script>
 import GalleryCardView from "@/components/GalleryCardView.vue";
+import SearchBar from "../components/SearchBar.vue";
 import IsLoading from '@/components/IsLoading.vue'
 
 export default {
     components: {
         GalleryCardView,
+        SearchBar,
         IsLoading
     },
     data () {
         return {
             error: null,
             searchKey: this.searching,
-            disabledSearch: false,
             post_searches: [],
             loading: true
         }
@@ -65,17 +66,16 @@ export default {
         }
     },
     computed: {
-        emptySearch(){
-            return this.searchKey === ''
-        },
         post_search(){
-            return this.post_searches.length
+            return this.post_searches.length > 0
+        },
+        no_post_search(){
+            return this.post_searches.length == 0
         },
         searching(){
             return this.$route.query.searchKey
         },
     },
-
     async mounted() {
         try {
             this.error = null
@@ -91,8 +91,7 @@ export default {
 
 </script>
 
-<style>
-
+<style scoped>
 /*css bluwbyu*/
 
 /*.button-on-pic{*/

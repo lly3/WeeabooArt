@@ -38,7 +38,7 @@
                 </svg>
               </div>
             </div>
-            <div v-if=!auth_store.isAuthen class="md:hidden block flex flex-col"> 
+            <div v-if=!auth_store.isAuthen class="md:hidden block flex flex-col">
               <button @click="() => this.$router.push('/register')" class="text-left py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Join</button>
               <button @click="() => this.$router.push('/login')" class="text-left py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Login</button>
             </div>
@@ -49,13 +49,13 @@
               </div>
               <ul class="py-1" aria-labelledby="user-menu-button">
                 <li>
-                  <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                  <a @click="() => this.$router.push('/my-collection')" class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Collection</a>
                 </li>
+                  <li>
+                      <a @click="() => this.$router.push('/my-favorite')" class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Favorite</a>
+                  </li>
                 <li>
-                  <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-                </li>
-                <li>
-                  <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+                  <a @click="() => this.$router.push('/update-profile')" class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Update Profile</a>
                 </li>
                 <li>
                   <button @click="() => this.$router.push('/logout')" class="block w-full text-left py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button>

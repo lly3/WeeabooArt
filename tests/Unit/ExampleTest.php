@@ -15,4 +15,16 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(true);
     }
+
+    public function test_that_false_is_false()
+    {
+        $this->assertFalse(false);
+    }
+
+//    public function test_env_is_testing()
+//    {
+//        $expected = "testing";
+//        $actual = env('DB_DATABASE');
+//        $this.assertEquals($expected, $actual);
+//    }
 }

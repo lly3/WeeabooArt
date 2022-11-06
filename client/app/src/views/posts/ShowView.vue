@@ -23,7 +23,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
             <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
           </svg>
-          <p class="sm:block hidden">Add to favorites</p>
+          <p class="sm:block hidden" v-if=!favorite @click=isFavorite>Add to favorites</p>
+          <p class="sm:block hidden" v-if=favorite @click=isFavorite>Favorited</p>
         </div>
         <div v-if=isOwner() class="flex items-center mr-2 space-x-1.5 hover:text-greenlogo cursor-pointer" @click=onEdit(post.id)>
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
@@ -54,7 +55,7 @@
             <img :src=imageURL(post.user_image) class="w-[60px] h-[60px] rounded-xl object-cover" />
             <div class="flex flex-col ml-3 w-full">
               <p class="text-3xl font-bold dark:text-white xl:w-2/3 w-full break-all">{{ post.title }}</p>
-              <p class="dark:text-white text-lg">by <span class="font-bold underline cursor-pointer hover:text-greenlogo">{{ post.user_name }}</span></p>
+              <p class="dark:text-white text-lg">by <span class="font-bold underline cursor-pointer hover:text-greenlogo" @click="() => this.$router.push(`/profile/${post.user_id}`)" >{{ post.user_name }}</span></p>
             </div>
           </div>
         </div>
@@ -79,7 +80,6 @@
             <p>{{ post.view_count }} <span class="sm:inline hidden">Views</span></p>
           </div>
         </div>
-
         <div class="flex flex-wrap gap-2 text-xs">
           <div v-for="tag in tags" class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.name}`)">
               {{ tag.name }}
@@ -99,7 +99,7 @@
           <div class="w-full mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
               <div class="mr-3 rounded-lg">
-                <img :src=defaultImage() class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
+                <img :src=defaultImage() class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
               </div>
               <div class="w-full p-6 text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <span class="text-black dark:text-white hover:text-greenlogo dark:hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/register')">Join the community</span> to add your comment. Already a deviant? <span class="text-black dark:text-white dark:hover:text-greenlogo hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/login')">Log In</span>
@@ -231,6 +231,13 @@ export default {
     } catch (e) {
       console.log(e);
     }
+
+      try {
+          this.$axios.get(`/post/favorited/${this.post.id}`)
+              .then(res => this.favorite = res.data);
+      } catch (e) {
+          console.log(e);
+      }
   },
   data() {
     return {
@@ -247,10 +254,14 @@ export default {
       message: '',
       tags: {},
       commentKey: 0,
-      disabledButton: false
+      disabledButton:false,
+        favorite:false
     }
   },
   methods: {
+      onClickProfile(){
+
+      },
     async getData(){
         await this.$axios.get(`/comment/post/${this.$route.params.id}`)
             .then(response =>{
@@ -287,6 +298,44 @@ export default {
       } catch (e) {
         console.log(e)
       }
+    },
+    isFavorite() {
+        if(this.auth_store.isAuthen == false)
+            return this.$router.push('/login');
+
+        if(this.favorite == false){
+        try {
+            this.$axios.get(`/post/favorite/${this.post.id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+                }
+            })
+                .then(res => {
+                    if(res.data.success)
+                         this.favorite = true
+                        this.post.favorite_count++
+                })
+        } catch (e) {
+            console.log(e)
+        }
+        }
+        else if(this.favorite == true){
+            try {
+                this.$axios.get(`/post/unfavorite/${this.post.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+                    }
+                })
+                    .then(res => {
+                        if(res.data.success)
+                            this.favorite = false
+                            this.post.favorite_count--
+                    })
+            } catch (e) {
+                console.log(e)
+            }
+
+        }
     },
     download() {
       postAPI.premiumDownload(this.post.id)

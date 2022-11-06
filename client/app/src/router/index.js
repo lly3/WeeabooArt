@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import CoinDeskView from '@/views/CoinDeskView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,29 +38,34 @@ const router = createRouter({
       component: () => import('@/views/posts/EditView.vue')
     },
     {
-        path: '/logout',
-        name: 'logout',
-        component: () => import('@/views/LogoutView.vue')
+      path: '/logout',
+      name: 'logout',
+      component: () => import('@/views/LogoutView.vue')
     },
     {
-        path: '/register',
-        name: 'register',
-        component: () => import('@/views/RegisterView.vue')
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/RegisterView.vue')
     },
     {
-        path: '/gallery',
-        name: 'gallery',
-        component: () => import('@/views/GalleryView.vue')
+      path: '/gallery',
+      name: 'gallery',
+      component: () => import('@/views/GalleryView.vue')
     },
     {
-        path: '/shop',
-        name: 'shop',
-        component: () => import('@/views/ShopView.vue')
+      path: '/post/search/:searchKey',
+      name: 'post.search',
+      component: () => import('@/views/SearchView.vue')
     },
     {
-        path: '/commission',
-        name: 'commission',
-        component: () => import('@/views/CommissionView.vue')
+      path: '/shop',
+      name: 'shop',
+      component: () => import('@/views/ShopView.vue')
+    },
+    {
+      path: '/commission',
+      name: 'commission',
+      component: () => import('@/views/CommissionView.vue')
     },
     {
       path: '/commission/create',
@@ -80,23 +84,28 @@ const router = createRouter({
     },
     {
       path: '/:pathMatch(.*)*',
-      name: 'not_found',
+      name: 'NotFound',
       component: () => import('@/components/404NotFound.vue')
     },
     {
-        path: '/my-collection',
-        name: 'my-collection',
-        component: () => import('@/views/MyCollectionView.vue')
+      path: '/my-collection',
+      name: 'my-collection',
+      component: () => import('@/views/MyCollectionView.vue')
     },
     {
-        path: '/forgot-password',
-        name: 'forgot-password',
-        component: () => import('@/views/ForgotPasswordView.vue')
+      path: '/my-favorite',
+      name: 'my-favorite',
+      component: () => import('@/views/MyFavoriteView.vue')
     },
     {
-        path: '/reset-password',
-        name: 'reset-password',
-        component: () => import('@/views/ResetPasswordView.vue')
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: () => import('@/views/ForgotPasswordView.vue')
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      component: () => import('@/views/ResetPasswordView.vue')
     },
     {
       path: '/tags',
@@ -112,6 +121,46 @@ const router = createRouter({
       path: '/search',
       name: 'search',
       component: () => import('@/views/SearchView.vue')
+    },
+    {
+      path: '/update-profile',
+      name: 'update-profile',
+      component: () => import('@/views/UpdateProfileView.vue')
+    },
+    {
+      path: '/tags/:id',
+      name: 'tags.show',
+      component: () => import('@/views/tags/ShowTagView.vue')
+    },
+    {
+      path: '/profile/:id',
+      name: 'show.profile',
+      component: () => import('@/views/profiles/AuthorPostsView.vue')
+    },
+    {
+      path: '/commission/create',
+      name: 'commission.create',
+      component: () => import('@/views/commissions/CreateView.vue')
+    },
+    {
+      path: '/commission/:id',
+      name: 'commission.show',
+      component: () => import('@/views/commissions/ShowView.vue')
+    },
+    {
+      path: '/commission/edit/:id',
+      name: 'commission.edit',
+      component: () => import('@/views/commissions/EditView.vue')
+    },
+    {
+      path: '/update-password',
+      name: 'update-password',
+      component: () => import('@/views/UpdatePasswordView.vue')
+    },
+    {
+      path: '/update-profile-picture',
+      name: 'update-profile-picture',
+      component: () => import('@/views/UpdateProfilePictureView.vue')
     }
   ]
 })

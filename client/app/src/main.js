@@ -13,6 +13,9 @@ const app = createApp(App)
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost/api',
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+    }
 })
 
 app.config.globalProperties.$axios = { ...axiosInstance }

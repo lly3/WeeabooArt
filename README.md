@@ -1,65 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## [WeeabooArt](https://befitting-literature-a91.notion.site/WeeabooArt-3a18979db3dd4e12a816db0cf0167f20)
+
+เว็บแอปพลิเคชัน community ออนไลน์ เป็นพื้นที่สำหรับให้ศิลปินแสดงผลงาน และสำหรับคนที่ชื่นชอบงานศิลปะ โดย WeeabooArt จะเป็นแหล่งในการโชว์ผลงาน แหล่งซื้อ-ขายงานศิลปะ (commission) และพื่นที่แลกเปลี่ยนความคิด
+
+## Member
+- [ssunny-mengg](https://github.com/ssunny-mengg) เขมาพร งามสิริเรืองสกุล (หมิง) 6310400924
+- [Punyaphon-Lammapor](https://github.com/Punyaphon-Lammapor) ปุณยพร รัมมะพ้อ (หมอก) 6310401050
+- [bluwbyu](https://github.com/bluwbyu) รมิตา วิสุทธิ์วัฒนศักดิ์ (บิว) 6310401149
+- [lly3](https://github.com/lly3) วิทยา พิมพ์ตา (วิท) 6310401157
+- [Thjetiya](https://github.com/Thjetiya) เจติยา ธนจุติพร (อ๋อม) 6310403958
+- [kritsada-kr](https://github.com/kritsada-kr) กฤษดา เครือเสนา (นน) 6310406256
+
+โปรเจคนี้เป็นส่วนหนึ่งของวิชา Introduction to Software Engineering (01418471) และ วิชา Web Technology and Web Services (01418442)
+
+## Project setup
+### To start all of the Docker containers in the background
+
+```sh
+sail up -d
+```
+
+Access to https://weeaboo-art.vercel.app/
+
+## Personas
+#### Amelia Watson
+- อายุ : 20 ปี
+- สถานะภาพ : โสด
+- อาชีพ : นักศึกษา
+- ที่อยู่ : กรุงเทพมหานคร
+- ประวัติ : Amelia Watson เป็นนักศึกษาที่กำลังศึกษาในคณะวิทยาการคอมพิวเตอร์ในมหาวิทยาลัยแห่งหนึ่ง มีงานอดิเรกที่ชอบในการวาดรูป โดยฝีมือวาดรูปนั้นถือว่ามีความชำนาญอยู่ในระดับหนึ่ง ในเวลาว่างนั้นส่วนใหญ่ Amelia มักจะวาดรูปที่เกี่ยวกับการ์ตูนและแอนิเมชันอยู่เสมอ รูปที่ Amelia วาดส่วนใหญ่นั้นจะเป็นรูปที่วาดใน
+ไอแพด ซึ่งรูปที่ได้ออกมานั้นจะเป็นรูปวาดประเภทดิจิตอล ในหลายๆครั้งเธอมักจะเข้าไปดูในแอพลิเคชันอย่างเช่น twitter หรือแอพลิเคชัน social media ต่างๆ ตาม tags ชื่อเรื่องแอนิเมชันที่เธอชอบเพื่อดูผลงานอื่น ที่คนอื่นสร้างสรรค์ขึ้นมา
+- Desires/Behaviors : อยากจะมีแหล่งที่สามารถติดตามผลงานของคนอื่นได้แบบง่ายๆและสามารถติดตาม tag ได้อย่างง่ายดาย, อยากสามารถแลกเปลี่ยนความคิดเห็นในสิ่งที่ชอบคล้ายๆกันได้, อยากแบ่งปันผลงานของตัวเองให้คนอื่นได้มาแสดงความคิดเห็นเพื่อแลกเปลี่ยน feedback หรือความคิดเห็นกัน
+- Pain Points : ในหลายๆครั้งการตาม tag ใน social media application ไม่ได้มีเป็นแหล่งสถานที่สำหรับแชร์หรือแบ่งปันผลงานเท่านั้น ทำให้ติดตามหรือแบ่งปันผลงานกับผู้อื่นได้อย่างลำบาก
+
+#### Mori Calliope
+- อายุ : 48 ปี
+- สถานะภาพ : สมรส
+- อาชีพ : ธุรกิจส่วนตัว
+- ที่อยู่ : ปทุมธานี
+- ประวัติ : Mori Calliope เป็นนักธุรกิจที่ประกอบธุรกิจส่วนตัวเกี่ยวกับด้านอุตสาหกรรมรถยนต์ แต่ก็เป็นคนที่ชอบในผลงานศิลปะด้านต่างๆ โดยที่ชอบที่สุดนั้นจะเป็นผลงานที่มาจาก แอนิเมชันที่ตัวเองชื่นชอบ Mori มักจะสะสมผลงานด้านนี้อยู่เสมอไม่ว่าจะเป็น ตัวละครโมเดลจากการ์ตูน หรือจะเป็นผลงานที่วาดโดยนักวาดต่างๆ เช่น ผลงาน Fan arts ก็มีการเก็บสะสมเช่นเดียวกัน โดยส่วนใหญ่จะเป็นผลงานดิจิตอล เขามักชอบที่จะสนับสนุนศิลปินอยู่เสมอผ่านการซื้อภาพวาดต่างๆ
+- Desires/Behaviors : เป็นคนชอบสะสมผลงานที่เกี่ยวกับแอนิเมชันที่ตัวเองชื่นชอบอยู่เสมอ, อยากให้มีการแยกผลงานที่สามารถซื้อสะสมได้เพื่อที่ง่ายต่อการสนับสนุนตัวศิลปินและการเลือกซื้อสะสม
+- Pain Points : ในบางครั้งการติดตามผลงานของศิลปินเดียวกันที่ชื่นชอบเป็นพิเศษมักจะทำได้ยาก 
+
+#### Takanashi Kiara
+- อายุ : 24 ปี
+- สถานะภาพ : โสด
+- อาชีพ : ฟรีแลนซ์
+- ที่อยู่ : นนทบุรี
+- ประวัติ :  Takanashi Kiara เป็นฟรีแลนซ์ที่จบจากการศึกษามหาวิทยาลัยได้ไม่นาน โดยสาขาที่จบมานั้นเกี่ยวกับด้าน digital art ทำให้สนใจที่จะหารายได้และประกอบอาชีพทางด้านนี้เป็นหลัก Takanashi มีความเชี่ยวชาญในการวาดรูปและสร้างสรรค์ผลงานได้อย่างดีเยี่ยม
+- Desires/Behaviors : ต้องการจะหารายได้จากด้านนี้เป็นหลักในการดำรงชีวิตและประกอบอาชีพ เนื่องจากเป็นสายงานที่ชอบ, อยากให้มีแหล่งหรือสถานที่สำหรับการขายงานโดยเฉพาะ โดยอาจจะเป็นงานที่ลูกค้าเป็นคนกำหนดมาโดยตรงได้หรืองานประเภท commission หรือเป็นการขายงานโดยตัวศิลปินเอง
+- Pain Points : ในหลายๆครั้งผลงานที่ถูกนำออกมาขายมักจะมีการโดนละเมิดลิขสิทธิ์ โดยบางทีเป็นการ save รูปหรือผลงานจากหน้าเว็บโดยไม่ได้มีการซื้อขายก่อนนำไปใช้
 
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## UI Flows
+???
 
-## About Laravel
+## Testing
+ทดสอบด้วย Laravel โดยทดสอบทั้งในส่วนของ Feature และ Unit Test ด้วยการสร้าง Environment ขึ้นมาใหม่สำหรับการทดสอบโดยเฉพาะ และทดสอบในส่วนของการเชื่อมต่อ API ของระบบ Authentication รวมไปถึงการทดสอบของ Post และได้เขียน Test Function ดังนี้
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Test Register Success : ทดสอบการสมัครสมาชิกใหม่ โดยใช้รูปแบบข้อมูลที่ถูกต้อง และครบถ้วน
+- Test Register With Password Not Match : ทดสอบการสมัครสมาชิกใหม่ โดยใช้รหัสผ่านที่ไม่ตรงกันกับการยืนยันรหัสผ่าน
+- Test Login Success : ทดสอบการเข้าสู่ระบบ โดยใช้รูปแบบข้อมูลที่ถูกต้อง และครบถ้วน
+- Test Login With Wrong Password : ทดสอบการเข้าสู่ระบบ โดยใช้รหัสผ่านที่ไม่ถูกต้อง
+- Test New Post Have Default Values : ทดสอบการสร้าง Post ใหม่ โดยเริ่มต้นจะมีค่า Default ตามที่ได้กำหนดไว้ในฐานข้อมูล
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Process
+การวางแผนและการมอบหมายงาน
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Jira : https://vitaya.atlassian.net/jira/software/projects/OSSV/boards/2/backlog
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

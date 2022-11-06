@@ -7,8 +7,10 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 
@@ -37,11 +39,12 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+//            return response()->json(['error' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+            return response()->json(['error' => 'The email address or password is incorrect.'], Response::HTTP_UNPROCESSABLE_ENTITY); // 422
         }
 
         if (! $token = JWTAuth::attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED); // 401
+            return response()->json(['error' => 'The email address or password is incorrect.'], Response::HTTP_UNAUTHORIZED); // 401
         }
 
         return $this->respondWithToken($token);
@@ -203,6 +206,73 @@ class AuthController extends Controller
             } else {
                 return response()->json(['error' => 'Password not changed'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
             }
+        }
+    }
+
+    public function updateProfile(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => ['string', 'max:255'],
+            'email' => ['string', 'email', 'max:255', Rule::unique('users')->ignore(auth()->user()->id)],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
+        $user = auth()->user();
+        if ($request->get('name')) {
+            $user->name = $request->get('name');
+        }
+        if ($request->get('email')) {
+            $user->email = $request->get('email');
+        }
+
+        if ($user->save()) {
+            return response()->json(['message' => 'Profile updated'], Response::HTTP_OK); // 200
+        } else {
+            return response()->json(['error' => 'Profile not updated'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
+        }
+    }
+
+    public function updatePassword(Request $request) {
+        $validator = Validator::make($request->all(), [
+           'current_password' => ['required', 'string'],
+           'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
+        $user = auth()->user();
+        if (Hash::check($request->get('current_password'), $user->password)) {
+            $user->password = bcrypt($request->get('password'));
+            if ($user->save()) {
+                return response()->json(['message' => 'Password updated'], Response::HTTP_OK); // 200
+            } else {
+                return response()->json(['error' => 'Password not updated'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
+            }
+        } else {
+            return response()->json(['error' => 'Current password is incorrect'], Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+    }
+
+    public function updateProfilePicture(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'image_id' => ['integer', 'required'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
+        $user = auth()->user();
+        $user->image_id = $request->get('image_id');
+
+        if ($user->save()) {
+            return response()->json(['message' => 'Profile picture updated'], Response::HTTP_OK); // 200
+        } else {
+            return response()->json(['error' => 'Profile picture not updated'], Response::HTTP_INTERNAL_SERVER_ERROR); // 500
         }
     }
 }

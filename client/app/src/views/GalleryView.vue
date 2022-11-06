@@ -21,15 +21,16 @@
 <script>
 import GalleryCardView from "@/components/GalleryCardView.vue";
 import pagination from '../components/Pagination.vue';
+import SearchBar from '../components/SearchBar.vue';
 import IsLoading from '@/components/IsLoading.vue'
 import { postAPI } from '@/services/api.js'
-
 
 
 export default {
     components: {
         GalleryCardView,
         pagination,
+        SearchBar,
         IsLoading
     },
     created() {

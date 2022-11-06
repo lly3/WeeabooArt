@@ -22,6 +22,7 @@ class PostController extends Controller
 {
 
     public function __construct() {
+
         $this->middleware('auth:api', ['except' => [
             'index',
             'show',
@@ -30,6 +31,7 @@ class PostController extends Controller
             'otherPosts',
             'more_by',
             'search', 
+            'getPostsPerAuthor',
         ]]);
     }
 
@@ -235,8 +237,54 @@ class PostController extends Controller
         ], Response::HTTP_BAD_REQUEST);
     }
 
+    public function addFavorite(Post $post) {
+        $user = User::find(auth()->user()->id);
+        if (! $post->favorited_by->find($user->id)) {
+            if($post->favorited_by()->save($user, ['user_id' => $user->id])) {
+                $post->favorite_count += 1;
+                $post->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Add favorite successfully'
+                ], Response::HTTP_OK);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Add favorite failed'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+    }
+
+    public function unFavorite(Post $post) {
+        $user = User::find(auth()->user()->id);
+        if ($post->favorited_by->find($user->id)) {
+            if($post->favorited_by()->detach($user, ['user_id' => $user->id])) {
+                $post->favorite_count -= 1;
+                $post->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Unfavorite successfully'
+                ], Response::HTTP_OK);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Unfavorite failed'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+    }
+
     public function isCollected(Post $post) {
         if ($post->collected_by->find(auth()->user()->id) != null) {
+            return response()->json(true);
+        }
+        return response()->json(false);
+    }
+
+    public function isFavorited(Post $post) {
+        $user = User::find(auth()->user()->id);
+        if ($post->favorited_by->find($user->id) != null) {
             return response()->json(true);
         }
         return response()->json(false);
@@ -265,7 +313,12 @@ class PostController extends Controller
             $tag = Tag::where('name', $tag_name)->first();
             if (!$tag) {
                 $tag = new Tag();
-                $tag->name = $tag_name;
+                if($tag_name == ''){
+                    $tag->name='No tag';
+                }
+                else{
+                    $tag->name = $tag_name;
+                }
                 $tag->save();
             }
             $tag_ids[] = $tag->id;
@@ -312,6 +365,11 @@ class PostController extends Controller
             $post->image;
         }
         return PostResource::collection($posts);
+    }
 
+    public function getPostsPerAuthor($id) {
+        $user = User::findOrFail($id);
+        $posts = Post::all()->where('user_id', $user->id);
+        return PostResource::collection($posts);
     }
 }
