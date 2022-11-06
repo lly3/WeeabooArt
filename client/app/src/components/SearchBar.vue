@@ -4,7 +4,7 @@
     <div class="input-group flex items-center px-3 lg:px-10 md:px-5 pt-4 flex items-center justify-end pr-6">
         <form @submit.prevent="onFormSubmit" class="flex items-center">
             <div class="relative w-full">
-                <input type="text" v-model="searchKey" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-white focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                <input type="text" v-model="searchKey" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-white focus:outline-none" placeholder="Search By Post Name" aria-label="Search" aria-describedby="button-addon2">
             </div>
             <div class="input-group-prepend">
                 <button :disabled="emptySearch"  @click="search()"  class="p-2.5 ml-2 text-sm font-medium text-black bg-white rounded-lg border border-gray-300 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300">

@@ -69,9 +69,6 @@ export default {
         post_search(){
             return this.post_searches.length > 0
         },
-        no_post_search(){
-            return this.post_searches.length == 0
-        },
         searching(){
             return this.$route.query.searchKey
         },
