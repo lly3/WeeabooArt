@@ -22,6 +22,7 @@ class PostController extends Controller
 {
 
     public function __construct() {
+
         $this->middleware('auth:api', ['except' => [
             'index',
             'show',
@@ -30,6 +31,7 @@ class PostController extends Controller
             'otherPosts',
             'more_by',
             'search', 
+            'getPostsPerAuthor',
         ]]);
     }
 
@@ -363,6 +365,11 @@ class PostController extends Controller
             $post->image;
         }
         return PostResource::collection($posts);
+    }
 
+    public function getPostsPerAuthor($id) {
+        $user = User::findOrFail($id);
+        $posts = Post::all()->where('user_id', $user->id);
+        return PostResource::collection($posts);
     }
 }

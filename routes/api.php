@@ -79,6 +79,12 @@ Route::get('/image/email/{email}', [ImageController::class, 'getProfileImageByEm
 
 Route::apiResource('/', \App\Http\Controllers\Api\GalleryController::class);
 
+Route::get('/profile/{id}/posts', [\App\Http\Controllers\Api\PostController::class, 'getPostsPerAuthor']);
+
+Route::get('/profile/{id}/commissions', [\App\Http\Controllers\Api\CommissionController::class, 'getCommissionPerAuthor']);
+
+Route::get('/profile/{id}', [\App\Http\Controllers\Api\UserController::class, 'getUserProfile']);
+
 Route::get('/sendmail', function (Request $request) {
     $ip = $request->ip();
     Mail::raw('Hi user, a new login into your account.', function ($message) {
@@ -86,3 +92,4 @@ Route::get('/sendmail', function (Request $request) {
         $message->to('artweeaboo@gmail.com', 'Weeaboo Art');
     });
 });
+

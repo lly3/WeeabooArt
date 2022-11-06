@@ -53,6 +53,11 @@ const router = createRouter({
         component: () => import('@/views/GalleryView.vue')
     },
     {
+        path: '/post/search/:searchKey',
+        name: 'post.search',
+        component: () => import('@/views/SearchView.vue')
+    },
+    {
         path: '/shop',
         name: 'shop',
         component: () => import('@/views/ShopView.vue')
@@ -117,21 +122,46 @@ const router = createRouter({
       name: 'search',
       component: () => import('@/views/SearchView.vue')
     },
-      {
+    {
             path: '/update-profile',
             name: 'update-profile',
             component: () => import('@/views/UpdateProfileView.vue')
       },
       {
-            path: '/update-password',
+          path: '/tags/:id',
+          name: 'tags.show',
+          component: () => import('@/views/tags/ShowTagView.vue')
+      },
+    {
+        path: '/profile/:id',
+        name: 'show.profile',
+        component: () => import('@/views/profiles/AuthorPostsView.vue')
+    },
+    {
+      path: '/commission/create',
+      name: 'commission.create',
+      component: () => import('@/views/commissions/CreateView.vue')
+    },
+    {
+      path: '/commission/:id',
+      name: 'commission.show',
+      component: () => import('@/views/commissions/ShowView.vue')
+    },
+    {
+      path: '/commission/edit/:id',
+      name: 'commission.edit',
+      component: () => import('@/views/commissions/EditView.vue')
+    },
+    {
+      path: '/update-password',
             name: 'update-password',
             component: () => import('@/views/UpdatePasswordView.vue')
-      },
-      {
+    },
+    {
           path: '/update-profile-picture',
           name: 'update-profile-picture',
           component: () => import('@/views/UpdateProfilePictureView.vue')
-      }
+    }
   ]
 })
 
