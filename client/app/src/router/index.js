@@ -128,11 +128,6 @@ const router = createRouter({
       component: () => import('@/views/UpdateProfileView.vue')
     },
     {
-      path: '/tags/:id',
-      name: 'tags.show',
-      component: () => import('@/views/tags/ShowTagView.vue')
-    },
-    {
       path: '/profile/:id',
       name: 'show.profile',
       component: () => import('@/views/profiles/AuthorPostsView.vue')

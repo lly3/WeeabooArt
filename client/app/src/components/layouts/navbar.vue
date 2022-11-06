@@ -49,11 +49,14 @@
               </div>
               <ul class="py-1" aria-labelledby="user-menu-button">
                 <li>
+                  <a @click="() => this.$router.push(`/profile/${this.auth_store.getId}`)" class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
+                </li>
+                <li>
                   <a @click="() => this.$router.push('/my-collection')" class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Collection</a>
                 </li>
-                  <li>
-                      <a @click="() => this.$router.push('/my-favorite')" class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Favorite</a>
-                  </li>
+                <li>
+                  <a @click="() => this.$router.push('/my-favorite')" class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Favorite</a>
+                </li>
                 <li>
                   <a @click="() => this.$router.push('/update-profile')" class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Update Profile</a>
                 </li>

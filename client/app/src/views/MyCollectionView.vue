@@ -6,9 +6,7 @@
         <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">My Collection</h1>
         <section class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
             <section class="overflow-hidden text-gray-700">
-                <section>
-                    <collection :posts="posts"></collection>
-                </section>
+                <GalleryCardView :posts=posts />
             </section>
         </section>
     </div>

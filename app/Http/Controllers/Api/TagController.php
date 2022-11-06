@@ -72,6 +72,8 @@ class TagController extends Controller
         $tag = Tag::where('name', $tag)->first();
         if($tag == null)
             return response()->json(['success' => false, 'message' => 'Can\'t find tag on null'], Response::HTTP_NOT_FOUND);
+        if($tag->posts->count() == 0)
+            return response()->json(['success' => false, 'data' => [], 'message' => 'No posts'], Response::HTTP_NOT_FOUND);
 
         if($quantity == 0)
             return  PostResource::collection($tag->posts->toQuery()->paginate(15));

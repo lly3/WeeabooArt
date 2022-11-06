@@ -22,7 +22,7 @@
         <!-- Most Viewed & Most Liked -->
         <section class="overflow-hidden text-gray-700">
             <div class="container px-5 pb-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
-                <h1 class="dark:text-white pb-5">Most likes</h1>
+                <h1 class="dark:text-white pb-5 text-xl font-light">Most likes</h1>
                 <div class="flex flex-wrap -m-1 md:-m-2">
                     <div class="flex flex-wrap w-1/2" v-if="mostLikes">
                         <a @click="() => this.$router.push(`/post/${posts_mostLiked[0].id}`)" class="cursor-pointer p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
@@ -93,7 +93,7 @@
         </section>
         <section class="overflow-hidden text-gray-700">
             <div class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" v-if="havePosts">
-                <h1 class="dark:text-white pb-5">Most View</h1>
+                <h1 class="dark:text-white pb-5 text-xl font-light">Most View</h1>
                 <div class="flex flex-wrap -m-1 md:-m-2">
                     <div class="flex flex-wrap w-1/2" v-if="mostViews">
                         <a @click="() => this.$router.push(`/post/${posts_mostViewed[0].id}`)" class="cursor-pointer p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
@@ -164,7 +164,17 @@
         </section>
 
         <section v-if=havePosts class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
-            <h1 class="dark:text-white py-5">Gallery</h1>
+            <h1 class="text-xl font-light dark:text-white flex">Explore 
+                <p class="font-bold dark:text-white ml-1">Tags</p>
+                <button @click="() => this.$router.push('/tags')" class="inline ml-auto dark:text-white text-base font-bold hover:text-greenlogo">view all</button>
+            </h1>
+            <div class="flex flex-nowrap items-center py-4 overflow-hidden">
+                <TagCard v-for="tag in tags" :tag=tag :key=tag.id />
+            </div>
+        </section>
+
+        <section v-if=havePosts class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
+            <h1 class="dark:text-white py-5 text-xl font-light">Gallery</h1>
             <gallery-card-view :posts="posts"></gallery-card-view>
         </section>
         <section class="flex justify-center p-5" v-if="havePosts">
@@ -180,16 +190,18 @@
 
 <script>
 import GalleryCardView from "@/components/GalleryCardView.vue";
+import TagCard from '@/components/TagCard.vue'
 import pagination from '../components/Pagination.vue';
 import IsLoading from '@/components/IsLoading.vue'
-import { postAPI } from '@/services/api.js'
+import { postAPI, tagAPI } from '@/services/api.js'
 
 
 export default {
     components: {
         GalleryCardView,
         pagination,
-        IsLoading
+        IsLoading,
+        TagCard
     },
     data () {
         return {
@@ -206,7 +218,8 @@ export default {
             page: 1,
             searchKey: '',
             disabledSearch: false,
-            post_searches: []
+            post_searches: [],
+            tags: []
         }
     },
     props: {
@@ -286,6 +299,9 @@ export default {
             const response_mostViewed = await postAPI.mostViewed()
             this.posts_mostViewed = response_mostViewed.data
             const response = await postAPI.fetch()
+            await tagAPI.fetch()
+                .then(res => this.tags = res.data.data)
+            console.log(this.tags);
             this.loading = false
             this.posts = response.data.data
             if (this.posts !== null) {
@@ -392,6 +408,9 @@ export default {
         height: 100%;
         object-fit: cover;
         object-position: center;
+    }
+    figcaption {
+        font-size: 9px;
     }
 }
 .snip {

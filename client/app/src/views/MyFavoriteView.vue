@@ -6,9 +6,7 @@
         <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">My Favorite</h1>
         <section class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
             <section class="overflow-hidden text-gray-700">
-                <section>
-                    <favorite :posts="posts"></favorite>
-                </section>
+                <GalleryCardView :posts=posts />
             </section>
         </section>
     </div>
@@ -16,6 +14,7 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
+import GalleryCardView from '@/components/GalleryCardView.vue'
 import Favorite from '@/components/Favorite.vue';
 import IsLoading from '@/components/IsLoading.vue';
 
@@ -36,6 +35,7 @@ export default {
     },
     components: {
         Favorite,
+        GalleryCardView,
         IsLoading
     },
     async mounted() {
