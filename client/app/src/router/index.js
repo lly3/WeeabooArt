@@ -38,34 +38,34 @@ const router = createRouter({
       component: () => import('@/views/posts/EditView.vue')
     },
     {
-        path: '/logout',
-        name: 'logout',
-        component: () => import('@/views/LogoutView.vue')
+      path: '/logout',
+      name: 'logout',
+      component: () => import('@/views/LogoutView.vue')
     },
     {
-        path: '/register',
-        name: 'register',
-        component: () => import('@/views/RegisterView.vue')
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/RegisterView.vue')
     },
     {
-        path: '/gallery',
-        name: 'gallery',
-        component: () => import('@/views/GalleryView.vue')
+      path: '/gallery',
+      name: 'gallery',
+      component: () => import('@/views/GalleryView.vue')
     },
     {
-        path: '/post/search/:searchKey',
-        name: 'post.search',
-        component: () => import('@/views/SearchView.vue')
+      path: '/post/search/:searchKey',
+      name: 'post.search',
+      component: () => import('@/views/SearchView.vue')
     },
     {
-        path: '/shop',
-        name: 'shop',
-        component: () => import('@/views/ShopView.vue')
+      path: '/shop',
+      name: 'shop',
+      component: () => import('@/views/ShopView.vue')
     },
     {
-        path: '/commission',
-        name: 'commission',
-        component: () => import('@/views/CommissionView.vue')
+      path: '/commission',
+      name: 'commission',
+      component: () => import('@/views/CommissionView.vue')
     },
     {
       path: '/commission/create',
@@ -88,24 +88,24 @@ const router = createRouter({
       component: () => import('@/components/404NotFound.vue')
     },
     {
-        path: '/my-collection',
-        name: 'my-collection',
-        component: () => import('@/views/MyCollectionView.vue')
-    },
-      {
-          path: '/my-favorite',
-          name: 'my-favorite',
-          component: () => import('@/views/MyFavoriteView.vue')
-      },
-    {
-        path: '/forgot-password',
-        name: 'forgot-password',
-        component: () => import('@/views/ForgotPasswordView.vue')
+      path: '/my-collection',
+      name: 'my-collection',
+      component: () => import('@/views/MyCollectionView.vue')
     },
     {
-        path: '/reset-password',
-        name: 'reset-password',
-        component: () => import('@/views/ResetPasswordView.vue')
+      path: '/my-favorite',
+      name: 'my-favorite',
+      component: () => import('@/views/MyFavoriteView.vue')
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: () => import('@/views/ForgotPasswordView.vue')
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      component: () => import('@/views/ResetPasswordView.vue')
     },
     {
       path: '/tags',
@@ -123,19 +123,19 @@ const router = createRouter({
       component: () => import('@/views/SearchView.vue')
     },
     {
-            path: '/update-profile',
-            name: 'update-profile',
-            component: () => import('@/views/UpdateProfileView.vue')
-      },
-      {
-          path: '/tags/:id',
-          name: 'tags.show',
-          component: () => import('@/views/tags/ShowTagView.vue')
-      },
+      path: '/update-profile',
+      name: 'update-profile',
+      component: () => import('@/views/UpdateProfileView.vue')
+    },
     {
-        path: '/profile/:id',
-        name: 'show.profile',
-        component: () => import('@/views/profiles/AuthorPostsView.vue')
+      path: '/tags/:id',
+      name: 'tags.show',
+      component: () => import('@/views/tags/ShowTagView.vue')
+    },
+    {
+      path: '/profile/:id',
+      name: 'show.profile',
+      component: () => import('@/views/profiles/AuthorPostsView.vue')
     },
     {
       path: '/commission/create',
@@ -154,13 +154,13 @@ const router = createRouter({
     },
     {
       path: '/update-password',
-            name: 'update-password',
-            component: () => import('@/views/UpdatePasswordView.vue')
+      name: 'update-password',
+      component: () => import('@/views/UpdatePasswordView.vue')
     },
     {
-          path: '/update-profile-picture',
-          name: 'update-profile-picture',
-          component: () => import('@/views/UpdateProfilePictureView.vue')
+      path: '/update-profile-picture',
+      name: 'update-profile-picture',
+      component: () => import('@/views/UpdateProfilePictureView.vue')
     }
   ]
 })

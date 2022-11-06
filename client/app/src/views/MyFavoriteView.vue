@@ -20,6 +20,7 @@
 import { useAuthStore } from '@/stores/auth.js'
 import Favorite from '@/components/Favorite.vue';
 import IsLoading from '@/components/IsLoading.vue';
+
 export default {
     setup() {
         const auth_store = useAuthStore()
@@ -43,20 +44,20 @@ export default {
         this.error = null
         if(!this.auth_store.isAuthen)
             return this.$router.push('/login')
-        else {
-            try {
-                const response = await this.$axios.get(`/my-favorite`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-                    }
-                });
-                this.posts = response.data.data
-                console.log(this.posts)
-            } catch (error) {
-                console.log(error)
-                this.error = error.message
-            }
+
+        try {
+            const response = await this.$axios.get(`/my-favorite`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
+                }
+            });
+            this.posts = response.data.data
+            console.log(this.posts)
+        } catch (error) {
+            console.log(error)
+            this.error = error.message
         }
+        this.loading = false
 
     }
 }
