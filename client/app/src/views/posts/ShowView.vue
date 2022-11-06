@@ -55,7 +55,7 @@
             <img :src=imageURL(post.user_image) class="w-[60px] h-[60px] rounded-xl object-cover" />
             <div class="flex flex-col ml-3 w-full">
               <p class="text-3xl font-bold dark:text-white xl:w-2/3 w-full break-all">{{ post.title }}</p>
-              <p class="dark:text-white text-lg">by <span class="font-bold underline cursor-pointer hover:text-greenlogo">{{ post.user_name }}</span></p>
+              <p class="dark:text-white text-lg">by <span class="font-bold underline cursor-pointer hover:text-greenlogo" @click="() => this.$router.push(`/profile/${post.user_id}`)" >{{ post.user_name }}</span></p>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
           <div class="w-full mt-3" v-if=!auth_store.isAuthen>
             <div class="flex">
               <div class="mr-3 rounded-lg">
-                <img :src=defaultImage() class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" /> 
+                <img :src=defaultImage() class="sm:h-[50px] sm:w-[55px] h-[30px] w-[35px] rounded-lg object-cover" />
               </div>
               <div class="w-full p-6 text-center bg-gray-100 dark:bg-gray-700 font-bold text-gray-500 dark:text-gray-300">
                 <span class="text-black dark:text-white hover:text-greenlogo dark:hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/register')">Join the community</span> to add your comment. Already a deviant? <span class="text-black dark:text-white dark:hover:text-greenlogo hover:text-greenlogo cursor-pointer" @click="() => this.$router.push('/login')">Log In</span>
@@ -259,6 +259,9 @@ export default {
     }
   },
   methods: {
+      onClickProfile(){
+
+      },
     async getData(){
         await this.$axios.get(`/comment/post/${this.$route.params.id}`)
             .then(response =>{
