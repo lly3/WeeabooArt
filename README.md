@@ -77,6 +77,7 @@ Then access to http://localhost:3000
 
 ## UI Flows
 
+Figma : https://www.figma.com/file/VhDbySZqtW4O9r1dCjo4f5/UI-Flows-WeeabooArt?node-id=1%3A2
 ![UI Flows](https://github.com/lly3/WeeabooArt/blob/abda01d2db16a95dca572158aa7346ba1f56d5ee/UI%20Flows%20WeeabooArt.png?raw=true)
 
 ## Testing
