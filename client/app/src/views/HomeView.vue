@@ -409,6 +409,9 @@ export default {
         object-fit: cover;
         object-position: center;
     }
+    figcaption {
+        font-size: 9px;
+    }
 }
 .snip {
     position: relative;
