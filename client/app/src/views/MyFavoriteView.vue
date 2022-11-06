@@ -1,17 +1,17 @@
 <template>
-    <div class="bg-gray-800 text-white p-6 ">
-        <div class="flex flex-row">
-            <h1 class="basis-1/3">HOME</h1>
-            <div class="basis-1/3 flex flex-row">
-                <button class="basis-1/2 grid justify-items-end mx-4">Gallery</button>
-                <button class="basis-1/2 grid justify-items-start mx-4 text-gray-400 hover:text-white">Posts</button>
-            </div>
-        </div>
+    <div v-if=loading>
+        <IsLoading />
     </div>
-
-    <div class="bg-black">
-        <section>
-            <favorite :posts="posts"></favorite>
+    <div v-else class="min-h-screen text-gary-700">
+        <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">My Favorite</h1>
+        <section class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
+            <section class="overflow-hidden text-gray-700">
+                <div class="container mx-auto grid lg:grid-cols-5 sm:grid-cols-2 gap-4">
+                    <section>
+                        <favorite :posts="posts"></favorite>
+                    </section>
+                </div>
+            </section>
         </section>
     </div>
 </template>
@@ -19,6 +19,7 @@
 <script>
 import { useAuthStore } from '@/stores/auth.js'
 import Favorite from '@/components/Favorite.vue';
+import IsLoading from '@/components/IsLoading.vue';
 export default {
     setup() {
         const auth_store = useAuthStore()
@@ -28,13 +29,15 @@ export default {
         return {
             posts: Object,
             error: null,
+            loading: true
         }
     },
     props: {
         post: Object
     },
     components: {
-        Favorite
+        Favorite,
+        IsLoading
     },
     async mounted() {
         this.error = null

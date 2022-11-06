@@ -1,28 +1,25 @@
 <template>
-    <div>
-        <div class="bg-gray-800 text-white p-6 ">
-            <div class="flex flex-row">
-                <h1 class="basis-1/3">HOME</h1>
-                <div class="basis-1/3 flex flex-row">
-                    <button class="basis-1/2 grid justify-items-end mx-4">Gallery</button>
-                    <button class="basis-1/2 grid justify-items-start mx-4 text-gray-400 hover:text-white">Posts</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-black">
-            <section>
-                <collection :posts="posts"></collection>
+    <div v-if=loading>
+        <IsLoading />
+    </div>
+    <div v-else class="min-h-screen text-gary-700">
+        <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">My Collection</h1>
+        <section class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
+            <section class="overflow-hidden text-gray-700">
+                <section>
+                    <collection :posts="posts"></collection>
+                </section>
             </section>
-        </div>
+        </section>
     </div>
 </template>
 
 <script>
-import { useAuthStore } from '@/stores/auth.js'
+import { useAuthStore } from '@/stores/auth.js';
 import GalleryCardView from "@/components/GalleryCardView.vue";
 import SearchBar from '../components/SearchBar.vue';
 import Collection from "@/components/Collection.vue";
+import IsLoading from '@/components/IsLoading.vue';
 export default {
     setup() {
         const auth_store = useAuthStore()
@@ -32,6 +29,7 @@ export default {
         return {
             posts: Object,
             error: null,
+            loading: true
         }
     },
     props: {
@@ -40,7 +38,8 @@ export default {
     components: {
         GalleryCardView,
         SearchBar,
-        Collection
+        Collection,
+        IsLoading
     },
     async mounted() {
         this.error = null
