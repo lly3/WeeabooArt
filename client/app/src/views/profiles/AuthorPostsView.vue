@@ -1,18 +1,18 @@
 <template>
     <div >
-        <div class="bg-black">
-            <section class="py-4 lg:py-8 dark:dark-body">
+        <div class="dark:bg-gray-800">
+            <section class="py-4 lg:py-8">
                 <profile-header :author="author"></profile-header>
             </section>
             
-            <h1 class="mx-8 font-bold text-white text-2xl">Posts</h1>
+            <h1 class="mx-8 font-bold dark:text-white text-2xl">Posts</h1>
             <section class="py-4 lg:py-8 dark:dark-body">
                 <gallery-card-view :posts="posts"></gallery-card-view>
             </section>
 
-            <h1 class="mx-8 font-bold text-white text-2xl">Commissions</h1>
+            <h1 class="mx-8 font-bold dark:text-white text-2xl">Commissions</h1>
             <section class="py-4 lg:py-8 dark:dark-body">
-                <all-commission-card-view :commissions="commissions"></all-commission-card-view>
+                <all-commission-card :commissions="commissions"></all-commission-card>
             </section>
         </div>
     </div>
@@ -21,7 +21,7 @@
 <script>
 import GalleryCardView from "@/components/GalleryCardView.vue";
 import ProfileHeader from "@/components/ProfileHeader.vue";
-import AllCommissionCardView from "@/components/AllCommissionCardView.vue";
+import AllCommissionCard from "@/components/AllCommissionCard.vue";
 export default {
     data() {
         return {
@@ -34,7 +34,7 @@ export default {
     components: {
         ProfileHeader,
         GalleryCardView,
-        AllCommissionCardView
+        AllCommissionCard
     },
     computed: {
         getParamsId() {
