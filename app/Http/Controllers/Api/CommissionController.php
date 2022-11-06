@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CommissionResource;
 use App\Models\Commission;
 use App\Models\Image;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 class CommissionController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show', 'getCommissionPerAuthor']]);
     }
     /**
      * Display a listing of the resource.
@@ -60,7 +61,7 @@ class CommissionController extends Controller
 
         $imagesID = json_decode($request->get('imagesID'));
         foreach (Image::find($imagesID)->all() as $image) {
-           $commission->images()->save($image); 
+           $commission->images()->save($image);
         }
 
         return response()->json([
@@ -76,7 +77,7 @@ class CommissionController extends Controller
      * @param  \App\Models\Commission  $commission
      * @return \Illuminate\Http\Response
      */
-    public function show(Commission $commission) 
+    public function show(Commission $commission)
     {
         $commission->view_count++;
         $commission->save();
@@ -118,7 +119,7 @@ class CommissionController extends Controller
 
             $imagesID = json_decode($request->get('imagesID'));
             foreach (Image::find($imagesID)->all() as $image) {
-                $commission->images()->save($image); 
+                $commission->images()->save($image);
             }
         }
 
@@ -157,5 +158,11 @@ class CommissionController extends Controller
             File::delete(public_path().'/images/'.$image->path);
             $image->delete();
         }
+    }
+
+    public function getCommissionPerAuthor($id) {
+        $user = User::findOrFail($id);
+        $commissions = Commission::all()->where('user_id', $user->id);
+        return CommissionResource::collection($commissions);
     }
 }
