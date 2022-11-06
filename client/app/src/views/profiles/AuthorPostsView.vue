@@ -10,7 +10,7 @@
                 <gallery-card-view :posts="posts"></gallery-card-view>
             </section>
 
-            <section class="container pb-5 py-2 mx-auto lg:px-12" >
+            <section class="container px-5 py-5 mx-auto lg:px-12" >
                 <h1 class="dark:text-white py-5 text-xl font-light">Commissions</h1>
                 <gallery-card-view :posts="commissions" model=commission ></gallery-card-view>
             </section>
