@@ -198,6 +198,8 @@ export default {
         }
         await postAPI.collected(this.post.id)
           .then(res => this.bought = res.data);
+          await postAPI.favorited(this.post.id)
+              .then(res => this.favorite = res.data);
       }
     )
   },
@@ -219,6 +221,8 @@ export default {
     try {
       postAPI.collected(this.post.id)
         .then(res => this.bought = res.data);
+        postAPI.favorited(this.post.id)
+            .then(res => this.favorite = res.data);
       if(this.tags[0] != null)
         await tagAPI.paginate(this.tags[0].name, 1, 3)
           .then(res => this.suggested_collection_1 = res.data.data)
@@ -231,13 +235,6 @@ export default {
     } catch (e) {
       console.log(e);
     }
-
-      try {
-          this.$axios.get(`/post/favorited/${this.post.id}`)
-              .then(res => this.favorite = res.data);
-      } catch (e) {
-          console.log(e);
-      }
   },
   data() {
     return {
