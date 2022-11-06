@@ -13,13 +13,36 @@
 โปรเจคนี้เป็นส่วนหนึ่งของวิชา Introduction to Software Engineering (01418471) และ วิชา Web Technology and Web Services (01418442)
 
 ## Project setup
+
+### To Installing Composer Dependencies
+```sh
+docker run --rm \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
 ### To start all of the Docker containers in the background
 
 ```sh
-sail up -d
+./vendor/bin/sail up -d
 ```
+Then access to https://weeaboo-art.vercel.app/
 
-Access to https://weeaboo-art.vercel.app/
+### (Optional) Start frontend container
+```sh
+cd client
+docker-compose up -d
+```
+#### Install npm dependencies
+```sh
+docker-compose exec app npm install
+```
+#### Start frontend server
+```sh
+docker-compose exec app npm run dev
+```
 
 ## Personas
 #### Amelia Watson
