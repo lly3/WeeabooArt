@@ -76,7 +76,8 @@ Then access to http://localhost:3000
 
 
 ## UI Flows
-???
+
+![UI Flows](https://github.com/lly3/WeeabooArt/blob/abda01d2db16a95dca572158aa7346ba1f56d5ee/UI%20Flows%20WeeabooArt.png?raw=true)
 
 ## Testing
 ทดสอบด้วย Laravel โดยทดสอบทั้งในส่วนของ Feature และ Unit Test ด้วยการสร้าง Environment ขึ้นมาใหม่สำหรับการทดสอบโดยเฉพาะ และทดสอบในส่วนของการเชื่อมต่อ API ของระบบ Authentication รวมไปถึงการทดสอบของ Post และได้เขียน Test Function ดังนี้
