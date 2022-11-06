@@ -150,6 +150,9 @@ export const tagAPI = {
     paginate(tag, pageNumber, quantity=0) {
         return axiosInstance.get(`/tags/${tag}?page=${pageNumber}&quantity=${quantity}`);
     },
+    fetch() {
+        return axiosInstance.get('/tags')
+    }
 }
 
 export const commentAPI = {
