@@ -1,4 +1,21 @@
 <template>
+    <div v-if=square class="aspect-square cursor-pointer" @click="() => this.$router.push(`/${this.model}/${this.post.id}`)">
+        <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
+                            :src=concatFunctionImage>
+    </div>
+    <div v-else class="w-full justify-center flex cursor-pointer" @click="() => this.$router.push(`/${this.model}/${this.post.id}`)">
+        <a class="button-container">
+            <figure class="snip">
+                <img alt="No Image" class="rounded-lg normal_image"
+                     :src=concatFunctionImage>
+                <figcaption>
+                    <h3>{{ post.title }}</h3>
+                    <h5>By {{ post.user_name}}</h5>
+                </figcaption>
+            </figure>
+            <a href=""></a>
+        </a>
+    </div>
 <!--    <div class="w-full justify-center flex">-->
 <!--        <a :href=concatFunction class="button-container">-->
 <!--            <img alt="No Image" class="rounded-lg normal_image"-->
@@ -14,20 +31,6 @@
 <!--    </div>-->
 
     <!--new css-->
-    <div class="w-full justify-center flex">
-        <a :href=concatFunction class="button-container">
-            <figure class="snip">
-                <img alt="No Image" class="rounded-lg normal_image"
-                     :src=concatFunctionImage>
-                <figcaption>
-                    <h3>{{ post.title }}</h3>
-                    <h5>By {{ post.user_name}}</h5>
-                    <h3>{{ post.favorite_count }} Like</h3>
-                </figcaption>
-            </figure>
-            <a href=""></a>
-        </a>
-    </div>
 
 <!--    <h1>http://localhost/images/{{ post.image.path }}</h1>-->
 <!--    {{ post }}-->
@@ -44,7 +47,15 @@ export default {
         }
     },
     props: {
-        post: Object
+        post: Object,
+        square: {
+            default: false,
+            type: Boolean
+        },
+        model: {
+            default: 'post',
+            type: String
+        }
     }
 }
 </script>
@@ -139,7 +150,6 @@ export default {
     position: relative;
     display: inline-block;
     overflow-wrap: anywhere;
-    margin: 10px 8px;
     width: 100%;
     color: #ffffff;
     text-align: center;
@@ -154,6 +164,7 @@ export default {
 
 .snip:before {
     position: absolute;
+    border-radius: 5px;
     top: 10px;
     left: 10px;
     right: 10px;
@@ -175,6 +186,7 @@ export default {
 
 .snip figcaption {
     position: absolute;
+    padding: 10px;
     top: 0;
     left: 0;
     right: 0;
@@ -205,7 +217,8 @@ export default {
 
 .snip h5 {
     font-weight: 400;
-    background-color: #A0A0A0;
+    background-color: #01e59b;
+    border-radius: 10px;
     margin: 0px 10px;
     padding: 3px 10px;
     -webkit-transform : translateY(100%);

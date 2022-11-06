@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <button @click=action class="shadow bg-greenlogo hover:bg-secondaryfont duration-200 ease-in focus:shadow-outline focus:outline-none text-{{ textColor }} font-semibold py-1.5 px-4 rounded" type="button">
+        <button id="my-button" @click=action class="shadow bg-greenlogo hover:bg-secondaryfont duration-200 ease-in focus:shadow-outline focus:outline-none text-{{ textColor }} font-semibold py-1.5 px-4 rounded" type="button">
             {{ title }}
         </button>
     </div>

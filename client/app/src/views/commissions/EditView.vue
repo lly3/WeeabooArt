@@ -18,13 +18,13 @@
       <!-- Slider controls -->
       <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" id="prev-button">
         <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-gray-800 dark:bg-gray-800/30 group-hover:bg-gray-800/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-          <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
           <span class="sr-only">Previous</span>
         </span>
       </button>
       <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" id="next-button">
         <span class="inline-flex items-center justify-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-gray-800 dark:bg-gray-800/30 group-hover:bg-gray-800/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-          <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          <svg aria-hidden="true" class="w-5 h-5 text-white sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
           <span class="sr-only">Next</span>
         </span>
       </button>
@@ -50,12 +50,8 @@
                 <textarea v-model="post.description" id="description" name="description" rows="4" class="px-0 w-full text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Introduce your art, Tell the backstory, add some intriguing accompanying text, or simply give any extra information you'd like them to know." required></textarea>
               </div>
             </div>
-            <label for="tags" class="block mb-2 text-xl  font-medium text-gray-900 dark:text-gray-300">Add tags</label>
-            <input v-model="post.tags" type="text" id="tags" name="tags" placeholder="E.g.: rose, watercolor, painting, fanart, tutorial, photoshop, poetry" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <div v-if="is_toggle" >
-              <label for="price" class="block mb-2 text-xl  font-medium text-gray-900 dark:text-gray-300">Price</label>
-              <input v-model="price" type="number" step=".01" min="0" id="price" name="price" placeholder="Enter your price here" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            </div>
+            <label for="price" class="block mb-2 text-xl  font-medium text-gray-900 dark:text-gray-300">Price</label>
+            <input v-model="post.price" type="number" step=".01" min="0" id="price" name="price" placeholder="Enter your price here" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
           </div>
           <div class="flex items-center justify-end py-2 px-3 space-x-3 dark:border-gray-600">
             <button @click=onDelete type="submit" class="inline-flex items-center py-2.5 px-4 text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800">
@@ -73,6 +69,7 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth.js'
+import { commissionAPI, imageAPI } from '@/services/api.js'
 
 function calculateTranslate(sliceIndex) {
   const wrapper = document.getElementById('carousel-wrapper');
@@ -87,11 +84,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await this.$axios.get(`/commission/edit/${this.$route.params.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        }
-      })
+      const response = await commissionAPI.editView(this.$route.params.id)
       this.post = response.data.data
 
     } catch (e) {
@@ -119,7 +112,6 @@ export default {
     return {
       post: {},
       images: null,
-      is_toggle: false,
     }
   },
   methods: {
@@ -128,51 +120,21 @@ export default {
       let response
 
       if(this.images != null) {
-        const imagesID = await this.uploadImages()
-        response = await this.$axios.put(`/commission/${this.post.id}`, {
-          ...this.post, imagesID
-        }, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-          }
-        })
-        const commissionID = response.data.commission_id
-        return this.$router.push(`/commission/${commissionID}`)
+        const imagesID = await imageAPI.uploadImages(this.images)
+        response = await commissionAPI.edit(this.post.id, { ...this.post, imagesID })
       }
       else {
-        response = await this.$axios.put(`/commission/${this.post.id}`, this.post, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-          }
-        })
+        response = await commissionAPI.edit(this.post.id, this.post)      
       }
       const commissionID = response.data.commission_id
       return this.$router.push(`/commission/${commissionID}`)
-    },
-    async uploadImages() {
-      const formData = new FormData();
-      for (let i = 0; i < this.images.length; i++) {
-        formData.append('images[]', this.images[i])
-      }
-      const response = await this.$axios.post('/images', formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        }
-      })
-      console.log(response);
-      return response.data.data;
     },
     async onDelete(e) {
       e.preventDefault();
 
       try {
         if (confirm('Are you sure?')) {
-          await this.$axios.delete(`/commission/${this.post.id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-            }
-          })
-
+          await commissionAPI.delete(this.post.id)
           this.$router.back()
         }
       } catch (e) {

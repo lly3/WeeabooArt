@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 class CommissionController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show', 'more_by']]);
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class CommissionController extends Controller
      */
     public function index()
     {
-        $commissions = Commission::get();
+        $commissions = Commission::orderBy('id', 'desc')->paginate(15);
         return CommissionResource::collection($commissions);
     }
 
@@ -46,9 +46,21 @@ class CommissionController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'imagesID' => ['required']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_UNPROCESSABLE_ENTITY); // 422
+        }
+
         $commission = new Commission();
         $commission->title = $request->get('title');
         $commission->description = $request->get('description') ?? "ไม่ระบุรายละเอียดเพิ่มเติม";
+        $commission->price = $request->get('price');
         $commission->user_id = auth()->user()->id;
 
         if (! $commission->save()) {
@@ -105,6 +117,7 @@ class CommissionController extends Controller
     {
         if ($request->has('title')) $commission->title = $request->get('title');
         if ($request->has('description')) $commission->description = $request->get('description');
+        if ($request->has('price')) $commission->price = $request->get('price');
 
         if (! $commission->save()) {
             return response()->json([
@@ -158,4 +171,30 @@ class CommissionController extends Controller
             $image->delete();
         }
     }
+
+    public function more_by(Request $request, $user_id) {
+        if($request->query('quantity') != null) {
+            if($request->query('random') == 'false') {
+                $posts = Commission::where('user_id', $user_id)
+                    ->limit($request->query('quantity'))
+                    ->get();
+                return CommissionResource::collection($posts);
+            }
+            $posts = Commission::where('user_id', $user_id)
+                ->inRandomOrder()
+                ->limit($request->query('quantity'))
+                ->get();
+            return CommissionResource::collection($posts);
+        }
+        else {
+            $posts = Commission::where('user_id', $user_id)
+                ->get();
+            return CommissionResource::collection($posts);
+        }
+        return response()->json([
+            'message' => 'fetch more post by user_id' . $user_id . 'failed',
+            'success' => false
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
 }

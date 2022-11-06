@@ -1,46 +1,38 @@
 <template >
-    <body>
-        <div class="mx-8 ">
-            <div class="mx-8">
-                <h1 class="text-3xl text-yellow-700">Tags</h1>
-
-                <div class="flex flex-wrap justify-start gap-4 space-x-2 text-lg">
-                    <div v-for="tag in tags" class="flex inline-flex items-center gap-[5px] border border-gray-300 dark:border-gray-600 dark:bg-gray-800 cursor-pointer rounded-md p-3 dark:text-white"  @click="() => this.$router.push(`/tags/${tag.id}`)">
-                        {{ tag.name }}
-                    </div>
-
+    <div v-if=loading>
+        <IsLoading />
+    </div>
+    <div v-else class="min-h-screen text-gary-700">
+        <h1 class="text-2xl font-extrabold dark:text-white bg-gray-50 dark:bg-gray-800 py-4 px-8">Tags</h1>
+        <section class="container px-5 py-2 mx-auto lg:py-8 lg:px-12" >
+            <section class="overflow-hidden text-gray-700">
+                <div class="container mx-auto grid lg:grid-cols-5 sm:grid-cols-2 gap-4">
+                    <TagCard v-for="tag in tags" :tag=tag :key=tag.id />
                 </div>
-
-<!--                <div v-for="tag in tags" :key="tag.id"-->
-<!--                     :tag="{...tag}"  >-->
-
-<!--                    <button @click="selectTag(tag)"-->
-<!--                            class="p-2 bg-blue-200 border-2 border-blue-400 rounded-xl">-->
-<!--                        {{ tag.name }}-->
-<!--                    </button>-->
-<!--                </div>-->
-
-            </div>
-        </div>
-    </body>
-
+            </section>
+        </section>
+    </div>
 </template>
 
 <script>
+import TagCard from '@/components/TagCard.vue'
+import IsLoading from '@/components/IsLoading.vue'
+
 export default {
     data() {
         return {
             tags: null,
             name: null,
-            error: null
+            error: null,
+            loading: true
         }
+    },
+    components: {
+        TagCard,
+        IsLoading
     },
     // },
     methods: {
-        selectTag(tag) {
-            console.table(tag)
-            this.$router.push(`tags/${tag.id}`)
-        }
     },
     async mounted() {
         try {
@@ -48,6 +40,7 @@ export default {
             const response = await this.$axios.get('/tags');
             console.log(response)
             this.tags = response.data.data
+            this.loading = false
         } catch(error) {
             console.log(error)
             this.error = error.message

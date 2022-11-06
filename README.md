@@ -13,7 +13,13 @@
 โปรเจคนี้เป็นส่วนหนึ่งของวิชา Introduction to Software Engineering (01418471) และ วิชา Web Technology and Web Services (01418442)
 
 ## Project setup
-???
+### To start all of the Docker containers in the background
+
+```sh
+sail up -d
+```
+
+Access to https://weeaboo-art.vercel.app/
 
 ## Personas
 ???
