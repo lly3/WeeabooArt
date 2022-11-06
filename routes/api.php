@@ -78,6 +78,8 @@ Route::apiResource('/', \App\Http\Controllers\Api\GalleryController::class);
 
 Route::get('/profile/{id}/posts', [\App\Http\Controllers\Api\PostController::class, 'getPostsPerAuthor']);
 
+Route::get('/profile/{id}/commissions', [\App\Http\Controllers\Api\CommissionController::class, 'getCommissionPerAuthor']);
+
 Route::get('/profile/{id}', [\App\Http\Controllers\Api\UserController::class, 'getUserProfile']);
 
 Route::get('/sendmail', function (Request $request) {

@@ -1,13 +1,18 @@
 <template>
     <div >
-        <div class="bg-black">
-            <section class="py-4 lg:py-8 dark:dark-body">
+        <div class="dark:bg-gray-800">
+            <section class="py-4 lg:py-8">
                 <profile-header :author="author"></profile-header>
             </section>
             
-            <h1 class="font-bold underline cursor-pointer text-white">Posts</h1>
+            <h1 class="mx-8 font-bold dark:text-white text-2xl">Posts</h1>
             <section class="py-4 lg:py-8 dark:dark-body">
                 <gallery-card-view :posts="posts"></gallery-card-view>
+            </section>
+
+            <h1 class="mx-8 font-bold dark:text-white text-2xl">Commissions</h1>
+            <section class="py-4 lg:py-8 dark:dark-body">
+                <all-commission-card :commissions="commissions"></all-commission-card>
             </section>
         </div>
     </div>
@@ -16,17 +21,20 @@
 <script>
 import GalleryCardView from "@/components/GalleryCardView.vue";
 import ProfileHeader from "@/components/ProfileHeader.vue";
+import AllCommissionCard from "@/components/AllCommissionCard.vue";
 export default {
     data() {
         return {
-            posts: Object,
             author: Object,
+            posts: Object,
+            commissions: Object,
             error: null
         }
     },
     components: {
         ProfileHeader,
-        GalleryCardView
+        GalleryCardView,
+        AllCommissionCard
     },
     computed: {
         getParamsId() {
@@ -46,9 +54,19 @@ export default {
 
         try {
             this.error = null
-            const response = await this.$axios.get('/profile/' + this.getParamsId + '/posts')
-            this.posts = response.data.data
+            const postResponse = await this.$axios.get('/profile/' + this.getParamsId + '/posts')
+            this.posts = postResponse.data.data
             console.log(this.posts)
+        } catch (error) {
+            console.log(error)
+            this.error = error.message
+        }
+
+        try {
+            this.error = null
+            const commissionResponse = await this.$axios.get('/profile/' + this.getParamsId + '/commissions')
+            this.commissions = commissionResponse.data.data
+            console.log(this.commissions)
         } catch (error) {
             console.log(error)
             this.error = error.message
