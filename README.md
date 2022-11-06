@@ -14,7 +14,7 @@
 
 ## Project setup
 
-### To Installing Composer Dependencies
+### Installing Composer Dependencies
 ```sh
 docker run --rm \
     -v $(pwd):/var/www/html \
@@ -23,14 +23,14 @@ docker run --rm \
     composer install --ignore-platform-reqs
 ```
 
-### To start all of the Docker containers in the background
+### Start all of the Docker containers in the background
 
 ```sh
 ./vendor/bin/sail up -d
 ```
 Then access to https://weeaboo-art.vercel.app/
 
-### (Optional) Start frontend container
+### (Optional) Start frontend server localhost
 ```sh
 cd client
 docker-compose up -d
@@ -43,6 +43,7 @@ docker-compose exec app npm install
 ```sh
 docker-compose exec app npm run dev
 ```
+Then access to http://localhost:3000
 
 ## Personas
 #### Amelia Watson
