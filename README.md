@@ -24,8 +24,8 @@ docker run --rm \
 ```
 
 ### Start all of the Docker containers in the background
-
 ```sh
+cp .env.example .env
 ./vendor/bin/sail up -d
 ```
 Then access to https://weeaboo-art.vercel.app/
