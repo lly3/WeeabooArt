@@ -149,7 +149,7 @@ export default {
       return URL.createObjectURL(image)
     },
     concatURL(path) {
-      return 'http://localhost/images/' + path
+      return import.meta.env.VITE_BACKEND_IMG_URL + '/' + path
     }
   },
 }

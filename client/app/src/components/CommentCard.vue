@@ -25,7 +25,7 @@ export default {
     },
     methods:{
         imageURL(path) {
-            return 'http://localhost/images/' + path
+            return import.meta.env.VITE_BACKEND_IMG_URL + '/' + path
         },
     }
 }

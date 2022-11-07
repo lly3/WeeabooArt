@@ -56,7 +56,7 @@
                 </button>
             </div>
 
-            <a class="underline text-sm text-gray-600 hover:text-gray-900" href="http://localhost:3000/login">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 cursor-pointer" @click="() => this.$router.push('/login')">
                 Already registered?
             </a>
 

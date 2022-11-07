@@ -66,7 +66,7 @@ export default {
     },
     methods: {
         getImageURL(path) {
-            return 'http://localhost/images/' + path
+            return import.meta.env.VITE_BACKEND_IMG_URL + '/' + path
         },
         async uploadImage() {
             const formData = new FormData();

@@ -23,7 +23,7 @@
 export default {
   computed: {
     imageURL: function ()  {
-      return 'http://localhost/images/' + this.author.image
+      return import.meta.env.VITE_BACKEND_IMG_URL + '/' + this.author.image
     },
   },
   props: {

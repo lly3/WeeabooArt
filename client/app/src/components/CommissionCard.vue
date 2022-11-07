@@ -20,7 +20,7 @@
     export default {
         computed: {
             concatFunctionImage: function ()  {
-                return 'http://localhost/images/' + this.commission.image
+                return import.meta.env.VITE_BACKEND_IMG_URL + '/' + this.commission.image
             },
             concatFunction: function ()  {
                 return 'http://localhost:3000/commission/' + this.commission.id

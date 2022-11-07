@@ -199,10 +199,10 @@ export default {
       return this.auth_store.getEmail == this.post.user_email
     },
     imageURL(path) {
-      return 'http://localhost/images/' + path
+      return import.meta.env.VITE_BACKEND_IMG_URL + '/' + path
     },
     defaultImage() {
-      return 'http://localhost/image.png'
+      return import.meta.env.VITE_BACKEND_URL + '/image.png'
     },
     nextImage() {
       console.log('hello');

@@ -40,11 +40,8 @@
 export default {
     computed: {
         concatFunctionImage: function ()  {
-            return 'http://localhost/images/' + this.post.image
+            return import.meta.env.VITE_BACKEND_IMG_URL + '/' + this.post.image
         },
-        concatFunction: function ()  {
-            return 'http://localhost:3000/post/' + this.post.id
-        }
     },
     props: {
         post: Object,

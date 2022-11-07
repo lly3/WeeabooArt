@@ -28,7 +28,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostLiked[0].id}`)" class="cursor-pointer p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
                             <figure class="snip">
                                 <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                                    :src="'http://localhost/images/' + posts_mostLiked[0].image.path.toString()">
+                                                    :src="imageURL(posts_mostLiked[0].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostLiked[0].title }}</h3>
                                     <h5>By {{ posts_mostLiked[0].user_name}}</h5>
@@ -38,7 +38,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostLiked[1].id}`)"  class="cursor-pointer p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
                             <figure class="snip">
                                 <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                                    :src="'http://localhost/images/' + posts_mostLiked[1].image.path.toString()">
+                                                    :src="imageURL(posts_mostLiked[1].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostLiked[1].title }}</h3>
                                     <h5>By {{ posts_mostLiked[1].user_name}}</h5>
@@ -48,7 +48,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostLiked[2].id}`)" class="cursor-pointer w-full p-1 md:p-2 button-container" v-if="have3Posts">
                             <figure class="snip">
                                 <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                                   :src="'http://localhost/images/' + posts_mostLiked[2].image.path.toString()">
+                                                   :src="imageURL(posts_mostLiked[2].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostLiked[2].title }}</h3>
                                     <h5>By {{ posts_mostLiked[2].user_name}}</h5>
@@ -60,7 +60,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostLiked[3].id}`)" class="cursor-pointer w-full p-1 md:p-2 button-container" v-if="have4Posts">
                             <figure class="snip">
                                 <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                                   :src="'http://localhost/images/' + posts_mostLiked[3].image.path.toString()">
+                                                   :src="imageURL(posts_mostLiked[3].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostLiked[3].title }}</h3>
                                     <h5>By {{ posts_mostLiked[3].user_name}}</h5>
@@ -70,7 +70,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostLiked[4].id}`)" class="cursor-pointer w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
                             <figure class="snip">
                                 <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                                   :src="'http://localhost/images/' + posts_mostLiked[4].image.path.toString()">
+                                                   :src="imageURL(posts_mostLiked[4].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostLiked[4].title }}</h3>
                                     <h5>By {{ posts_mostLiked[4].user_name}}</h5>
@@ -80,7 +80,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostLiked[5].id}`)" class="cursor-pointer w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
                             <figure class="snip">
                                 <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                                   :src="'http://localhost/images/' + posts_mostLiked[5].image.path.toString()">
+                                                   :src="imageURL(posts_mostLiked[5].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostLiked[5].title }}</h3>
                                     <h5>By {{ posts_mostLiked[5].user_name}}</h5>
@@ -99,7 +99,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostViewed[0].id}`)" class="cursor-pointer p-1 md:p-2 w-1/2 button-container" v-if="have1Post">
                             <figure class="snip">
                                 <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                                    :src="'http://localhost/images/' + posts_mostViewed[0].image.path.toString()">
+                                                    :src="imageURL(posts_mostViewed[0].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostViewed[0].title }}</h3>
                                     <h5>By {{ posts_mostViewed[0].user_name}}</h5>
@@ -109,7 +109,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostViewed[1].id}`)" class="cursor-pointer p-1 md:p-2 w-1/2 button-container" v-if="have2Posts">
                             <figure class="snip">
                                 <img alt="No Image" class="block object-cover object-center w-full h-full rounded-lg"
-                                                    :src="'http://localhost/images/' + posts_mostViewed[1].image.path.toString()">
+                                                    :src="imageURL(posts_mostViewed[1].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostViewed[1].title }}</h3>
                                     <h5>By {{ posts_mostViewed[1].user_name}}</h5>
@@ -119,7 +119,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostViewed[2].id}`)" class="cursor-pointer w-full p-1 md:p-2 button-container" v-if="have3Posts">
                             <figure class="snip">
                                 <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                                   :src="'http://localhost/images/' + posts_mostViewed[2].image.path.toString()">
+                                                   :src="imageURL(posts_mostViewed[2].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostViewed[2].title }}</h3>
                                     <h5>By {{ posts_mostViewed[2].user_name}}</h5>
@@ -131,7 +131,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostViewed[3].id}`)" class="cursor-pointer w-full p-1 md:p-2 button-container" v-if="have4Posts">
                             <figure class="snip">
                                 <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                                   :src="'http://localhost/images/' + posts_mostViewed[3].image.path.toString()">
+                                                   :src="imageURL(posts_mostViewed[3].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostViewed[3].title }}</h3>
                                     <h5>By {{ posts_mostViewed[3].user_name}}</h5>
@@ -141,7 +141,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostViewed[4].id}`)" class="cursor-pointer w-1/2 p-1 md:p-2 button-container" v-if="have5Posts">
                             <figure class="snip">
                                 <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                                   :src="'http://localhost/images/' + posts_mostViewed[4].image.path.toString()">
+                                                   :src="imageURL(posts_mostViewed[4].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostViewed[4].title }}</h3>
                                     <h5>By {{ posts_mostViewed[4].user_name}}</h5>
@@ -151,7 +151,7 @@
                         <a @click="() => this.$router.push(`/post/${posts_mostViewed[5].id}`)" class="cursor-pointer w-1/2 p-1 md:p-2 button-container" v-if="have6Posts">
                             <figure class="snip">
                                 <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                                   :src="'http://localhost/images/' + posts_mostViewed[5].image.path.toString()">
+                                                   :src="imageURL(posts_mostViewed[5].image.path.toString())">
                                 <figcaption>
                                     <h3>{{ posts_mostViewed[5].title }}</h3>
                                     <h5>By {{ posts_mostViewed[5].user_name}}</h5>
@@ -254,6 +254,9 @@ export default {
                 query: { searchKey: this.searchKey }
             });
             console.log("onFormSubmit success");
+        },
+        imageURL(path) {
+            return import.meta.env.VITE_BACKEND_IMG_URL + '/' + path
         }
     },
     computed: {
