@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use Intervention\Image\ImageManagerStatic as ImageIntervention;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -50,7 +51,8 @@ class ImageController extends Controller
             $image = new Image();
             $filename = date('YmdHis').$imageFile->getClientOriginalName();
             $image->path = $filename;
-            Storage::put($filename, $imageFile);
+            $img = ImageIntervention::make($imageFile)->encode();
+            Storage::put($filename, $img);
             Storage::move($filename, 'public/images/' . $filename);
             if ($image->save()) {
                 return response()->json([
