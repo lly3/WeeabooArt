@@ -12,7 +12,7 @@ import 'flowbite';
 const app = createApp(App)
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL,
+  baseURL: import.meta.env.VITE_BACKEND_URL + '/api',
     headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
     }
