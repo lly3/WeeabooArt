@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -49,7 +50,8 @@ class ImageController extends Controller
             $image = new Image();
             $filename = date('YmdHis').$imageFile->getClientOriginalName();
             $image->path = $filename;
-            $imageFile->move(public_path().'/images/', $filename);
+            Storage::put($filename, $imageFile);
+            Storage::move($filename, 'public/images/' . $filename);
             if ($image->save()) {
                 return response()->json([
                     'success' => true,
