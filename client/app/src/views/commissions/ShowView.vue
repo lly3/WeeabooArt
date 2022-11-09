@@ -126,7 +126,7 @@
         </div>
       </div>
     </div>
-    <div class="right-side py-3 px-7 xl:w-3/12 w-full dark:text-white bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
+    <div class="right-side py-3 px-7 xl:w-3/12 w-full min-h-screen dark:text-white bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
       <p class="font-bold">More by {{ post.user_name }}</p>
       <div class="w-full mt-3">
         <Gallery :posts=more_by size='small' model='commission' />

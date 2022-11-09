@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen">
-        <div class="dark:bg-gray-800">
+        <div class="dark:bg-gray-800 min-h-screen">
             <section class="" >
                 <profile-header :author="author"></profile-header>
             </section>
