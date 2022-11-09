@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 class ImageController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['store']]);
+        $this->middleware('auth:api', ['except' => ['store', 'storeMany']]);
     }
     /**
      * Display a listing of the resource.
@@ -77,7 +77,9 @@ class ImageController extends Controller
                 $image = new Image();
                 $filename = date('YmdHis').$imageFile->getClientOriginalName();
                 $image->path = $filename;
-                $imageFile->move(public_path().'/images/', $filename);
+                $img = ImageIntervention::make($imageFile)->encode();
+                Storage::put($filename, $img);
+                Storage::move($filename, 'public/images/' . $filename);
                 if (!$image->save()) {
                     return response()->json([
                         'success' => false,

@@ -327,10 +327,10 @@ class PostController extends Controller
     }
 
     private function addWatermask($post) {
-        $img = Image::make(public_path('images/'.$post->image->path));
-        File::move(public_path('images/'.$post->image->path), storage_path('images/'.$post->image->path));
+        $img = Image::make(public_path('storage/images/'.$post->image->path));
+        File::move(public_path('storage/images/'.$post->image->path), storage_path('images/'.$post->image->path));
         $img->insert(public_path('watermask.png'), 'center');
-        $img->save(public_path('images/'.$post->image->path));
+        $img->save(public_path('storage/images/'.$post->image->path));
     }
 
     public function more_by(Request $request, $user_id) {
