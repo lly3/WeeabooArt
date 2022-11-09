@@ -29,7 +29,7 @@ cp .env.example .env
 ./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail up -d
 ```
-Then access to https://weeaboo-art.vercel.app/
+Then access to https://weeaboo-bx7dc6q1i-lly3.vercel.app
 
 ### (Optional) Start frontend server localhost
 ```sh
