@@ -182,6 +182,7 @@ export default {
     this.$watch(
       () => this.$route.params,
       async (toParams, previousParams) => {
+        this.is_loading = false
         try {
           const response = await postAPI.show(toParams.id)
           this.post = response.data.data
@@ -201,10 +202,16 @@ export default {
         } catch (e) {
           console.log(e);
         }
-        await postAPI.collected(this.post.id)
-          .then(res => this.bought = res.data);
-        await postAPI.favorited(this.post.id)
-          .then(res => this.favorite = res.data);
+        try {
+          await postAPI.collected(this.post.id)
+            .then(res => this.bought = res.data);
+          await postAPI.favorited(this.post.id)
+            .then(res => this.favorite = res.data);
+        } catch (e) {
+          console.log(e);
+          this.is_loading = true
+        }
+        this.is_loading = true
       }
     )
   },
@@ -217,7 +224,6 @@ export default {
       response = await postAPI.more_by(this.post.user_id, 9, true)
       this.more_by = response.data.data;
       console.log(this.more_by);
-      this.is_loading = true;
     } catch (e) {
       console.log(e);
       this.$router.push('/');
@@ -226,8 +232,8 @@ export default {
     try {
       postAPI.collected(this.post.id)
         .then(res => this.bought = res.data);
-        postAPI.favorited(this.post.id)
-            .then(res => this.favorite = res.data);
+      postAPI.favorited(this.post.id)
+        .then(res => this.favorite = res.data);
       if(this.tags[0] != null)
         await tagAPI.paginate(this.tags[0].name, 1, 3)
           .then(res => this.suggested_collection_1 = res.data.data)
@@ -239,7 +245,9 @@ export default {
           .then(res => this.suggested_collection_3 = res.data.data)
     } catch (e) {
       console.log(e);
+      this.is_loading = true;
     }
+    this.is_loading = true;
   },
   data() {
     return {
@@ -257,7 +265,7 @@ export default {
       tags: {},
       commentKey: 0,
       disabledButton:false,
-        favorite:false
+      favorite:false
     }
   },
   methods: {
