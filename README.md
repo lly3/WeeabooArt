@@ -12,8 +12,12 @@
 
 โปรเจคนี้เป็นส่วนหนึ่งของวิชา Introduction to Software Engineering (01418471) และ วิชา Web Technology and Web Services (01418442)
 
-## Project setup
+# Project setup
+## Production
+- Frontend: https://weeaboo-art.vercel.app/
+- Backend: https://weeabooart-production.up.railway.app/
 
+## (Optional) Running project localhost 
 ### Installing Composer Dependencies
 ```sh
 docker run --rm \
@@ -29,18 +33,17 @@ cp .env.example .env
 ./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail up -d
 ```
-Then access to https://weeaboo-bx7dc6q1i-lly3.vercel.app
 
-### (Optional) Start frontend server localhost
+### Start frontend server localhost
 ```sh
 cd client
 docker-compose up -d
 ```
-#### Install npm dependencies
+### Install npm dependencies
 ```sh
 docker-compose exec app npm install
 ```
-#### Start frontend server
+### Start frontend server
 ```sh
 docker-compose exec app npm run dev
 ```
