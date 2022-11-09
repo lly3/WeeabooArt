@@ -38,6 +38,7 @@ export const authAPI = {
     },
     logout () {
         localStorage.removeItem(JWT_TOKEN_LOCALSTORAGE_KEY)
+        axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + ''
     },
     async register (name, email, password, password_confirmation) {
         const response = await axiosInstance.post('/auth/register', {

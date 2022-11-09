@@ -154,12 +154,14 @@ export default {
     this.$watch(
       () => this.$route.params,
       async (toParams, previousParams) => {
+        this.is_loading = false
         const response = await commissionAPI.show(toParams.id)
         this.post = response.data.data
         this.comments = this.post.comments
         this.images = this.post.images
         await commissionAPI.more_by(this.post.user_id, 12, true)
           .then(res => this.more_by = res.data.data)
+        this.is_loading = true
         this.calculateTranslate(0)
       }
     )
