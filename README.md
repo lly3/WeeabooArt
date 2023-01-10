@@ -15,7 +15,7 @@
 # Project setup
 ## Production
 - Frontend: https://weeaboo-art.vercel.app/
-- Backend: https://weeabooart-production.up.railway.app/
+- Backend: https://weeabooart-production.up.railway.app/ (sorry, the server is already down...)
 
 ## (Optional) Running project localhost 
 ### Installing Composer Dependencies
