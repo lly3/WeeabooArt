@@ -30,8 +30,12 @@ docker run --rm \
 ### Start all of the Docker containers in the background
 ```sh
 cp .env.example .env
-./vendor/bin/sail artisan key:generate
+
 ./vendor/bin/sail up -d
+
+./vendor/bin/sail artisan key:generate
+
+./vendor/bin/sail artisan storage:link && mkdir storage/images
 ```
 
 ### Start frontend server localhost
